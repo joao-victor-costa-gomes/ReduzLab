@@ -13,4 +13,6 @@ def save_csv_file(file, filename):
     upload_path = current_app.config['UPLOAD_FOLDER']
     os.makedirs(upload_path, exist_ok=True)  # Create uploads folder if it doesn't exists
     unique_filename = generate_timestamped_filename(filename)
-    file.save(os.path.join(upload_path, unique_filename))
+    file_path = os.path.join(upload_path, unique_filename)
+    file.save(file_path)
+    return file_path

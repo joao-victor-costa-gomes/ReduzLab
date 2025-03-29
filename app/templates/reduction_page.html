@@ -8,6 +8,8 @@
 <body>
     <h1>REDUCTION PAGE</h1>
 
+    <h2>SEND DATA</h2>
+
     <form method="POST" enctype="multipart/form-data">
         <input type="file" name="file" accept=".csv" required>
         <button type="submit">Enviar</button>
@@ -17,6 +19,11 @@
         <p style="color: red;">{{ message }}</p>
     {% elif message and message_type=="success" %}
         <p style="color: green;">{{ message }}</p>
+    {% endif %}
+
+    {% if table_html %}
+        <h2>DATA PRE-VISUALIZATION</h2>
+        {{ table_html|safe }}
     {% endif %}
 </body>
 </html>
