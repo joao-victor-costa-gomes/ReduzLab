@@ -13,6 +13,7 @@ def index():
 @main.route('/reduction', methods=['GET', 'POST'])
 def reduction_page():
     message = None
+    message_type = None
 
     if request.method == 'POST':
         file = request.files['file']
@@ -20,7 +21,9 @@ def reduction_page():
             filename = secure_filename(file.filename)
             save_csv_file(file, filename)
             message = f"The file '{filename}' was uploaded successfully!"
+            message_type = 'success'
         else:
             message = f"Cannot upload the file '{filename}'."
+            message_type = 'error'
 
-    return render_template('reduction_page.html', message=message)
+    return render_template('reduction_page.html', message=message, message_type=message_type)

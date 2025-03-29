@@ -13,8 +13,10 @@
         <button type="submit">Enviar</button>
     </form>
 
-    {% if message %}
-    <p style="color: red;">{{ message }}</p>
+    {% if message and message_type=="error" %}
+        <p style="color: red;">{{ message }}</p>
+    {% elif message and message_type=="success" %}
+        <p style="color: green;">{{ message }}</p>
     {% endif %}
 </body>
 </html>
