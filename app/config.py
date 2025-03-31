@@ -9,4 +9,4 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
     UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', os.path.join(os.getcwd(), 'uploads'))
     RESULTS_FOLDER = os.environ.get('RESULTS_FOLDER', os.path.join(os.getcwd(), 'results'))
-    MAX_CONTENT_LENGTH = int(os.environ.get('MAX_CONTENT_LENGTH', 100 * 1024 * 1024))
+    MAX_CONTENT_LENGTH = int(os.environ.get('MAX_CONTENT_LENGTH', 100 * 1024 * 1024)) # 100MB
