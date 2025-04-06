@@ -12,5 +12,5 @@ def read_data_preview(file_path, n_rows=5):
         return df.head(n_rows).to_html(classes='data-table', index=False)
 
     except Exception as e:
-        print(f"[Erro ao ler o arquivo] {e}")
+        print(f"[Erro reading file] {e}")
         return None

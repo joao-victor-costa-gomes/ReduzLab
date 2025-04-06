@@ -10,6 +10,7 @@
 
     <h2>SEND DATA</h2>
 
+    
     <form method="POST" enctype="multipart/form-data">
         <input type="file" name="file" required>
         <button type="submit">Enviar</button>
@@ -23,9 +24,10 @@
 
     {% if table_html %}
         <h2>DATA PRE-VISUALIZATION</h2>
+        {% if message_type == 'error' %}
+            <p style="color: red;">{{ message }}</p>
+        {% endif %}
         {{ table_html|safe }}
     {% endif %}
-
-    <h2>PARAMETERS</h2>
 </body>
 </html>
