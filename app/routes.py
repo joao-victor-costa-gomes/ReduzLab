@@ -13,8 +13,8 @@ main = Blueprint('main', __name__)
 def index():
     return render_template('index.html')
 
-@main.route('/reduction', methods=['GET', 'POST'])
-def reduction_page():
+@main.route('/pca', methods=['GET', 'POST'])
+def reduction_pca():
     message = None
     message_type = None
     table_html = None
@@ -51,7 +51,7 @@ def reduction_page():
             message_type = 'error'
 
     return render_template(
-        'reduction_page.html',
+        'pca_page.html',
         message=message,
         message_type=message_type,
         table_html=table_html

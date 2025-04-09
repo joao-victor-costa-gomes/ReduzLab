@@ -1,0 +1,10 @@
+{% extends "reduction_base.html" %}
+
+{% block conteudo_algoritmo %}
+<h2>PCA PARAMETERS</h2>
+<form method="POST">
+    <label for="n_components">Number of Components:</label>
+    <input type="number" name="n_components" min="1" required>
+    <button type="submit">Run PCA</button>
+</form>
+{% endblock %}
