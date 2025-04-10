@@ -40,8 +40,13 @@ def reduction_pca():
             # 🆕 Recarrega a tabela de preview da base original
             table_html = read_data_preview(dataset_path)
 
-            # Captura o sample_rate do formulário
-            sample_rate_str = request.form.get('sample_rate', '100')
+            # Get the form parameters
+            sample_rate_str = request.form.get('sample_rate')         # Ex: "80"
+            target = request.form.get('target')                       # Ex: "price_range"
+            dimension_str = request.form.get('dimension')             # Ex: "2" ou "3"
+            plot_type = request.form.get('plot_type')                 # Ex: "png" ou "html"
+            scaler = request.form.get('scaler')                       # Ex: "none", "standard", "minmax"
+
             try:
                 sample_rate = float(sample_rate_str) / 100
                 if not 0 < sample_rate <= 1:
@@ -59,7 +64,13 @@ def reduction_pca():
             reducer = Reducer(database=dataset_path, sample_rate=sample_rate)
             reducer.preprocess()
 
-            message = f"Sample generated with {sample_rate * 100:.0f}% of the data."
+            message = (
+                f"✅ Sample generated with {sample_rate * 100:.0f}% of the data. "
+                f"Target: '{target}', "
+                f"Dimension: {dimension_str}, "
+                f"Plot Type: {plot_type.upper()}, "
+                f"Scaler: {scaler.capitalize()}."
+            )
             message_type = 'success'
 
 

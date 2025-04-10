@@ -11,6 +11,36 @@
 
         <br><br>
 
+        <label for="target">Target Column:</label>
+        <input type="text" name="target" placeholder="price_range" required>
+
+        <br><br>
+
+        <label for="dimension">Dimension:</label>
+        <select name="dimension" required>
+            <option value="2" selected>2D</option>
+            <option value="3">3D</option>
+        </select>
+
+        <br><br>
+
+        <label for="plot_type">Image Type:</label>
+        <select name="plot_type" required>
+            <option value="png" selected>PNG</option>
+            <option value="html">HTML</option>
+        </select>
+
+        <br><br>
+
+        <label for="scaler">Scaler:</label>
+        <select name="scaler" required>
+            <option value="none" selected>None</option>
+            <option value="standard">StandardScaler</option>
+            <option value="minmax">MinMaxScaler</option>
+        </select>
+
+        <br><br>
+
         <button type="submit">Run PCA</button>
     </form>
 {% endif %}
