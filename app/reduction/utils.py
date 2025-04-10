@@ -1,25 +1,29 @@
 import os
 import pandas as pd
+from flask import current_app
 
-def retirar_amostragem(dataset_path, amostragem, nome_saida="amostragem.csv"):
+def extract_sample(dataset_path, sample_rate=1.0):
     
-    print(f"🔍 Lendo o dataset original: {dataset_path}")
-    dataset_completo = pd.read_csv(dataset_path, delimiter=",")
-    print(f"✅ Dataset carregado com {len(dataset_completo)} linhas")
+    print(f"📂 Reading dataset from: {dataset_path}")
+    df = pd.read_csv(dataset_path, delimiter=",")
+    print(f"✅ Dataset loaded with {len(df)} rows")
 
-    valor_amostragem = int(len(dataset_completo) * amostragem)
-    print(f"🎯 Gerando amostragem de {valor_amostragem} linhas ({amostragem*100:.0f}%)")
+    sample_size = int(len(df) * sample_rate)
+    print(f"🎯 Sampling {sample_size} rows ({sample_rate * 100:.0f}%)")
 
-    amostra = dataset_completo.sample(n=valor_amostragem, random_state=42)
+    sample = df.sample(n=sample_size, random_state=42)
 
-    # Garante que a pasta 'samples' exista
-    samples_path = os.path.join("samples")
-    if not os.path.exists(samples_path):
-        os.makedirs(samples_path)
-        print(f"📁 Pasta 'samples/' criada")
+    # Prepare the output filename
+    original_filename = os.path.basename(dataset_path)
+    name_without_ext = os.path.splitext(original_filename)[0]
+    output_filename = f"{name_without_ext}_sample.csv"
 
-    output_path = os.path.join(samples_path, nome_saida)
-    amostra.to_csv(output_path, index=False)
-    print(f"✅ Amostragem salva em: {output_path}")
-    
+    # Ensure the samples folder exists
+    samples_folder = current_app.config['SAMPLES_FOLDER']
+    if not os.path.exists(samples_folder):
+        os.makedirs(samples_folder)
+
+    output_path = os.path.join(samples_folder, output_filename)
+    sample.to_csv(output_path, index=False)
+
     return output_path
