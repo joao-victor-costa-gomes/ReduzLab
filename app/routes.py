@@ -42,13 +42,13 @@ def reduction_pca():
             # Reloads the preview table
             table_html = read_data_preview(dataset_path)                      
 
-            # sample_rate VALIDATION
+            # ----- sample_rate VALIDATION -----
             sample_rate_str = request.form.get('sample_rate')    
             sample_rate, error_response = validate_sample_rate(request.form, table_html)
             if error_response:
                 return error_response
 
-            # target VALIDATION
+            # ----- target VALIDATION -----
             target = request.form.get('target')
             df = pd.read_csv(session.get("uploaded_dataset_path"))
 
@@ -56,11 +56,19 @@ def reduction_pca():
             if error_response:
                 return error_response
 
+            # RECEBA
             dimension_str = request.form.get('dimension')             
             plot_type = request.form.get('plot_type')                 
             scaler = request.form.get('scaler') 
 
-            reducer = Reducer(database=dataset_path, sample_rate=sample_rate, target=target)
+            reducer = Reducer(
+                database=dataset_path, 
+                sample_rate=sample_rate, 
+                target=target, 
+                dimension=dimension_str, 
+                plot_type=plot_type, 
+                scaler=scaler
+                )
             reducer.preprocess()
 
             message = (
@@ -71,7 +79,6 @@ def reduction_pca():
                 f"Scaler: {scaler.capitalize()}."
             )
             message_type = 'success'
-
 
 
         #  FILE UPLOAD FORM
