@@ -42,6 +42,13 @@
         <br><br>
 
         <button type="submit">Run PCA</button>
+
+        {% if graph_file %}
+            <hr>
+            <h2>Generated Graph</h2>
+            <img src="{{ url_for('static', filename='results/' ~ graph_file) }}" alt="PCA Graph" width="600">
+        {% endif %}
+
     </form>
 {% endif %}
 {% endblock %}

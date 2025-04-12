@@ -9,7 +9,7 @@ from .utils.file_validator import validate_file
 from .utils.param_validator import validate_sample_rate, validate_target_column
 
 from .services import read_data_preview
-from .reduction.reducer import Reducer
+from .algorithms.pca import PCA
 
 main = Blueprint('main', __name__)
 
@@ -61,15 +61,18 @@ def reduction_pca():
             plot_type = request.form.get('plot_type')                 
             scaler = request.form.get('scaler') 
 
-            reducer = Reducer(
-                database=dataset_path, 
-                sample_rate=sample_rate, 
-                target=target, 
-                dimension=dimension_str, 
-                plot_type=plot_type, 
+            pca = PCA(
+                database=dataset_path,
+                sample_rate=sample_rate,
+                target=target,
+                dimension=int(dimension_str),
+                plot_type=plot_type,
                 scaler=scaler
-                )
-            reducer.preprocess()
+            )
+
+            pca.run()
+            
+            graph_file = pca.graph_path if plot_type == "png" else None
 
             message = (
                 f"✅ Sample generated with {sample_rate * 100:.0f}% of the data. "

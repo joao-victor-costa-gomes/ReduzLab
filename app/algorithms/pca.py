@@ -3,31 +3,28 @@ from .reducer.reducer import Reducer
 from sklearn.decomposition import PCA as pca_algorithm
 
 class PCA(Reducer):
-    def __init__(self, nome, base_dados, amostragem, target_data, dimensao, tipo_imagem, standardscaler=False):
-        super().__init__(nome, base_dados, amostragem, target_data, dimensao, tipo_imagem, standardscaler)
-        self.nome_algo = "PCA"
-        self.variancia = None 
+    def __init__(self, database, sample_rate=1.0, target=None, dimension=None, plot_type=None, scaler=None):
+        super().__init__(
+            database=database,
+            sample_rate=sample_rate,
+            target=target,
+            dimension=dimension,
+            plot_type=plot_type,
+            scaler=scaler
+        )
+        self.algorithm_name = "PCA"
+        self.explained_variance = None 
 
-    def processar_algoritmo(self, features, target):
-        inicio = time.time()
-        pca = pca_algorithm(n_components=self.dimensao)
-        x_pca = pca.fit_transform(features)
-        fim = time.time()
-        self.tempo = round(fim - inicio, 5)
-        self.variancia = pca.explained_variance_ratio_.sum() * 100
-        return x_pca
+    def process_algorithm(self, features, target):
+        # print("⚙️ Running PCA...")
+        start = time.time()
+        pca = pca_algorithm(n_components=self.dimension)
+        transformed = pca.fit_transform(features)
+        end = time.time()
+        self.time = round(end - start, 5)
+        self.explained_variance = round(pca.explained_variance_ratio_.sum() * 100, 2)
+        # print(f"✅ PCA completed in {self.time} seconds.")
+        # print(f"🎯 Explained variance: {self.explained_variance}%")
 
-# Testando funcionamento do algoritmo PCA
-if __name__ == "__main__":
-    mobile = PCA(
-        "PCA-MOBILE-2D",    
-        "mobile_devices.csv", 
-        1.0,
-        ['price_range'],
-        2,
-        'png',
-        False
-    )
-    mobile.run() 
-    print(f"Tempo de processamento: {mobile.tempo}")
-    print(f"Variância total: {mobile.variancia}")
+        return transformed
+    

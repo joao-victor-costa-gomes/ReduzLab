@@ -1,45 +1,54 @@
-# Arquivo com funções importantes para o processo de validação e retirada de dados 
-
-import os 
+import os
 import pandas as pd
+from flask import current_app
 
-def baixar_imagem(figure, tipo, nome, imagem):
-        if tipo == "html":
-            figure.write_html(f"static/{nome.replace(' ', '_')}.html")
-            print("Gráfico gerado com sucesso")
-            imagem = f"{nome.replace(' ', '_')}.html"
-            return imagem
-        elif tipo == "png":
-            figure.write_image(f"static/{nome.replace(' ', '_')}.png")
-            print("Gráfico gerado com sucesso")
-            imagem = f"{nome.replace(' ', '_')}.png"
-            return imagem 
-        else:
-            raise ValueError('O parâmetro "imagem" deve ser "html" ou "png".')
 
-def verificar_extensao_csv(file_path):
-        if not file_path.endswith('.csv'):
-                raise ValueError("A base de dados não é um arquivo CSV.")
+def extract_sample(dataset_path, sample_rate=1.0):
+    # Reading the dataset and extracting sample
+    df = pd.read_csv(dataset_path, delimiter=",")
+    sample_size = int(len(df) * sample_rate)
+    sample = df.sample(n=sample_size, random_state=42)
 
-def retirar_amostragem(dataset, amostragem):
-        dataset_completo = pd.read_csv(dataset, delimiter=",")
-        valor_amostragem = int(len(dataset_completo) * amostragem)
-        amostra = dataset_completo.sample(n=valor_amostragem, random_state=42)
-        amostra.to_csv('datasets/amostragem.csv', index=False)
+    # Prepare the output filename
+    original_filename = os.path.basename(dataset_path)
+    name_without_ext = os.path.splitext(original_filename)[0]
+    output_filename = f"{name_without_ext}_sample.csv"
 
-def excluir_arquivo_amostragem():
-        os.remove('datasets/amostragem.csv')
+    # Ensure the samples folder exists
+    samples_folder = current_app.config['SAMPLES_FOLDER']
+    if not os.path.exists(samples_folder):
+        os.makedirs(samples_folder)
+    output_path = os.path.join(samples_folder, output_filename)
+    sample.to_csv(output_path, index=False)
 
-def verificar_parametros(nome, base_dados, amostragem, features, target, tipo_imagem):
-        if nome == None:
-                raise ValueError(f'Faltou informar o parâmetro "nome"')
-        if base_dados == None:
-                raise ValueError(f'Faltou informar o parâmetro "base_dados"')
-        if amostragem == None:
-                raise ValueError(f'Faltou informar o parâmetro "amostragem"')
-        if features == None:
-                raise ValueError(f'Faltou informar o parâmetro "features"')
-        if target == None:
-                raise ValueError(f'Faltou informar o parâmetro "target"')
-        if tipo_imagem == None:
-                raise ValueError(f'Faltou informar o parâmetro "tipo_imagem"')
+    return output_path
+
+
+def delete_sample_file(sample_path):
+    if sample_path and os.path.exists(sample_path):
+        os.remove(sample_path)
+        # print(f"🗑️ Sample file deleted: {sample_path}")
+    else:
+        pass
+        # print("⚠️ No sample file to delete or file already removed.")
+
+
+def save_plot_image(figure, file_type, name):
+    results_folder = current_app.config['RESULTS_FOLDER']
+    if not os.path.exists(results_folder):
+        os.makedirs(results_folder)
+
+    file_name = f"{name.replace(' ', '_')}.{file_type}"
+    full_path = os.path.join(results_folder, file_name)
+
+    if file_type == "html":
+        figure.write_html(full_path)
+    elif file_type == "png":
+        figure.write_image(full_path)
+    else:
+        raise ValueError("File type must be 'html' or 'png'.")
+
+    print(f"✅ Graph saved to: {full_path}")
+    
+    return file_name  
+
