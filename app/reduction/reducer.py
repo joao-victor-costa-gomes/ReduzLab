@@ -20,7 +20,6 @@ class Reducer:
         self.time = None 
         self.graph_path = None
   
-
     def select_features(self, columns, target):
         return [col for col in columns if col != target]
 
@@ -54,3 +53,9 @@ class Reducer:
             features = scaler.fit_transform(features)
 
         return features, target
+
+    def get_axis_labels(self):
+        if self.dimension == 2:
+            return [f"{self.algorithm_name}1", f"{self.algorithm_name}2"]
+        elif self.dimension == 3:
+            return [f"{self.algorithm_name}1", f"{self.algorithm_name}2", f"{self.algorithm_name}3"]
