@@ -1,10 +1,13 @@
 import os
+import pandas as pd
 from flask import Blueprint, render_template, request, session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 
 from .utils.file_handler import save_csv_file
 from .utils.file_validator import validate_file
+from .utils.param_validator import validate_sample_rate, validate_target_column
+
 from .services import read_data_preview
 from .reduction.reducer import Reducer
 
@@ -23,8 +26,7 @@ def reduction_pca():
     if request.method == 'POST':
         form_type = request.form.get("form_type")
 
-
-        # PARAMETERS FORM (after successfully file upload)
+        # PARAMETERS FORM
         if form_type == "params":
             dataset_path = session.get("uploaded_dataset_path")
             if not dataset_path or not os.path.exists(dataset_path):
@@ -37,31 +39,28 @@ def reduction_pca():
                     table_html=None
                 )
 
-            # 🆕 Recarrega a tabela de preview da base original
-            table_html = read_data_preview(dataset_path)
+            # Reloads the preview table
+            table_html = read_data_preview(dataset_path)                      
 
-            # Get the form parameters
-            sample_rate_str = request.form.get('sample_rate')         # Ex: "80"
-            target = request.form.get('target')                       # Ex: "price_range"
-            dimension_str = request.form.get('dimension')             # Ex: "2" ou "3"
-            plot_type = request.form.get('plot_type')                 # Ex: "png" ou "html"
-            scaler = request.form.get('scaler')                       # Ex: "none", "standard", "minmax"
+            # sample_rate VALIDATION
+            sample_rate_str = request.form.get('sample_rate')    
+            sample_rate, error_response = validate_sample_rate(request.form, table_html)
+            if error_response:
+                return error_response
 
-            try:
-                sample_rate = float(sample_rate_str) / 100
-                if not 0 < sample_rate <= 1:
-                    raise ValueError("Invalid sample rate range.")
-            except ValueError:
-                message = "Invalid sample rate. Please enter a value between 1 and 100."
-                message_type = 'error'
-                return render_template(
-                    'pca_page.html',
-                    message=message,
-                    message_type=message_type,
-                    table_html=table_html  # ✅ Mantém a tabela na tela mesmo com erro
-                )
+            # target VALIDATION
+            target = request.form.get('target')
+            df = pd.read_csv(session.get("uploaded_dataset_path"))
 
-            reducer = Reducer(database=dataset_path, sample_rate=sample_rate)
+            is_valid_target, error_response = validate_target_column(target, df, read_data_preview(df))
+            if error_response:
+                return error_response
+
+            dimension_str = request.form.get('dimension')             
+            plot_type = request.form.get('plot_type')                 
+            scaler = request.form.get('scaler') 
+
+            reducer = Reducer(database=dataset_path, sample_rate=sample_rate, target=target)
             reducer.preprocess()
 
             message = (
