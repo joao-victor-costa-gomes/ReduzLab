@@ -47,8 +47,6 @@ def save_plot_image(figure, file_type, name):
         figure.write_image(full_path)
     else:
         raise ValueError("File type must be 'html' or 'png'.")
-
-    print(f"✅ Graph saved to: {full_path}")
     
     return file_name  
 

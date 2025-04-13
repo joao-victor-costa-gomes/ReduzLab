@@ -1,3 +1,4 @@
+import os 
 import pandas as pd
 import plotly.express as px
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
@@ -113,11 +114,14 @@ class Reducer:
         df_with_target = pd.concat([df_reduced, target_series], axis=1)
         # Creates the graph plot
         figure = self.create_plot(df_with_target)
+        # Uses the same name as the uploaded database
+        base_name = os.path.splitext(os.path.basename(self.database))[0]
+        unique_name = base_name
         # Saves the plotted graph
         self.graph_path = save_plot_image(
             figure=figure,
             file_type=self.plot_type,
-            name=self.algorithm_name 
+            name=unique_name 
         )
 
 
