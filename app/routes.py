@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from flask import Blueprint, render_template, request, session, send_from_directory, current_app
+from flask import Blueprint, render_template, request, session, send_from_directory, current_app, url_for
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 
@@ -22,7 +22,8 @@ def reduction_pca():
     message = None
     message_type = None
     table_html = None
-    graph_file = None
+    graph_url = None
+    plot_type = ""
 
     if request.method == 'POST':
         form_type = request.form.get("form_type")
@@ -73,7 +74,7 @@ def reduction_pca():
 
             pca.run()
 
-            graph_file = pca.graph_path if plot_type == "png" else None
+            graph_url = url_for('main.results_file_path', filename=pca.graph_path) if pca.graph_path else None
 
             message = (
                 f"✅ Sample generated with {sample_rate * 100:.0f}% of the data. "
@@ -114,12 +115,16 @@ def reduction_pca():
                 message = "The file is too large. Please upload a file smaller than 100MB."
                 message_type = 'error'
 
+    print("graph_url:", graph_url, type(graph_url))
+    print("plotype:", plot_type)
+
     return render_template(
         'pca_page.html',
         message=message,
         message_type=message_type,
         table_html=table_html,
-        graph_file=graph_file
+        graph_url=graph_url,
+        plot_type=plot_type
     )
 
 @main.route('/results/<path:filename>')

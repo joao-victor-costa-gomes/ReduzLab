@@ -45,11 +45,16 @@
 
     </form>
     
-    {% if graph_file %}
+    {% if plot_type == 'html' and graph_url %}
         <hr>
-        <h2>Generated Graph</h2>
-        <img src="{{ url_for('main.results_file_path', filename=graph_file) }}" alt="PCA Graph" width="600">
+        <h2>Gráfico Interativo</h2>
+        <iframe src="{{ graph_url }}" width="100%" height="600px" style="border: none;"></iframe>
+    {% elif plot_type == 'png' and graph_url %}
+        <hr>
+        <h2>Gráfico PNG</h2>
+        <img src="{{ graph_url }}" alt="PCA Graph" width="600">
     {% endif %}
+
 
 {% endif %}
 {% endblock %}
