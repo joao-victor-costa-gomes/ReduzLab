@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from flask import Blueprint, render_template, request, session
+from flask import Blueprint, render_template, request, session, send_from_directory, current_app
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 
@@ -22,6 +22,7 @@ def reduction_pca():
     message = None
     message_type = None
     table_html = None
+    graph_file = None
 
     if request.method == 'POST':
         form_type = request.form.get("form_type")
@@ -71,7 +72,7 @@ def reduction_pca():
             )
 
             pca.run()
-            
+
             graph_file = pca.graph_path if plot_type == "png" else None
 
             message = (
@@ -117,5 +118,10 @@ def reduction_pca():
         'pca_page.html',
         message=message,
         message_type=message_type,
-        table_html=table_html
+        table_html=table_html,
+        graph_file=graph_file
     )
+
+@main.route('/results/<path:filename>')
+def results_file_path(filename):
+    return send_from_directory(current_app.config['RESULTS_FOLDER'], filename)
