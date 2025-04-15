@@ -35,3 +35,37 @@ def validate_target_column(target, df, table_html):
         )
 
     return True, None
+
+def validate_dimension(dimension_str, table_html):
+    try:
+        dimension = int(dimension_str)
+        if dimension not in [2, 3]:
+            raise ValueError
+        return dimension, None
+    except (TypeError, ValueError):
+        return None, render_template(
+            'pca_page.html',
+            message="Invalid dimension. Please enter '2' or '3'.",
+            message_type='error',
+            table_html=table_html
+        )
+
+def validate_plot_type(plot_type, table_html):
+    if plot_type not in ['png', 'html']:
+        return None, render_template(
+            'pca_page.html',
+            message="Invalid plot type. Please select 'png' or 'html'.",
+            message_type='error',
+            table_html=table_html
+        )
+    return plot_type, None
+
+def validate_scaler(scaler, table_html):
+    if scaler not in ['none', 'standard', 'minmax']:
+        return None, render_template(
+            'pca_page.html',
+            message="Invalid scaler type. Please select 'none', 'standard' or 'minmax'.",
+            message_type='error',
+            table_html=table_html
+        )
+    return scaler, None

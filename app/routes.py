@@ -6,7 +6,7 @@ from werkzeug.exceptions import RequestEntityTooLarge
 
 from .utils.file_handler import save_csv_file
 from .utils.file_validator import validate_file
-from .utils.param_validator import validate_sample_rate, validate_target_column
+from .utils.param_validator import validate_sample_rate, validate_target_column, validate_scaler, validate_plot_type, validate_dimension
 
 from .services import read_data_preview
 from .algorithms.pca import PCA
@@ -60,10 +60,24 @@ def reduction_pca():
             if error_response:
                 return error_response
 
-            # RECEBA
-            dimension_str = request.form.get('dimension')             
-            plot_type = request.form.get('plot_type')                 
-            scaler = request.form.get('scaler') 
+            # ----- dimension VALIDATION -----
+            dimension_str = request.form.get('dimension')
+            dimension, error_response = validate_dimension(dimension_str, table_html)
+            if error_response:
+                return error_response
+
+            # ----- plot_type VALIDATION -----
+            plot_type = request.form.get('plot_type')
+            plot_type, error_response = validate_plot_type(plot_type, table_html)
+            if error_response:
+                return error_response
+
+            # ----- scaler VALIDATION -----
+            scaler = request.form.get('scaler')
+            scaler, error_response = validate_scaler(scaler, table_html)
+            if error_response:
+                return error_response
+
 
             pca = PCA(
                 database=dataset_path,
