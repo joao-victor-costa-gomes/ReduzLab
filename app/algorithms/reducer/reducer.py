@@ -72,7 +72,7 @@ class Reducer:
                 df_with_target,
                 x=axis_labels[0],
                 y=axis_labels[1],
-                title=self.algorithm_name,
+                # title=self.algorithm_name,
                 color=self.target
             )
             fig.update_layout(
@@ -88,7 +88,7 @@ class Reducer:
                 x=axis_labels[0],
                 y=axis_labels[1],
                 z=axis_labels[2],
-                title=self.algorithm_name,
+                # title=self.algorithm_name,
                 color=self.target
             )
             fig.update_layout(

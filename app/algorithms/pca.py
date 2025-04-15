@@ -16,15 +16,18 @@ class PCA(Reducer):
         self.explained_variance = None 
 
     def process_algorithm(self, features, target):
-        # print("⚙️ Running PCA...")
-        start = time.time()
-        pca = pca_algorithm(n_components=self.dimension)
-        transformed = pca.fit_transform(features)
-        end = time.time()
-        self.time = round(end - start, 5)
-        self.explained_variance = round(pca.explained_variance_ratio_.sum() * 100, 2)
-        # print(f"✅ PCA completed in {self.time} seconds.")
-        # print(f"🎯 Explained variance: {self.explained_variance}%")
+        try:
+            start = time.time()
+            
+            pca = pca_algorithm(n_components=self.dimension)
+            transformed = pca.fit_transform(features)
+            
+            end = time.time()
+            self.time = round(end - start, 5)
+            self.explained_variance = round(pca.explained_variance_ratio_.sum() * 100, 2)
 
-        return transformed
-    
+            return transformed
+            
+        except Exception as e:
+            self.error_message = str(e)
+            return None  

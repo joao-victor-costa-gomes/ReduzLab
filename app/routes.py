@@ -88,7 +88,20 @@ def reduction_pca():
                 scaler=scaler
             )
 
-            pca.run()
+            features, target = pca.preprocess()
+            transformed_features = pca.process_algorithm(features, target)
+
+            if transformed_features is None:
+                message = f"An error occurred while generating the PCA graph: {pca.error_message}"
+                message_type = 'error'
+                return render_template(
+                    'pca_page.html',
+                    message=message,
+                    message_type=message_type,
+                    table_html=table_html
+                )
+
+            pca.plot_graph(transformed_features, target)
 
             time = pca.time
             explained_variance = pca.explained_variance
