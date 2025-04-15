@@ -55,6 +55,13 @@
         <img src="{{ graph_url }}" alt="PCA Graph" width="600">
     {% endif %}
 
+    {% if time and explained_variance %}
+        <div style="margin-top: 20px;">
+            <p><strong>Tempo de execução:</strong> {{ time }} segundos</p>
+            <p><strong>Variância explicada:</strong> {{ explained_variance }}%</p>
+        </div>
+    {% endif %}
+
 
 {% endif %}
 {% endblock %}

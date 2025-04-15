@@ -23,7 +23,9 @@ def reduction_pca():
     message_type = None
     table_html = None
     graph_url = None
-    plot_type = ""
+    plot_type = None
+    time = None
+    explained_variance = None
 
     if request.method == 'POST':
         form_type = request.form.get("form_type")
@@ -74,6 +76,8 @@ def reduction_pca():
 
             pca.run()
 
+            time = pca.time
+            explained_variance = pca.explained_variance
             graph_url = url_for('main.results_file_path', filename=pca.graph_path) if pca.graph_path else None
 
             message = (
@@ -124,7 +128,9 @@ def reduction_pca():
         message_type=message_type,
         table_html=table_html,
         graph_url=graph_url,
-        plot_type=plot_type
+        plot_type=plot_type,
+        time=time,
+        explained_variance=explained_variance
     )
 
 @main.route('/results/<path:filename>')
