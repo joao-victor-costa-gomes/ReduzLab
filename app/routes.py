@@ -5,8 +5,8 @@ from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 
 from .utils.file_handler import save_csv_file
-from .utils.file_validator import validate_file
-from .utils.param_validator import validate_sample_rate, validate_target_column, validate_scaler, validate_plot_type, validate_dimension
+
+from .utils.validators import validate_sample_rate, validate_target_column, validate_scaler, validate_plot_type, validate_dimension, validate_file
 
 from .services import read_data_preview
 from .algorithms.pca import PCA

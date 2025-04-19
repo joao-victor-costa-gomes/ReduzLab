@@ -1,6 +1,29 @@
 from flask import render_template
 import pandas as pd
 
+
+# ========== FILE VALIDATORS ==========
+
+# UPLOADED FILE
+def validate_file(file, filename):
+    file.seek(0)  # Read from the beginning of the file
+    try:
+        if filename.endswith('.csv'):
+            pd.read_csv(file)  # Try read as CSV file
+        elif filename.endswith('.xlsx'):
+            pd.read_excel(file)  # Try read as CSV XSLX file
+        else:
+            raise ValueError("Unsupported file extension.")
+        file.seek(0)  # Go back to the begnning after validation
+        return True, None
+    except Exception as e:
+        file.seek(0)  # Go back to the begnning (dk why but it's important)
+        return False, str(e)
+
+
+# ========== PARAMETERS VALIDATORS ==========
+
+# SAMPLE RATE
 def validate_sample_rate(request_form, table_html):
     sample_rate_str = request_form.get('sample_rate')
     try:
@@ -16,6 +39,7 @@ def validate_sample_rate(request_form, table_html):
             table_html=table_html
         )
 
+# TARGET
 def validate_target_column(target, df, table_html):
     if not target or target.strip() == "":
         return False, render_template(
@@ -36,6 +60,7 @@ def validate_target_column(target, df, table_html):
 
     return True, None
 
+# DIMENSION VALUE
 def validate_dimension(dimension_str, table_html):
     try:
         dimension = int(dimension_str)
@@ -50,6 +75,7 @@ def validate_dimension(dimension_str, table_html):
             table_html=table_html
         )
 
+# PLOT TYPE
 def validate_plot_type(plot_type, table_html):
     if plot_type not in ['png', 'html']:
         return None, render_template(
@@ -60,6 +86,7 @@ def validate_plot_type(plot_type, table_html):
         )
     return plot_type, None
 
+# SCALER
 def validate_scaler(scaler, table_html):
     if scaler not in ['none', 'standard', 'minmax']:
         return None, render_template(

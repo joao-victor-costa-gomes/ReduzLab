@@ -1,11 +1,12 @@
 import os 
 import pandas as pd
 import plotly.express as px
+from flask import current_app
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
-from .utils import extract_sample, delete_sample_file, save_plot_image
 
 class Reducer:
+
     def __init__(self, database, sample_rate=1.0, target=None, dimension=None, plot_type=None, scaler=None):
         # Pre-processing values
         self.database = database
@@ -21,30 +22,55 @@ class Reducer:
         self.time = None 
         self.graph_path = None
 
+
+    def extract_sample(self, dataset_path):
+        # Reading the dataset and extracting sample
+        df = pd.read_csv(dataset_path, delimiter=",")
+        sample_size = int(len(df) * self.sample_rate)
+        sample = df.sample(n=sample_size, random_state=42)
+        # Prepare the output filename
+        original_filename = os.path.basename(dataset_path)
+        name_without_ext = os.path.splitext(original_filename)[0]
+        output_filename = f"{name_without_ext}_sample.csv"
+        # Ensure the samples folder exists
+        samples_folder = current_app.config['SAMPLES_FOLDER']
+        if not os.path.exists(samples_folder):
+            os.makedirs(samples_folder)
+        output_path = os.path.join(samples_folder, output_filename)
+        sample.to_csv(output_path, index=False)
+        # Returning sample file path
+        return output_path
+
+
+    def delete_sample_file(self, sample_path):
+        if sample_path and os.path.exists(sample_path):
+            os.remove(sample_path)
+            # print(f"🗑️ Sample file deleted: {sample_path}")
+        else:
+            # print("⚠️ No sample file to delete or file already removed.")
+            pass
+
+
     def select_features(self, columns, target):
         return [col for col in columns if col != target]
 
+
     def preprocess(self):
         # 1) Create the sample file
-        self.sample_path = extract_sample(self.database, self.sample_rate)
-
+        self.sample_path = self.extract_sample(self.database)
         # 2) Load the sample as DataFrame
         self.df_sample = pd.read_csv(self.sample_path)
-
         # 3) Validate and select features
         if self.target and self.target in self.df_sample.columns:
             self.features = self.select_features(self.df_sample.columns.tolist(), self.target)
         else:
             return None, None
-
         # 4) Split into X and y
         features = self.df_sample[self.features]
         target = self.df_sample[self.target].astype(str)
-
         # 5) Delete sample file to save space
-        delete_sample_file(self.sample_path)
+        self.delete_sample_file(self.sample_path)
         self.sample_path = None
-
         # 6) Apply scaler (if provided)
         if self.scaler_type == "standard":
             scaler = StandardScaler()
@@ -52,8 +78,9 @@ class Reducer:
         elif self.scaler_type == "minmax":
             scaler = MinMaxScaler()
             features = scaler.fit_transform(features)
-
+        # Returning features and target data
         return features, target
+
 
     # 7) Create labels for the graph
     def get_axis_labels(self):
@@ -66,7 +93,6 @@ class Reducer:
     # 8) Create a plot with the reduced data
     def create_plot(self, df_with_target):
         axis_labels = self.get_axis_labels()
-
         if self.dimension == 2:
             fig = px.scatter(
                 df_with_target,
@@ -81,7 +107,6 @@ class Reducer:
                 title_font={"size": 24}
             )
             return fig
-
         elif self.dimension == 3:
             fig = px.scatter_3d(
                 df_with_target,
@@ -100,9 +125,26 @@ class Reducer:
                 title_font={"size": 24}
             )
             return fig
-
         else:
             raise ValueError("Invalid dimension. Only 2D or 3D plots are supported.")
+
+
+    def save_plot_image(self, figure, file_type, name):
+        results_folder = current_app.config['RESULTS_FOLDER']
+        if not os.path.exists(results_folder):
+            os.makedirs(results_folder)
+
+        file_name = f"{name.replace(' ', '_')}.{file_type}"
+        full_path = os.path.join(results_folder, file_name)
+
+        if file_type == "html":
+            figure.write_html(full_path)
+        elif file_type == "png":
+            figure.write_image(full_path)
+        else:
+            raise ValueError("File type must be 'html' or 'png'.")
+        
+        return file_name
 
 
     # 9) It creates the entire graphical representation and save it, basically
@@ -118,7 +160,7 @@ class Reducer:
         base_name = os.path.splitext(os.path.basename(self.database))[0]
         unique_name = base_name
         # Saves the plotted graph
-        self.graph_path = save_plot_image(
+        self.graph_path = self.save_plot_image(
             figure=figure,
             file_type=self.plot_type,
             name=unique_name 
@@ -130,6 +172,3 @@ class Reducer:
         features, target = self.preprocess()
         transformed_features = self.process_algorithm(features, target)
         self.plot_graph(transformed_features, target)
-
-
-
