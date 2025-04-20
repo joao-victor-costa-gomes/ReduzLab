@@ -1,14 +1,16 @@
 import pandas as pd
 from flask import Blueprint, render_template, request, session, url_for, current_app, send_from_directory
 from werkzeug.exceptions import RequestEntityTooLarge
-from .services import read_data_preview
+
+# servives imports
+from .services import read_data_preview, run_pca_pipeline
 
 # algorithms imports
 from .algorithms.pca import PCA
 
 # utils.py imports
 from .utils.file_handler import save_uploaded_file
-from .utils.validators import validate_file, validate_sample_rate, validate_target_column, validate_dimension,  validate_plot_type, validate_scaler
+from .utils.validators import validate_file, validate_all_parameters
         
 
 main = Blueprint('main', __name__)
@@ -23,9 +25,8 @@ def index():
     # Feedback messages for the table_preview section
     preview_error = None
     preview_success = None
-
+    # Preview table data
     table_html = None
-
     try:
         # Handle file upload form submission
         if request.method == 'POST' and request.form.get("form_type") == "upload":
@@ -51,7 +52,6 @@ def index():
             else:
                 # No file was provided in the form
                 upload_error = "No file selected."  
-
     except RequestEntityTooLarge:
         # If the file is larger than 100MB
         upload_error = "The file is too large. Please upload a file smaller than 100MB."
@@ -97,41 +97,20 @@ def pca_page():
     if request.method == 'POST' and request.form.get("form_type") == "params":
         df = pd.read_csv(dataset_path)
 
-        sample_rate, error_response = validate_sample_rate(request.form, table_html)
-        if error_response: return error_response
+        # Validate all parameters provided by user
+        sample_rate, target, dimension, plot_type, scaler, error_response = validate_all_parameters(request.form, dataset_path, table_html)
 
-        target = request.form.get('target')
-        is_valid_target, error_response = validate_target_column(target, df, table_html)
-        if error_response: return error_response
+        if error_response:
+            return error_response
+        
+        pca = PCA(database=dataset_path, sample_rate=sample_rate, target=target, dimension=dimension, plot_type=plot_type, scaler=scaler)
 
-        dimension, error_response = validate_dimension(request.form.get('dimension'), table_html)
-        if error_response: return error_response
+        graph_path, time, explained_variance, pipeline_error = run_pca_pipeline(pca)
 
-        plot_type, error_response = validate_plot_type(request.form.get('plot_type'), table_html)
-        if error_response: return error_response
-
-        scaler, error_response = validate_scaler(request.form.get('scaler'), table_html)
-        if error_response: return error_response
-
-        pca = PCA(
-            database=dataset_path,
-            sample_rate=sample_rate,
-            target=target,
-            dimension=dimension,
-            plot_type=plot_type,
-            scaler=scaler
-        )
-
-        features, target_series = pca.preprocess()
-        transformed = pca.process_algorithm(features, target_series)
-
-        if transformed is None:
-            param_error = f"An error occurred while generating the PCA graph: {pca.error_message}"
+        if pipeline_error:
+            param_error = pipeline_error
         else:
-            pca.plot_graph(transformed, target_series)
-            graph_url = url_for('main.results_file_path', filename=pca.graph_path)
-            time = pca.time
-            explained_variance = pca.explained_variance
+            graph_url = url_for('main.results_file_path', filename=graph_path)
             param_success = f"PCA completed successfully! Output: {dimension}D - Scaler: {scaler}"
 
     return render_template(
