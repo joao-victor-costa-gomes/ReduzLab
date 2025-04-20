@@ -9,7 +9,7 @@ def generate_timestamped_filename(original_filename):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     return f'{timestamp}{extension}'
 
-def save_csv_file(file, filename):
+def save_uploaded_file(file, filename):
     upload_path = current_app.config['UPLOAD_FOLDER']
     os.makedirs(upload_path, exist_ok=True)  # Create uploads folder if it doesn't exists
     unique_filename = generate_timestamped_filename(filename)

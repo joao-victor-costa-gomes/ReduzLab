@@ -1,12 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReduzLab - The Dimension Reduction Tool</title>
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
-</head>
-<body>
-    <h1>INDEX PAGE</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Index Page</h1>
+
+  <!-- UPLOAD FILE SECTION -->
+  <section>  
+      <h2>Upload your dataset</h2>
+      <form method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="form_type" value="upload">
+
+          <label for="file">Choose a CSV or XLSX file:</label>
+          <input type="file" name="file" accept=".csv,.xlsx" required>
+
+          <br><br>
+          <button type="submit">Upload</button>
+      </form>
+
+      {% if upload_error %}
+          <p style="color: red;">{{ upload_error }}</p>
+      {% endif %}
+
+      {% if upload_success %}
+          <p style="color: green;">{{ upload_success }}</p>
+      {% endif %}
+
+      <hr>
+  </section>
+
+  <!-- TABLE PREVIEW SECTION -->
+  {% if table_html %}
+    <section>
+      <h2>Data Preview</h2>
+      {{ table_html | safe }}
+    </section>
+
+    {% if preview_error %}
+          <p style="color: red;">{{ preview_error }}</p>
+    {% endif %}
+
+    {% if preview_success %}
+          <p style="color: green;">{{ preview_success }}</p>
+    {% endif %}
+    
+    <hr>
+  {% endif %}
+
+  
+{% endblock %}
