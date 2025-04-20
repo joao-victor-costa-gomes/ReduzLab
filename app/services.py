@@ -16,15 +16,29 @@ def read_data_preview(file_path, n_rows=5):
         print(f"[Erro reading file] {e}")
         return None
 
+def is_valid_target_column(df, target, table_html, column_options):
+    if target not in df.columns:
+        return render_template(
+            'pca_page.html',
+            table_html=table_html,
+            column_options=column_options,
+            param_error=f"The column '{target}' does not exist in the dataset."
+        )
+    if not pd.api.types.is_numeric_dtype(df[target]):
+        return render_template(
+            'pca_page.html',
+            table_html=table_html,
+            column_options=column_options,
+            param_error=f"The selected target column '{target}' contains non-numeric values. Please choose a column with numeric or encoded categorical values."
+        )
+    return None  
+
 # ========== ALGORITHMS PIPELINES ==========
 
 def run_pca_pipeline(pca_instance):
     features, target_series = pca_instance.preprocess()
     transformed = pca_instance.process_algorithm(features, target_series)
-
     if transformed is None:
         return None, None, None, f"An error occurred while generating the PCA graph: {pca_instance.error_message}"
-
     pca_instance.plot_graph(transformed, target_series)
-
     return pca_instance.graph_path, pca_instance.time, pca_instance.explained_variance, None

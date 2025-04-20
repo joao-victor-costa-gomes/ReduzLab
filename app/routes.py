@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, session, url_for, current
 from werkzeug.exceptions import RequestEntityTooLarge
 
 # servives imports
-from .services import read_data_preview, run_pca_pipeline
+from .services import read_data_preview, is_valid_target_column, run_pca_pipeline
 
 # algorithms imports
 from .algorithms.pca import PCA
@@ -80,11 +80,15 @@ def pca_page():
     # Post-processing values
     time = None
     explained_variance = None
+    # For the target parameter dropdown box
+    column_options = None
 
     dataset_path = session.get('uploaded_dataset_path')
 
     if dataset_path:
-        table_html = read_data_preview(dataset_path)
+        df = pd.read_csv(dataset_path)
+        table_html = df.head(5).to_html(classes='data-table', index=False)
+        column_options = df.columns.tolist()
         # ---------- TABLE PREVIEW SECTION HANDLER ----------
         if table_html is None:
             preview_error = "Failed to load preview table. The file might be corrupted or missing."
@@ -96,12 +100,19 @@ def pca_page():
     # ---------- PCA PARAMETERS HANDLER ----------
     if request.method == 'POST' and request.form.get("form_type") == "params":
         df = pd.read_csv(dataset_path)
+        column_options = df.columns.tolist()
 
         # Validate all parameters provided by user
         sample_rate, target, dimension, plot_type, scaler, error_response = validate_all_parameters(request.form, dataset_path, table_html)
 
         if error_response:
             return error_response
+
+        # Extra validation: ensure column is numeric
+        target_check = is_valid_target_column(df, target, table_html, column_options)
+        if target_check:
+            return target_check
+
         
         pca = PCA(database=dataset_path, sample_rate=sample_rate, target=target, dimension=dimension, plot_type=plot_type, scaler=scaler)
 
@@ -118,11 +129,12 @@ def pca_page():
         table_html=table_html,
         preview_error=preview_error,
         preview_success=preview_success,
+        column_options=column_options,
         param_error=param_error,
         param_success=param_success,
         graph_url=graph_url,
         time=time,
-        explained_variance=explained_variance
+        explained_variance=explained_variance 
     )
 
 @main.route('/results/<path:filename>')

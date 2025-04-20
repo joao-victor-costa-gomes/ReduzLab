@@ -35,7 +35,12 @@
       <br><br>
   
       <label for="target">Target Column:</label>
-      <input type="text" name="target" placeholder="Ex: price_range" required>
+      <select name="target" required>
+        <option value="" disabled selected>Select a column</option>
+        {% for col in column_options %}
+          <option value="{{ col }}">{{ col }}</option>
+        {% endfor %}
+      </select>
   
       <br><br>
   
