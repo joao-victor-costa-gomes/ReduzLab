@@ -6,6 +6,8 @@ from .utils.validators import validate_file
 
 main = Blueprint('main', __name__)
 
+# ========== MAIN PAGE ==========
+
 @main.route('/', methods=['GET', 'POST'])
 def index():
     # Feedback messages for the upload section
@@ -55,3 +57,9 @@ def index():
     preview_success=preview_success,
     table_html=table_html
     )
+
+# ========== PCA PAGE ==========
+
+@main.route('/pca')
+def pca_page():
+    return render_template('pca_page.html')

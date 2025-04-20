@@ -45,5 +45,22 @@
     <hr>
   {% endif %}
 
+  <!-- TABLE PREVIEW SECTION -->
+  {% if table_html %}
+  <section>
+    <h2>Select the Reduction Method</h2>
+  
+    <div class="method-buttons">
+      <a href="{{ url_for('main.pca_page') }}"><button>PCA</button></a>
+      <button disabled>KPCA</button>
+      <button disabled>LDA</button>
+      <button disabled>LLE</button>
+      <button disabled>NCA</button>
+      <button disabled>T-SNE</button>
+      <button disabled>UMAP</button>
+    </div>
+  </section>
+  {% endif %}
+
   
 {% endblock %}
