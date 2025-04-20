@@ -95,8 +95,22 @@
 
     <p><strong>Execution Time:</strong> {{ time }} seconds</p>
     <p><strong>Explained Variance:</strong> {{ explained_variance }}%</p>
+
+    <p><strong>Download:</strong>
+      <a href="{{ url_for('main.download_file', filename=graph_url.split('/')[-1]) }}" download>
+        Click here to download
+      </a>
+    </p>
+
+    {% if reduced_data_url %}
+      <p><strong>Download Reduced Data:</strong>
+        <a href="{{ reduced_data_url }}" download>
+          <button type="button">Download CSV</button>
+        </a>
+      </p>
+    {% endif %}
+
   </section>
 {% endif %}
-  
 
 {% endblock %}

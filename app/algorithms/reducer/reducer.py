@@ -21,6 +21,7 @@ class Reducer:
         # Post-processing values
         self.time = None 
         self.graph_path = None
+        self.reduced_data_path = None
 
 
     def extract_sample(self, dataset_path):
@@ -154,6 +155,12 @@ class Reducer:
         df_reduced = pd.DataFrame(data=transformed_features, columns=axis_labels)
         # Concatenate with targets
         df_with_target = pd.concat([df_reduced, target_series], axis=1)
+        # Save reduced data as CSV
+        base_name = os.path.splitext(os.path.basename(self.database))[0]
+        csv_filename = f"reduced_{base_name}.csv"
+        csv_path = os.path.join(current_app.config['RESULTS_FOLDER'], csv_filename)
+        df_with_target.to_csv(csv_path, index=False)
+        self.reduced_data_path = csv_filename  # store the path for download later
         # Creates the graph plot
         figure = self.create_plot(df_with_target)
         # Uses the same name as the uploaded database

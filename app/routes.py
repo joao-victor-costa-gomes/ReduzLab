@@ -80,6 +80,7 @@ def pca_page():
     # Post-processing values
     time = None
     explained_variance = None
+    reduced_data_url = None
     # For the target parameter dropdown box
     column_options = None
 
@@ -122,6 +123,7 @@ def pca_page():
             param_error = pipeline_error
         else:
             graph_url = url_for('main.results_file_path', filename=graph_path)
+            reduced_data_url = url_for('main.download_file', filename=pca.reduced_data_path)
             param_success = f"PCA completed successfully! Output: {dimension}D - Scaler: {scaler}"
 
     return render_template(
@@ -134,9 +136,18 @@ def pca_page():
         param_success=param_success,
         graph_url=graph_url,
         time=time,
-        explained_variance=explained_variance 
+        explained_variance=explained_variance,
+        reduced_data_url=reduced_data_url 
     )
 
 @main.route('/results/<path:filename>')
 def results_file_path(filename):
     return send_from_directory(current_app.config['RESULTS_FOLDER'], filename)
+
+@main.route('/download/<path:filename>')
+def download_file(filename):
+    return send_from_directory(
+        current_app.config['RESULTS_FOLDER'],
+        filename,
+        as_attachment=True
+    )

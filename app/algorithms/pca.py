@@ -27,6 +27,7 @@ class PCA(Reducer):
             self.time = round(end - start, 5) # Store the total time of processing (in seconds)
             # Store the total explained variance (e.g., 95.32%)
             self.explained_variance = round(pca.explained_variance_ratio_.sum() * 100, 2)
+            self.variances_by_component = [round(v * 100, 2) for v in pca.explained_variance_ratio_[:self.dimension]]
             # Return the transformed dataset (features in reduced dimensions)
             return transformed    
 
