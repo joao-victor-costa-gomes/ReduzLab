@@ -155,3 +155,16 @@ def run_lle_pipeline(lle_instance):
         return lle_instance.graph_path, lle_instance.time, lle_instance.explained_variance, None
     except Exception as e:
         return None, None, None, str(e)
+
+def run_umap_pipeline(umap_instance):
+    try:
+        features, target_series = umap_instance.preprocess()
+        if features is None:
+            return None, None, None, "Preprocessing failed. Check your target column or sample rate."
+        transformed = umap_instance.process_algorithm(features, target_series)
+        if transformed is None:
+            return None, None, None, umap_instance.error_message
+        umap_instance.plot_graph(transformed, target_series)
+        return umap_instance.graph_path, umap_instance.time, None, None
+    except Exception as e:
+        return None, None, None, str(e)

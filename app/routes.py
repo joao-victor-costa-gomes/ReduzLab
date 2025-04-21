@@ -20,6 +20,9 @@ from .services import run_nca_pipeline
 from .algorithms.lle import LLE
 from .services import run_lle_pipeline, handle_algorithm_request
 
+from .algorithms.UMAP import UMAP
+from .services import run_umap_pipeline, handle_algorithm_request
+
 # utils.py imports
 from .utils.file_handler import save_uploaded_file
 from .utils.validators import validate_file
@@ -131,6 +134,17 @@ def lle_page():
         pipeline_func=run_lle_pipeline,
         template_name='lle_page.html',
         algorithm_name='LLE'
+    )
+
+@main.route('/umap', methods=['GET', 'POST'])
+def umap_page():
+    return handle_algorithm_request(
+        request=request,
+        session_key='uploaded_dataset_path',
+        algorithm_cls=UMAP,
+        pipeline_func=run_umap_pipeline,
+        template_name='umap_page.html',
+        algorithm_name='UMAP'
     )
 
 # ========== OTHERS ==========
