@@ -42,3 +42,17 @@ def run_pca_pipeline(pca_instance):
         return None, None, None, f"An error occurred while generating the PCA graph: {pca_instance.error_message}"
     pca_instance.plot_graph(transformed, target_series)
     return pca_instance.graph_path, pca_instance.time, pca_instance.explained_variance, None
+
+def run_tsne_pipeline(tsne_instance):
+    try:
+        features, target_series = tsne_instance.preprocess()
+        if features is None:
+            return None, None, None, "Preprocessing failed. Check your target column or sample rate."
+        transformed = tsne_instance.process_algorithm(features, target_series)
+        if transformed is None:
+            return None, None, None, tsne_instance.error_message
+        tsne_instance.plot_graph(transformed, target_series)
+        return tsne_instance.graph_path, tsne_instance.time, None, None
+    except Exception as e:
+        return None, None, None, str(e)
+
