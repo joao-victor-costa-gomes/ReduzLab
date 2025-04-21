@@ -141,4 +141,17 @@ def run_nca_pipeline(nca_instance):
     nca_instance.plot_graph(transformed, target_series)
     return nca_instance.graph_path, nca_instance.time, None, None
 
+def run_lle_pipeline(lle_instance):
+    try:
+        features, target_series = lle_instance.preprocess()
+        if features is None:
+            return None, None, None, "Preprocessing failed. Check your target column or sample rate."
 
+        transformed = lle_instance.process_algorithm(features, target_series)
+        if transformed is None:
+            return None, None, None, lle_instance.error_message
+
+        lle_instance.plot_graph(transformed, target_series)
+        return lle_instance.graph_path, lle_instance.time, lle_instance.explained_variance, None
+    except Exception as e:
+        return None, None, None, str(e)

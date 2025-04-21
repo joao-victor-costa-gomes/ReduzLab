@@ -55,9 +55,9 @@
       <a href="{{ url_for('main.tsne_page') }}"><button>T-SNE</button></a>
       <a href="{{ url_for('main.lda_page') }}"><button>LDA</button></a>
       <a href="{{ url_for('main.nca_page') }}"><button>NCA</button></a>
-      <button disabled>LLE</button>
-      <button disabled>NCA</button>
+      <a href="{{ url_for('main.lle_page') }}"><button>LLE</button></a>
       <button disabled>UMAP</button>
+      <button disabled>KPCA</button>
     </div>
   </section>
   {% endif %}

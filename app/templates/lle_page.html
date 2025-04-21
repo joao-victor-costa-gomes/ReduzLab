@@ -3,7 +3,7 @@
 {% block content %}
 
 <!-- TABLE PREVIEW SECTION -->
-<h1>NCA Method Page</h1>
+<h1>LLE Method Page</h1>
 
   {% if table_html %}
     <section>
@@ -22,9 +22,9 @@
 
   <hr>
 
-<!-- NCA PARAMETERS SECTION -->
+<!-- LLE PARAMETERS SECTION -->
 <section>
-    <h2>Configure NCA Parameters</h2>
+    <h2>Configure LLE Parameters</h2>
   
     <form method="POST">
       <input type="hidden" name="form_type" value="params">
@@ -69,7 +69,7 @@
   
       <br><br>
   
-      <button type="submit">Run NCA</button>
+      <button type="submit">Run LLE</button>
 
         {% if param_error %}
             <p style="color: red;">{{ param_error }}</p>
@@ -85,12 +85,12 @@
   
 {% if graph_url %}
   <section>
-    <p><strong>NCA Result</strong></p>
+    <h2>LLE Result</h2>
     
     {% if 'html' in graph_url %}
       <iframe src="{{ graph_url }}" width="100%" height="600px" style="border: none;"></iframe>
     {% else %}
-      <img src="{{ graph_url }}" alt="NCA Graph" width="600">
+      <img src="{{ graph_url }}" alt="LLE Graph" width="600">
     {% endif %}
 
     <p><strong>Execution Time:</strong> {{ time }} seconds</p>

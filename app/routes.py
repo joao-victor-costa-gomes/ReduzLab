@@ -17,11 +17,13 @@ from .services import run_lda_pipeline
 from .algorithms.nca import NCA
 from .services import run_nca_pipeline
 
+from .algorithms.lle import LLE
+from .services import run_lle_pipeline, handle_algorithm_request
+
 # utils.py imports
 from .utils.file_handler import save_uploaded_file
 from .utils.validators import validate_file
         
-
 main = Blueprint('main', __name__)
 
 # ========== MAIN PAGE ==========
@@ -118,6 +120,17 @@ def nca_page():
         pipeline_func=run_nca_pipeline,
         template_name='nca_page.html',
         algorithm_name='NCA'
+    )
+
+@main.route('/lle', methods=['GET', 'POST'])
+def lle_page():
+    return handle_algorithm_request(
+        request=request,
+        session_key='uploaded_dataset_path',
+        algorithm_cls=LLE,
+        pipeline_func=run_lle_pipeline,
+        template_name='lle_page.html',
+        algorithm_name='LLE'
     )
 
 # ========== OTHERS ==========
