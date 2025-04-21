@@ -1,5 +1,6 @@
 import pandas as pd
-from flask import render_template
+from flask import render_template, request, session, url_for
+from .utils.validators import validate_all_parameters
 
 # ========== OTHERS ==========
 
@@ -32,6 +33,79 @@ def is_valid_target_column(df, target, table_html, column_options):
             param_error=f"The selected target column '{target}' contains non-numeric values. Please choose a column with numeric or encoded categorical values."
         )
     return None  
+
+
+# ========== ALGORITHM PAGE BASE ==========
+
+def handle_algorithm_request(request, session_key, algorithm_cls, pipeline_func, template_name, algorithm_name):
+    table_html = None
+    preview_error = None
+    preview_success = None
+    param_error = None
+    param_success = None
+    graph_url = None
+    reduced_data_url = None
+    time = None
+    explained_variance = None
+    column_options = None
+
+    dataset_path = session.get(session_key)
+
+    if dataset_path:
+        df = pd.read_csv(dataset_path)
+        table_html = df.head(5).to_html(classes='data-table', index=False)
+        column_options = df.columns.tolist()
+
+        if table_html is None:
+            preview_error = "Failed to load preview table. The file might be corrupted or missing."
+        else:
+            preview_success = "Preview table loaded successfully!"
+    else:
+        preview_error = f'No uploaded file found in session. Please <a href="{url_for("main.index")}">upload a file</a> first.'
+
+    if request.method == 'POST' and request.form.get("form_type") == "params":
+        sample_rate, target, dimension, plot_type, scaler, error_response = validate_all_parameters(
+            request.form, dataset_path, table_html
+        )
+
+        if error_response:
+            return error_response
+
+        target_check = is_valid_target_column(df, target, table_html, column_options)
+        if target_check:
+            return target_check
+
+        algorithm = algorithm_cls(
+            database=dataset_path,
+            sample_rate=sample_rate,
+            target=target,
+            dimension=dimension,
+            plot_type=plot_type,
+            scaler=scaler
+        )
+
+        graph_path, time, explained_variance, pipeline_error = pipeline_func(algorithm)
+
+        if pipeline_error:
+            param_error = pipeline_error
+        else:
+            graph_url = url_for('main.results_file_path', filename=graph_path)
+            reduced_data_url = url_for('main.download_file', filename=algorithm.reduced_data_path)
+            param_success = f"{algorithm_name} completed successfully! Output: {dimension}D - Scaler: {scaler}"
+
+    return render_template(
+        template_name,
+        table_html=table_html,
+        preview_error=preview_error,
+        preview_success=preview_success,
+        column_options=column_options,
+        param_error=param_error,
+        param_success=param_success,
+        graph_url=graph_url,
+        time=time,
+        explained_variance=explained_variance,
+        reduced_data_url=reduced_data_url
+    )
 
 # ========== ALGORITHMS PIPELINES ==========
 
