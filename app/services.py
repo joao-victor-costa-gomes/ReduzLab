@@ -130,3 +130,12 @@ def run_tsne_pipeline(tsne_instance):
     except Exception as e:
         return None, None, None, str(e)
 
+def run_lda_pipeline(lda_instance):
+    features, target_series = lda_instance.preprocess()
+    transformed = lda_instance.process_algorithm(features, target_series)
+    if transformed is None:
+        return None, None, None, f"An error occurred while generating the LDA graph: {lda_instance.error_message}"
+    lda_instance.plot_graph(transformed, target_series)
+    return lda_instance.graph_path, lda_instance.time, lda_instance.explained_variance, None
+
+

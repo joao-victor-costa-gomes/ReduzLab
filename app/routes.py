@@ -2,11 +2,18 @@ from flask import Blueprint, render_template, request, session, current_app, sen
 from werkzeug.exceptions import RequestEntityTooLarge
 
 # servives imports
-from .services import read_data_preview, handle_algorithm_request, run_pca_pipeline, run_tsne_pipeline
+from .services import read_data_preview, handle_algorithm_request
 
 # algorithms imports
 from .algorithms.pca import PCA
+from .services import run_pca_pipeline
+
 from .algorithms.tsne import TSNE
+from .services import run_tsne_pipeline
+
+from .algorithms.lda import LDA
+from .services import run_lda_pipeline
+
 
 # utils.py imports
 from .utils.file_handler import save_uploaded_file
@@ -90,6 +97,20 @@ def tsne_page():
         template_name='tsne_page.html',
         algorithm_name='T-SNE'
     )
+
+
+
+@main.route('/lda', methods=['GET', 'POST'])
+def lda_page():
+    return handle_algorithm_request(
+        request=request,
+        session_key='uploaded_dataset_path',
+        algorithm_cls=LDA,
+        pipeline_func=run_lda_pipeline,
+        template_name='lda_page.html',
+        algorithm_name='LDA'
+    )
+
 
 # ========== OTHERS ==========
 

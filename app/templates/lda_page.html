@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>LDA Method Page</h1>
+
+{% if table_html %}
+  <section>
+    <h2>Data Preview</h2>
+    {{ table_html | safe }}
+  </section>
+{% endif %}
+
+{% if preview_error %}
+  <p style="color: red;">{{ preview_error | safe }}</p>
+{% endif %}
+
+{% if preview_success %}
+  <p style="color: green;">{{ preview_success }}</p>
+{% endif %}
+
+<hr>
+
+<section>
+  <h2>Configure LDA Parameters</h2>
+  <form method="POST">
+    <input type="hidden" name="form_type" value="params">
+
+    <label for="sample_rate">Sample Rate (%):</label>
+    <input type="number" name="sample_rate" min="1" max="100" value="100" required>
+    <br><br>
+
+    <label for="target">Target Column:</label>
+    <select name="target" required>
+      <option value="" disabled selected>Select a column</option>
+      {% for col in column_options %}
+        <option value="{{ col }}">{{ col }}</option>
+      {% endfor %}
+    </select>
+    <br><br>
+
+    <label for="dimension">Output Dimension:</label>
+    <select name="dimension" required>
+      <option value="2" selected>2D</option>
+      <option value="3">3D</option>
+    </select>
+    <br><br>
+
+    <label for="plot_type">Graph Type:</label>
+    <select name="plot_type" required>
+      <option value="png" selected>PNG</option>
+      <option value="html">HTML (interactive)</option>
+    </select>
+    <br><br>
+
+    <label for="scaler">Scaler:</label>
+    <select name="scaler" required>
+      <option value="none" selected>None</option>
+      <option value="standard">Standard Scaler</option>
+      <option value="minmax">MinMax Scaler</option>
+    </select>
+    <br><br>
+
+    <button type="submit">Run LDA</button>
+
+    {% if param_error %}
+      <p style="color: red;">{{ param_error }}</p>
+    {% endif %}
+
+    {% if param_success %}
+      <p style="color: green;">{{ param_success }}</p>
+    {% endif %}
+  </form>
+  <hr>
+</section>
+
+{% if graph_url %}
+<section>
+  <h2>LDA Result</h2>
+
+  {% if 'html' in graph_url %}
+    <iframe src="{{ graph_url }}" width="100%" height="600px" style="border: none;"></iframe>
+  {% else %}
+    <img src="{{ graph_url }}" alt="LDA Graph" width="600">
+  {% endif %}
+
+  <p><strong>Execution Time:</strong> {{ time }} seconds</p>
+  <p><strong>Explained Variance:</strong> {{ explained_variance }}%</p>
+
+  <p><strong>Download:</strong>
+    <a href="{{ url_for('main.download_file', filename=graph_url.split('/')[-1]) }}" download>
+      Click here to download
+    </a>
+  </p>
+
+  {% if reduced_data_url %}
+    <p><strong>Download Reduced Data:</strong>
+      <a href="{{ reduced_data_url }}" download>
+        <button type="button">Download CSV</button>
+      </a>
+    </p>
+  {% endif %}
+</section>
+{% endif %}
+{% endblock %}
