@@ -118,17 +118,12 @@ def run_pca_pipeline(pca_instance):
     return pca_instance.graph_path, pca_instance.time, pca_instance.explained_variance, None
 
 def run_tsne_pipeline(tsne_instance):
-    try:
-        features, target_series = tsne_instance.preprocess()
-        if features is None:
-            return None, None, None, "Preprocessing failed. Check your target column or sample rate."
-        transformed = tsne_instance.process_algorithm(features, target_series)
-        if transformed is None:
-            return None, None, None, tsne_instance.error_message
-        tsne_instance.plot_graph(transformed, target_series)
-        return tsne_instance.graph_path, tsne_instance.time, None, None
-    except Exception as e:
-        return None, None, None, str(e)
+    features, target_series = tsne_instance.preprocess()
+    transformed = tsne_instance.process_algorithm(features, target_series)
+    if transformed is None:
+        return None, None, None, f"An error occurred while generating the T-SNE graph: {tsne_instance.error_message}"
+    tsne_instance.plot_graph(transformed, target_series)
+    return tsne_instance.graph_path, tsne_instance.time, None, None
 
 def run_lda_pipeline(lda_instance):
     features, target_series = lda_instance.preprocess()
@@ -137,5 +132,13 @@ def run_lda_pipeline(lda_instance):
         return None, None, None, f"An error occurred while generating the LDA graph: {lda_instance.error_message}"
     lda_instance.plot_graph(transformed, target_series)
     return lda_instance.graph_path, lda_instance.time, lda_instance.explained_variance, None
+
+def run_nca_pipeline(nca_instance):
+    features, target_series = nca_instance.preprocess()
+    transformed = nca_instance.process_algorithm(features, target_series)
+    if transformed is None:
+        return None, None, None, f"An error occurred while generating the NCA graph: {nca_instance.error_message}"
+    nca_instance.plot_graph(transformed, target_series)
+    return nca_instance.graph_path, nca_instance.time, None, None
 
 

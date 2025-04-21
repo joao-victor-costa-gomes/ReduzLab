@@ -14,6 +14,8 @@ from .services import run_tsne_pipeline
 from .algorithms.lda import LDA
 from .services import run_lda_pipeline
 
+from .algorithms.nca import NCA
+from .services import run_nca_pipeline
 
 # utils.py imports
 from .utils.file_handler import save_uploaded_file
@@ -72,7 +74,7 @@ def index():
     table_html=table_html
     )
 
-# ========== PCA PAGE ==========
+# ========== ALGORITHMS VIEWS ==========
 
 @main.route('/pca', methods=['GET', 'POST'])
 def pca_page():
@@ -85,8 +87,6 @@ def pca_page():
         algorithm_name='PCA'
     )
 
-# ========== T-SNE PAGE ==========
-
 @main.route('/tsne', methods=['GET', 'POST'])
 def tsne_page():
     return handle_algorithm_request(
@@ -97,8 +97,6 @@ def tsne_page():
         template_name='tsne_page.html',
         algorithm_name='T-SNE'
     )
-
-
 
 @main.route('/lda', methods=['GET', 'POST'])
 def lda_page():
@@ -111,6 +109,16 @@ def lda_page():
         algorithm_name='LDA'
     )
 
+@main.route('/nca', methods=['GET', 'POST'])
+def nca_page():
+    return handle_algorithm_request(
+        request=request,
+        session_key='uploaded_dataset_path',
+        algorithm_cls=NCA,
+        pipeline_func=run_nca_pipeline,
+        template_name='nca_page.html',
+        algorithm_name='NCA'
+    )
 
 # ========== OTHERS ==========
 
