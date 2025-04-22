@@ -168,3 +168,11 @@ def run_umap_pipeline(umap_instance):
         return umap_instance.graph_path, umap_instance.time, None, None
     except Exception as e:
         return None, None, None, str(e)
+
+def run_kpca_pipeline(kpca_instance):
+    features, target_series = kpca_instance.preprocess()
+    transformed = kpca_instance.process_algorithm(features, target_series)
+    if transformed is None:
+        return None, None, None, f"An error occurred while generating the KPCA graph: {kpca_instance.error_message}"
+    kpca_instance.plot_graph(transformed, target_series)
+    return kpca_instance.graph_path, kpca_instance.time, kpca_instance.variance, None

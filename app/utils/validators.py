@@ -67,49 +67,60 @@ def validate_scaler(scaler):
         return None, "Invalid scaler type. Please select 'none', 'standard' or 'minmax'."
     return scaler, None
 
+# KERNEL
+def validate_kernel(kernel, table_html, template_name='kpca_page.html'):
+    allowed = ['linear', 'poly', 'rbf', 'sigmoid', 'cosine', 'precomputed']
+    if kernel not in allowed:
+        return None, render_template(
+            template_name,
+            param_error=f"Invalid kernel value '{kernel}'. Allowed values are: {', '.join(allowed)}.",
+            table_html=table_html
+        )
+    return kernel, None
+
 # GENERAL VALIDATOR
-def validate_all_parameters(form_data, dataset_path, table_html):
+def validate_all_parameters(form_data, dataset_path, table_html, template_name='pca_page.html'):
     df = pd.read_csv(dataset_path)
-    # Validate Sample Rate
+
     sample_rate, error_msg = validate_sample_rate(form_data)
     if error_msg:
         return None, None, None, None, None, render_template(
-            'pca_page.html',
+            template_name,
             param_error=error_msg,
             table_html=table_html
         )
-    # Validate Target
+
     target = form_data.get('target')
     is_valid_target, error_msg = validate_target_column(target, df)
     if error_msg:
         return None, None, None, None, None, render_template(
-            'pca_page.html',
+            template_name,
             param_error=error_msg,
             table_html=table_html
         )
-    # Validate Dimension
+
     dimension, error_msg = validate_dimension(form_data.get('dimension'))
     if error_msg:
         return None, None, None, None, None, render_template(
-            'pca_page.html',
+            template_name,
             param_error=error_msg,
             table_html=table_html
         )
-    # Validate Plot Type
+
     plot_type, error_msg = validate_plot_type(form_data.get('plot_type'))
     if error_msg:
         return None, None, None, None, None, render_template(
-            'pca_page.html',
+            template_name,
             param_error=error_msg,
             table_html=table_html
         )
-    # Validate Scaler
+
     scaler, error_msg = validate_scaler(form_data.get('scaler'))
     if error_msg:
         return None, None, None, None, None, render_template(
-            'pca_page.html',
+            template_name,
             param_error=error_msg,
             table_html=table_html
         )
-    # If all validations pass, return the clean values
+
     return sample_rate, target, dimension, plot_type, scaler, None

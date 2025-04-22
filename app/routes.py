@@ -1,8 +1,12 @@
-from flask import Blueprint, render_template, request, session, current_app, send_from_directory
+import pandas as pd
+from flask import Blueprint, render_template, request, session, current_app, send_from_directory, url_for
 from werkzeug.exceptions import RequestEntityTooLarge
 
 # servives imports
 from .services import read_data_preview, handle_algorithm_request
+
+# for KPCA
+from .services import validate_all_parameters, is_valid_target_column
 
 # algorithms imports
 from .algorithms.pca import PCA
@@ -159,4 +163,89 @@ def download_file(filename):
         current_app.config['RESULTS_FOLDER'],
         filename,
         as_attachment=True
+    )
+
+# ========== KPCA VIEW ==========
+
+from .algorithms.kpca import KPCA
+from .services import run_kpca_pipeline
+from .utils.validators import validate_kernel
+
+@main.route('/kpca', methods=['GET', 'POST'])
+def kpca_page():
+    table_html = None
+    preview_error = None
+    preview_success = None
+    param_error = None
+    param_success = None
+    graph_url = None
+    reduced_data_url = None
+    time = None
+    explained_variance = None
+    column_options = None
+    kernel_options = ['linear', 'poly', 'rbf', 'sigmoid', 'cosine', 'precomputed']
+
+    dataset_path = session.get('uploaded_dataset_path')
+
+    if dataset_path:
+        df = pd.read_csv(dataset_path)
+        table_html = df.head(5).to_html(classes='data-table', index=False)
+        column_options = df.columns.tolist()
+        preview_success = "Preview table loaded successfully!"
+    else:
+        preview_error = f'No uploaded file found in session. Please <a href="{url_for("main.index")}">upload a file</a> first.'
+
+    if request.method == 'POST' and request.form.get("form_type") == "params":
+        df = pd.read_csv(dataset_path)
+        column_options = df.columns.tolist()
+
+        sample_rate, target, dimension, plot_type, scaler, error_response = validate_all_parameters(
+            request.form, dataset_path, table_html, template_name='kpca_page.html'
+        )
+        if error_response:
+            return error_response
+
+        # ========== VALIDAÇÃO DO KERNEL ==========
+        kernel = request.form.get("kernel")
+        kernel, error_response = validate_kernel(kernel, table_html, template_name='kpca_page.html')
+        if error_response:
+            return error_response
+
+        # Extra: garantir que a coluna alvo é numérica
+        target_check = is_valid_target_column(df, target, table_html, column_options)
+        if target_check:
+            return target_check
+
+        kpca = KPCA(
+            database=dataset_path,
+            sample_rate=sample_rate,
+            target=target,
+            dimension=dimension,
+            plot_type=plot_type,
+            scaler=scaler,
+            kernel=kernel
+        )
+
+        graph_path, time, explained_variance, pipeline_error = run_kpca_pipeline(kpca)
+
+        if pipeline_error:
+            param_error = pipeline_error
+        else:
+            graph_url = url_for('main.results_file_path', filename=graph_path)
+            reduced_data_url = url_for('main.download_file', filename=kpca.reduced_data_path)
+            param_success = f"KPCA completed successfully! Kernel: {kernel}, Output: {dimension}D, Scaler: {scaler}"
+
+    return render_template(
+        'kpca_page.html',
+        table_html=table_html,
+        preview_error=preview_error,
+        preview_success=preview_success,
+        column_options=column_options,
+        kernel_options=kernel_options,
+        param_error=param_error,
+        param_success=param_success,
+        graph_url=graph_url,
+        time=time,
+        explained_variance=explained_variance,
+        reduced_data_url=reduced_data_url
     )
