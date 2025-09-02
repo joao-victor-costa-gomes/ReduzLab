@@ -1,17 +1,16 @@
+# LIBRARIES
 import os
 import pandas as pd
 from app.main import bp
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 from flask import render_template, request, current_app, redirect, url_for, flash
+# LOCAL FUNCTIONS
+from app.utils.file_handler import allowed_file, save_uploaded_file
+from app.utils.data_preview import generate_preview
 
-# List of allowed file extensions
-ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# home page of the application
+# ========== HOME PAGE ==========
 @bp.route('/', methods=['GET', 'POST'])
 def index_page():
     # variables for feedback messages
@@ -32,23 +31,17 @@ def index_page():
                 upload_error = "No file selected. Please choose a file to upload."
             # Check if the file has an allowed extension and process it
             elif file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                upload_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-                file.save(upload_path)
-                upload_success = f"File '{filename}' uploaded successfully!"
-                # --- Generate Preview Table ---
-                try:
-                    if filename.endswith('.csv'):
-                        df = pd.read_csv(upload_path)
-                    else: # .xlsx
-                        df = pd.read_excel(upload_path)
-                        # Convert the first 10 rows of the dataframe to an HTML table
-                    table_html = df.head(10).to_html(classes='data-table', index=False)
+                unique_filename = save_uploaded_file(file)
+                upload_success = f"File '{file.filename}' uploaded successfully!"
+                # Use the unique name to build the full path for previewing
+                upload_path = os.path.join(current_app.config['UPLOAD_FOLDER'], unique_filename)
+                # Use the utility function to generate the preview
+                table_html, preview_error = generate_preview(upload_path)
+                if not preview_error:
                     preview_success = "Data preview generated successfully!"
-                except Exception as e:
-                    preview_error = f"Error reading or processing file: {e}"
-                    upload_success = None 
-
+                    # Clear success message from upload if preview fails
+                else: 
+                    upload_success = None
             # Handle the case of a non-allowed file extension
             else:
                 upload_error = "Invalid file type. Please upload a .csv or .xlsx file."
@@ -61,7 +54,36 @@ def index_page():
                            preview_success=preview_success,
                            table_html=table_html)
 
-# Error message in case the file to be upload is too large
+
+# ========== ALGORITHM PAGES ==========
+
+@bp.route('/pca')
+def pca_page():
+    return "PCA Algorithm Page - Work in Progress"
+
+@bp.route('/tsne')
+def tsne_page():
+    return "T-SNE Algorithm Page - Work in Progress"
+
+@bp.route('/nca')
+def nca_page():
+    return "NCA Algorithm Page - Work in Progress"
+
+@bp.route('/lle')
+def lle_page():
+    return "LLE Algorithm Page - Work in Progress"
+
+@bp.route('/lda')
+def lda_page():
+    return "LDA Algorithm Page - Work in Progress"
+
+@bp.route('/kpca')
+def kpca_page():
+    return "KPCA Algorithm Page - Work in Progress"
+
+
+# ========== ERROR HANDLERS ==========
+
 @bp.app_errorhandler(RequestEntityTooLarge)
 def handle_file_too_large(e):
     flash(f"File is too large. The maximum allowed size is {current_app.config['MAX_CONTENT_LENGTH'] / 1024 / 1024:.0f} MB.")

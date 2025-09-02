@@ -20,15 +20,15 @@
 
 - [X] Página de envio de arquivos .csv e .xlsx.
 
-- [ ] Definir um nome seguro e único para os arquivos upados.
+- [X] Definir um nome seguro e único para os arquivos upados.
 
-- [ ] Lidar com erros de envio (formato, tamanho, corrupção).
+- [X] Lidar com erros de envio (formato, tamanho, corrupção).
 
-- [ ] Mostrar um preview dos 10 primeiros itens.
+- [X] Mostrar um preview dos 10 primeiros itens.
 
-- [ ] Lidar com erros no carregamento do preview.
+- [X] Lidar com erros no carregamento do preview.
 
-- [ ] Botões de seleção de algoritmo de redução após o dataset ser carregado
+- [X] Botões de seleção de algoritmo de redução após o dataset ser carregado
 
 - [ ] Para evitar erros futuros, logo nessa página deve ter uma verificação se o dataset tem alguma coluna com tipos não númericos ou nulos e alertar quais colunas são. 
 

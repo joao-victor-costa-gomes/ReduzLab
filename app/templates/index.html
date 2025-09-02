@@ -57,17 +57,17 @@
         <h2>3. Select a Reduction Algorithm</h2>
         <div class="algorithm-buttons">
             <ul>
-                <li><a href="#">PCA</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html" target="_blank">(?)</a></li>
+                <li><a href="{{ url_for('main.pca_page') }}">PCA</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html" target="_blank">(?)</a></li>
 
-                <li><a href="#">T-SNE</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html" target="_blank">(?)</a></li>
+                <li><a href="{{ url_for('main.tsne_page') }}">T-SNE</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html" target="_blank">(?)</a></li>
 
-                <li><a href="#">NCA</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NeighborhoodComponentsAnalysis.html" target="_blank">(?)</a></li>
+                <li><a href="{{ url_for('main.nca_page') }}">NCA</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NeighborhoodComponentsAnalysis.html" target="_blank">(?)</a></li>
 
-                <li><a href="#">LLE</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.LocallyLinearEmbedding.html" target="_blank">(?)</a></li>
+                <li><a href="{{ url_for('main.lle_page') }}">LLE</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.LocallyLinearEmbedding.html" target="_blank">(?)</a></li>
 
-                <li><a href="#">LDA</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html" target="_blank">(?)</a></li>
+                <li><a href="{{ url_for('main.lda_page') }}">LDA</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html" target="_blank">(?)</a></li>
 
-                <li><a href="#">KPCA</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html" target="_blank">(?)</a></li>
+                <li><a href="{{ url_for('main.kpca_page') }}">KPCA</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html" target="_blank">(?)</a></li>
             </ul>
         </div>
     </section>
