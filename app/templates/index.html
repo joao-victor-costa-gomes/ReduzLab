@@ -6,6 +6,32 @@
     <title>ReduzLab - Home Page</title>
 </head>
 <body>
-    <h1>THIS IS THE HOME PAGE!</h1>
+    <!-- FOR ERROR MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h1>Dimensionality Reduction Lab</h1>
+
+    <section>
+        <h2>1. Upload your Dataset</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <label for="file">Choose a .csv or .xlsx file:</label>
+            <input type="file" name="file" accept=".csv,.xlsx" required>
+            <button type="submit">Upload</button>
+        </form>
+        {% if upload_error %}
+            <p style="color: red;">{{ upload_error }}</p>
+        {% endif %}
+
+        {% if upload_success %}
+            <p style="color: green;">{{ upload_success }}</p>
+        {% endif %}
+    </section>
+
 </body>
 </html>
