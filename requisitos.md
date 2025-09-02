@@ -18,7 +18,7 @@
 
 ## PÁGINA DE ENVIO DE DATASET
 
-- [ ] Página de envio de arquivos .csv.
+- [X] Página de envio de arquivos .csv e .xlsx.
 
 - [ ] Definir um nome seguro e único para os arquivos upados.
 
