@@ -2,12 +2,12 @@
 import os
 import pandas as pd
 from app.main import bp
-from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
-from flask import render_template, request, current_app, redirect, url_for, flash
+from flask import render_template, request, current_app, redirect, url_for, flash, session
 # LOCAL FUNCTIONS
 from app.utils.file_handler import allowed_file, save_uploaded_file
 from app.utils.data_preview import generate_preview
+from app.utils.data_validator import validate_dataframe
 
 
 # ========== HOME PAGE ==========
@@ -19,6 +19,7 @@ def index_page():
     preview_success = None
     preview_error = None 
     table_html= None
+    validation_results = None
 
     if request.method == 'POST':
         # Check if the file part is in the request. 
@@ -36,10 +37,13 @@ def index_page():
                 # Use the unique name to build the full path for previewing
                 upload_path = os.path.join(current_app.config['UPLOAD_FOLDER'], unique_filename)
                 # Use the utility function to generate the preview
-                table_html, preview_error = generate_preview(upload_path)
+                df, table_html, preview_error = generate_preview(upload_path)
                 if not preview_error:
                     preview_success = "Data preview generated successfully!"
-                    # Clear success message from upload if preview fails
+                    session['uploaded_filename'] = unique_filename
+                    # Reading again to detect not numeric (excluding boolean types) columns
+                    validation_results = validate_dataframe(df)
+                # Clear success message from upload if preview fails
                 else: 
                     upload_success = None
             # Handle the case of a non-allowed file extension
@@ -52,7 +56,8 @@ def index_page():
                            upload_success=upload_success,
                            preview_error=preview_error,
                            preview_success=preview_success,
-                           table_html=table_html)
+                           table_html=table_html,
+                           validation_results=validation_results)
 
 
 # ========== ALGORITHM PAGES ==========

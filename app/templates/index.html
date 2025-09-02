@@ -39,12 +39,39 @@
     <hr>
 
     <section>
+        <!-- preview error -->
         <h2>2. Data Preview</h2>
         {% if preview_error %}
             <p style="color: red;">{{ preview_error }}</p>
         {% endif %}
         {% if preview_success %}
             <p style="color: green;">{{ preview_success }}</p>
+        {% endif %}
+        
+        <!-- column data type alert -->
+        {% if validation_results and (validation_results.non_numeric_cols or validation_results.null_info) %}
+            <div class="validation-report" style="border: 1px solid orange; padding: 10px; margin-top: 15px;">
+                <h4>⚠️ Validation Report:</h4>
+                <p>Please review the following issues before proceeding. Algorithms may fail with non-numeric or missing data.</p>
+                
+                {% if validation_results.non_numeric_cols %}
+                    <p><strong>Non-Numeric Columns Found:</strong></p>
+                    <ul>
+                        {% for col in validation_results.non_numeric_cols %}
+                            <li>{{ col }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if validation_results.null_info %}
+                    <p><strong>Columns with Missing Values:</strong></p>
+                    <ul>
+                        {% for col, count in validation_results.null_info.items() %}
+                            <li>{{ col }} ({{ count }} missing)</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
         {% endif %}
 
         {{ table_html | safe }}

@@ -8,7 +8,7 @@
 
 - [ ] Usar um sistema de template inheritance para compartilhar a estrutura HTML (header, footer, etc.) entre as páginas.
 
-- [ ] A aplicação deve ter um .env para configurações.
+- [X] A aplicação deve ter um .env para configurações.
 
 - [ ] A aplicação deve ser estruturada para deploy (usar requirements.txt, caminhos relativos).
 
