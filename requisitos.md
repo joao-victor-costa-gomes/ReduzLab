@@ -12,7 +12,7 @@
 
 - [ ] A aplicação deve ser estruturada para deploy (usar requirements.txt, caminhos relativos).
 
-- [ ] A aplicação deve ter páginas de erro padrão (404, 500).
+- [X] A aplicação deve ter páginas de erro padrão (404, 500).
 
 --- 
 

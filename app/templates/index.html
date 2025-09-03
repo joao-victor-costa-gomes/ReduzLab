@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReduzLab - Home Page</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
+
     <!-- FOR ERROR MESSAGES -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-                <div class="flash-{{ category }}">{{ message }}</div>
+                <div style="color: red;" class="flash-{{ category }}">{{ message }}</div>
             {% endfor %}
         {% endif %}
     {% endwith %}
@@ -39,8 +35,9 @@
     <hr>
 
     <section>
-        <!-- preview error -->
         <h2>2. Data Preview</h2>
+
+        <!-- preview error -->
         {% if preview_error %}
             <p style="color: red;">{{ preview_error }}</p>
         {% endif %}
@@ -103,6 +100,4 @@
 
     {% endif %}
 
-
-</body>
-</html>
+{% endblock %}

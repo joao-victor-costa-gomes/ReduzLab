@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReduzLab - Dimensionality Reduction</title>
+</head>
+<body>
+
+    <header style="background-color: #058743; color: white; text-align: center; padding: 20px 0;">
+        <h1 style="margin: 0;"><a href="{{ url_for('main.index_page') }}" style="color: white; text-decoration: none;">ReduzLab</a></h1>
+        <p style="margin: 5px 0 0 0;">A Web Interface for Dimensionality Reduction Algorithms</p>
+    </header>
+
+    <main style="padding: 20px;">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer style="background-color: #004721; color: white; text-align: center; padding: 15px 0;">
+        <p style="margin: 0;">&copy; 2025 - ReduzLab Project</p>
+    </footer>
+
+</body>
+</html>

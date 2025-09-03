@@ -8,6 +8,7 @@ from flask import render_template, request, current_app, redirect, url_for, flas
 from app.utils.file_handler import allowed_file, save_uploaded_file
 from app.utils.data_preview import generate_preview
 from app.utils.data_validator import validate_dataframe
+from app.utils.decorators import require_dataset
 
 
 # ========== HOME PAGE ==========
@@ -61,9 +62,16 @@ def index_page():
 
 # ========== ALGORITHM PAGES ==========
 
-@bp.route('/pca')
-def pca_page():
-    return "PCA Algorithm Page - Work in Progress"
+@bp.route('/pca', methods=['GET', 'POST'])
+@require_dataset
+def pca_page(df, table_html, validation_results):
+
+    return render_template('algorithms/pca_page.html',
+                           algorithm_name="PCA",
+                           table_html=table_html,
+                           preview_success="Data loaded successfully.",
+                           validation_results=validation_results)
+
 
 @bp.route('/tsne')
 def tsne_page():
