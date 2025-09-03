@@ -1,0 +1,105 @@
+{% extends "algorithm_page.html" %}
+
+{% block algorithm_content %}
+<section>
+    <h2>Configure PCA Parameters</h2>
+
+    <form method="POST">
+        <h4>Algorithm Parameters</h4>
+
+        <!-- sample rate -->
+        <div>
+            <label for="sample_rate">Sample Rate (%):</label>
+            <input type="number" id="sample_rate" name="sample_rate" min="1" max="100" value="100" required>
+        </div>
+
+        <!-- target column -->
+        <div>
+            <label for="target_column">Target Column:</label>
+            <select id="target_column" name="target_column" required>
+                <option value="" disabled selected>Select a column</option>
+                {% for column in column_options %}
+                    <option value="{{ column }}">{{ column }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- dimension size -->
+        <div>
+            <label for="dimension">Output Dimension:</label>
+            <select id="dimension" name="dimension" required>
+                <option value="2" selected>2D</option>
+                <option value="3">3D</option>
+            </select>
+        </div>
+
+        <!-- scaler -->
+        <div>
+            <label for="scaler">Scaler:</label>
+            <select id="scaler" name="scaler" required>
+                <option value="none" selected>None</option>
+                <option value="standard">StandardScaler</option>
+                <option value="minmax">MinMaxScaler</option>
+            </select>
+        </div>
+        
+        <hr>
+
+        <h4>Graph Parameters</h4>
+
+        <!-- graph type -->
+        <div>
+            <label for="plot_type">Graph File Type:</label>
+            <select id="plot_type" name="plot_type" required>
+                <option value="png" selected>PNG (static image)</option>
+                <option value="html">HTML (interactive plot)</option>
+            </select>
+        </div>
+        
+        <!-- graph title -->
+        <div>
+            <label for="plot_title">Graph Title:</label>
+            <input type="text" id="plot_title" name="plot_title" placeholder="e.g., PCA of Iris Dataset">
+        </div>
+
+        <hr>
+
+        <button type="submit">Run PCA</button>
+
+        <!-- parameters errors -->
+        {% if param_error %}
+            <p style="color: red;">{{ param_error }}</p>
+        {% endif %}
+        {% if param_success %}
+            <p style="color: green;">{{ param_success }}</p>
+        {% endif %}
+    </form>
+
+    {% if plot_url %}
+    <hr>
+    <section class="results">
+        <h2>Results</h2>
+
+        {% if metrics %}
+            <h4>Metrics:</h4>
+            <ul>
+                {% for key, value in metrics.items() %}
+                    <li><strong>{{ key }}:</strong> {{ value }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <h4>Plot:</h4>
+        {% if 'html' in plot_url %}
+            <iframe src="{{ plot_url }}" width="100%" height="600px" style="border: none;"></iframe>
+        {% else %}
+            <img src="{{ plot_url }}" alt="PCA Plot" style="max-width: 100%; height: auto;">
+        {% endif %}
+        
+        <br>
+        <a href="{{ plot_url }}" download>Download Plot</a>
+    </section>
+    {% endif %}
+
+</section>
+{% endblock %}

@@ -36,9 +36,9 @@
 
 ## PÁGINA DE PROCESSAMENTO DE ALGORITMO
 
-- [ ] Mostrar novamente o preview do dataset.
+- [X] Mostrar novamente o preview do dataset.
 
-- [ ] Bloquear acesso se nenhum dataset foi enviado (gerenciamento de sessão).
+- [X] Bloquear acesso se nenhum dataset foi enviado (gerenciamento de sessão).
 
 - [ ] Salvar os valores dos campos no localStorage do navegador como sugestão.
 
@@ -46,7 +46,7 @@
 
 ### SEÇÃO DE PRÉ-PROCESSAMENTO E PARÂMETROS
 
-- [ ] Campo para selecionar a porcentagem que será usada no algoritmo. `parâmetro do algoritmo`
+- [ ] Campo para selecionar a porcentagem que será usada no algoritmo (amostragem). `parâmetro do algoritmo`
 
 - [ ] Campo para selecionar a coluna target. Deve ter uma validação para caso essa coluna ter valores não numéricos.  `parâmetro do algoritmo`
 

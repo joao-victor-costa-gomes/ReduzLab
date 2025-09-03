@@ -9,7 +9,11 @@ from app.utils.file_handler import allowed_file, save_uploaded_file
 from app.utils.data_preview import generate_preview
 from app.utils.data_validator import validate_dataframe
 from app.utils.decorators import require_dataset
-
+from app.utils.form_validator import validate_base_parameters
+from app.core.data_processor import process_data_for_reduction
+from app.core.visualizer import Visualizer
+# REDUCTION ALGORITHMS
+from app.algorithms.pca import PCA
 
 # ========== HOME PAGE ==========
 @bp.route('/', methods=['GET', 'POST'])
@@ -66,11 +70,54 @@ def index_page():
 @require_dataset
 def pca_page(df, table_html, validation_results):
 
-    return render_template('algorithms/pca_page.html',
+    # Get column names from the DataFrame to populate the dropdowns
+    column_options = df.columns.tolist()
+    param_error = None
+    param_success = None
+    plot_url = None
+    metrics = None
+
+    # Handle the form submission
+    if request.method == 'POST':
+        params, param_error = validate_base_parameters(request.form, df)
+
+    if not param_error:
+        try:
+            # Applying PCA algorithm
+            X, y = process_data_for_reduction(df, params)
+            pca_reducer = PCA(params)
+            results, error = pca_reducer.fit_transform(X)
+            if error:
+                raise Exception(error)
+            # Generate and Save Visualization
+            visualizer = Visualizer(
+                algorithm_name="PCA",
+                reduced_data=results['reduced_data'],
+                target_series=y,
+                params=params
+            )
+            plot_filename = visualizer.save_plot()
+
+            # Prepare results for the template
+            plot_url = url_for('static', filename=f'results/{plot_filename}')
+            metrics = {
+                'Execution Time (s)': f"{results['execution_time']:.4f}",
+                'Explained Variance (%)': f"{results['explained_variance']:.2f}"
+            }
+
+        except Exception as e:
+            param_error = f"An error occurred during processing: {e}"
+
+    return render_template('algorithms_pages/pca_page.html',
                            algorithm_name="PCA",
                            table_html=table_html,
                            preview_success="Data loaded successfully.",
-                           validation_results=validation_results)
+                           validation_results=validation_results,
+                           column_options=column_options,
+                           param_error=param_error,
+                           param_success=param_success,
+                           plot_url=plot_url,
+                           metrics=metrics)
 
 
 @bp.route('/tsne')
