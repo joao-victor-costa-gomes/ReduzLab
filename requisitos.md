@@ -30,7 +30,7 @@
 
 - [X] Botões de seleção de algoritmo de redução após o dataset ser carregado
 
-- [ ] Para evitar erros futuros, logo nessa página deve ter uma verificação se o dataset tem alguma coluna com tipos não númericos ou nulos e alertar quais colunas são. 
+- [X] Para evitar erros futuros, logo nessa página deve ter uma verificação se o dataset tem alguma coluna com tipos não númericos ou nulos e alertar quais colunas são. 
 
 ---
 

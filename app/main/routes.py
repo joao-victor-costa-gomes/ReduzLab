@@ -59,7 +59,6 @@ def index_page():
                            table_html=table_html,
                            validation_results=validation_results)
 
-
 # ========== ALGORITHM PAGES ==========
 
 @bp.route('/pca')
@@ -86,8 +85,7 @@ def lda_page():
 def kpca_page():
     return "KPCA Algorithm Page - Work in Progress"
 
-
-# ========== ERROR HANDLERS ==========
+# ========== OTHER ERROR HANDLERS ==========
 
 @bp.app_errorhandler(RequestEntityTooLarge)
 def handle_file_too_large(e):
