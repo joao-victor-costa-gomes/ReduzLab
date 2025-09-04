@@ -7,6 +7,6 @@ load_dotenv(os.path.join(basedir, '.env'))
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
-    UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER')
-    RESULTS_FOLDER = os.environ.get('RESULTS_FOLDER')
+    UPLOAD_FOLDER = os.path.join(basedir, 'uploads')
+    RESULTS_FOLDER = os.path.join(basedir, 'results')
     MAX_CONTENT_LENGTH = int(os.environ.get('MAX_CONTENT_LENGTH'))

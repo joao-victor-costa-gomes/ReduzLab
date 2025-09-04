@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from app.main import bp
 from werkzeug.exceptions import RequestEntityTooLarge
-from flask import render_template, request, current_app, redirect, url_for, flash, session
+from flask import render_template, request, current_app, redirect, url_for, flash, session, send_from_directory
 # LOCAL FUNCTIONS
 from app.utils.file_handler import allowed_file, save_uploaded_file
 from app.utils.data_preview import generate_preview
@@ -81,32 +81,30 @@ def pca_page(df, table_html, validation_results):
     if request.method == 'POST':
         params, param_error = validate_base_parameters(request.form, df)
 
-    if not param_error:
-        try:
-            # Applying PCA algorithm
-            X, y = process_data_for_reduction(df, params)
-            pca_reducer = PCA(params)
-            results, error = pca_reducer.fit_transform(X)
-            if error:
-                raise Exception(error)
-            # Generate and Save Visualization
-            visualizer = Visualizer(
-                algorithm_name="PCA",
-                reduced_data=results['reduced_data'],
-                target_series=y,
-                params=params
-            )
-            plot_filename = visualizer.save_plot()
-
-            # Prepare results for the template
-            plot_url = url_for('static', filename=f'results/{plot_filename}')
-            metrics = {
-                'Execution Time (s)': f"{results['execution_time']:.4f}",
-                'Explained Variance (%)': f"{results['explained_variance']:.2f}"
-            }
-
-        except Exception as e:
-            param_error = f"An error occurred during processing: {e}"
+        if not param_error:
+            try:
+                # Applying PCA algorithm
+                X, y = process_data_for_reduction(df, params)
+                pca_reducer = PCA(params)
+                results, error = pca_reducer.fit_transform(X)
+                if error:
+                    raise Exception(error)
+                # Generate and Save Visualization
+                visualizer = Visualizer(
+                    algorithm_name="PCA",
+                    reduced_data=results['reduced_data'],
+                    target_series=y,
+                    params=params
+                )
+                plot_filename = visualizer.save_plot()
+                # Prepare results for the template
+                plot_url = url_for('main.serve_result_file', filename=plot_filename)
+                metrics = {
+                    'Execution Time (s)': f"{results['execution_time']:.4f}",
+                    'Explained Variance (%)': f"{results['explained_variance']:.2f}"
+                }
+            except Exception as e:
+                param_error = f"An error occurred during processing: {e}"
 
     return render_template('algorithms_pages/pca_page.html',
                            algorithm_name="PCA",
@@ -146,3 +144,27 @@ def kpca_page():
 def handle_file_too_large(e):
     flash(f"File is too large. The maximum allowed size is {current_app.config['MAX_CONTENT_LENGTH'] / 1024 / 1024:.0f} MB.")
     return redirect(url_for('main.index_page'))
+
+# ========== FILE SERVING ROUTE ==========
+
+@bp.route('/results/<path:filename>')
+def serve_result_file(filename):
+    """
+    Serves a file from the configured RESULTS_FOLDER.
+    """
+    # Get the configured directory path
+    results_dir = current_app.config['RESULTS_FOLDER']
+    
+    # --- DEBUGGING PRINTS ---
+    print(f"\n--- DEBUG: Attempting to serve file ---")
+    print(f"Directory Path: {results_dir}")
+    print(f"Requested Filename: {filename}")
+    
+    # Check if the file actually exists at that path
+    file_path = os.path.join(results_dir, filename)
+    print(f"Full Path on Server: {file_path}")
+    print(f"Does the file exist? {os.path.exists(file_path)}")
+    # --- END DEBUGGING ---
+
+    # send_from_directory will raise a 404 if the file is not found
+    return send_from_directory(results_dir, filename)
