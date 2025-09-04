@@ -42,27 +42,25 @@
 
 - [ ] Salvar os valores dos campos no localStorage do navegador como sugestão.
 
-- [ ] Validação de formulário no frontend (mensagem de aviso padrão) e backend (mensagem de erro).
+- [X] Validação de formulário no frontend (mensagem de aviso padrão) e backend (mensagem de erro).
 
 ### SEÇÃO DE PRÉ-PROCESSAMENTO E PARÂMETROS
 
-- [ ] Campo para selecionar a porcentagem que será usada no algoritmo (amostragem). `parâmetro do algoritmo`
+- [X] Campo para selecionar a porcentagem que será usada no algoritmo (amostragem). `parâmetro do algoritmo`
 
-- [ ] Campo para selecionar a coluna target. Deve ter uma validação para caso essa coluna ter valores não numéricos.  `parâmetro do algoritmo`
+- [X] Campo para selecionar a coluna target. Deve ter uma validação para caso essa coluna ter valores não numéricos.  `parâmetro do algoritmo`
 
-- [ ] Campo para selecionar dimensão do gráfico. `parâmetro do algoritmo`
+- [X] Campo para selecionar dimensão do gráfico. `parâmetro do algoritmo`
 
-- [ ] Campo para selecionar tipo do gráfico (.png ou .html). `parâmetro do gráfico`
+- [X] Campo para selecionar tipo do gráfico (.png ou .html). `parâmetro do gráfico`
 
-- [ ] Campo para selecionar um scaler (Nenhum, StandardScaler ou MinMaxScaler). `parâmetro do algoritmo`
+- [X] Campo para selecionar um scaler (Nenhum, StandardScaler ou MinMaxScaler). `parâmetro do algoritmo`
 
-- [ ] Campo para inserir título do gráfico. `parâmetro do gráfico`
-
-- [ ] Campo para inserir tamanho da fonte. `parâmetro do gráfico`
+- [X] Campo para inserir título do gráfico. `parâmetro do gráfico`
 
 - [ ] Campo para inserir dimensões do gráfico. `parâmetro do gráfico`
 
-- [ ] Botão para rodar o algoritmo com os parâmetros e carregar gráfico resultante. 
+- [X] Botão para rodar o algoritmo com os parâmetros e carregar gráfico resultante. 
 
 ### SEÇÃO DO GRÁFICO E RESULTADOS
 

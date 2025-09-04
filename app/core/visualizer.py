@@ -23,11 +23,36 @@ class Visualizer:
 
         # Create the Plotly figure
         if self.params['dimension'] == 2:
-            fig = px.scatter(df_plot, x=axis_labels[0], y=axis_labels[1], 
-                             color=self.params['target_column'], title=self.params['plot_title'])
+            fig = px.scatter(df_plot, 
+                             x=axis_labels[0], 
+                             y=axis_labels[1], 
+                             color=self.params['target_column'], 
+                             title=self.params['plot_title'],) 
         else: # 3D
-            fig = px.scatter_3d(df_plot, x=axis_labels[0], y=axis_labels[1], z=axis_labels[2],
-                                color=self.params['target_column'], title=self.params['plot_title'])
+            fig = px.scatter_3d(df_plot, 
+                                x=axis_labels[0], 
+                                y=axis_labels[1], 
+                                z=axis_labels[2],
+                                color=self.params['target_column'], 
+                                title=self.params['plot_title'],) 
+            
+        x_min = self.params.get('x_min')
+        x_max = self.params.get('x_max')
+        y_min = self.params.get('y_min')
+        y_max = self.params.get('y_max')
+
+        if x_min is not None and x_max is not None:
+            if self.params['dimension'] == 3:
+                fig.update_layout(scene_xaxis_range=[x_min, x_max])
+            else:
+                fig.update_layout(xaxis_range=[x_min, x_max])
+
+        if y_min is not None and y_max is not None:
+            if self.params['dimension'] == 3:
+                fig.update_layout(scene_yaxis_range=[y_min, y_max])
+            else:
+                fig.update_layout(yaxis_range=[y_min, y_max])
+
         return fig
 
     def save_plot(self):

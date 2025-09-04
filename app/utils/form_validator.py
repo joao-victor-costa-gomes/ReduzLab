@@ -46,6 +46,18 @@ def _validate_plot_options(form):
     
     if plot_params['plot_type'] not in ['png', 'html']:
         return None, "Invalid plot type selected."
+    
+    axis_params = ['x_min', 'x_max', 'y_min', 'y_max']
+    for param_name in axis_params:
+        param_value = form.get(param_name)
+        if param_value: # Only validate if the user provided a value
+            try:
+                # Convert to float to allow decimal values
+                plot_params[param_name] = float(param_value)
+            except ValueError:
+                return None, f"Axis range value for '{param_name}' must be a valid number."
+        else:
+            plot_params[param_name] = None # Set to None if empty
         
     return plot_params, None
 
