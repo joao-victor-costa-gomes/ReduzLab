@@ -6,7 +6,7 @@
 
 - [ ] A aplicação só será estilizada quando todas as funcionalidades principais estiverem prontas.
 
-- [ ] Usar um sistema de template inheritance para compartilhar a estrutura HTML (header, footer, etc.) entre as páginas.
+- [X] Usar um sistema de template inheritance para compartilhar a estrutura HTML (header, footer, etc.) entre as páginas.
 
 - [X] A aplicação deve ter um .env para configurações.
 
@@ -40,7 +40,7 @@
 
 - [X] Bloquear acesso se nenhum dataset foi enviado (gerenciamento de sessão).
 
-- [ ] Salvar os valores dos campos no localStorage do navegador como sugestão.
+- [X] Salvar os valores dos campos no localStorage do navegador como sugestão.
 
 - [X] Validação de formulário no frontend (mensagem de aviso padrão) e backend (mensagem de erro).
 

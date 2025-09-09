@@ -1,0 +1,30 @@
+{% if plot_url %}
+<hr>
+<section class="results">
+    <h2>Results</h2>
+
+    {% if metrics %}
+        <h4>Metrics:</h4>
+        <ul>
+            {% for key, value in metrics.items() %}
+                <li><strong>{{ key }}:</strong> {{ value }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h4>Plot:</h4>
+    {% if 'html' in plot_url %}
+        <iframe src="{{ plot_url }}" width="100%" height="600px" style="border: none;"></iframe>
+    {% else %}
+        <img src="{{ plot_url }}" alt="{{ algorithm_name }} Plot" style="max-width: 100%; height: auto;">
+    {% endif %}
+    
+    <br>
+    <a href="{{ plot_url }}" download>Download Plot</a>
+
+    {% if csv_url %}
+        <br>
+        <a href="{{ csv_url }}" download>Download Reduced Data (CSV)</a>
+    {% endif %}
+</section>
+{% endif %}
