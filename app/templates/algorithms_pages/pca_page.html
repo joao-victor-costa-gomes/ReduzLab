@@ -10,7 +10,7 @@
         <!-- all base parameters forms -->
         {{ base_parameters_form(column_options, form_data) }}
 
-        <button type="submit">Run PCA</button>
+        <button type="submit" id="run-button">Run PCA</button>
 
         <!-- parameters errors -->
         {% if param_error %}
@@ -23,5 +23,13 @@
     {% include '_results_section.html' %}
 
 </section>
+
+{% if scroll_to_results %}
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        scrollToElement('results-anchor');
+    });
+</script>
+{% endif %}
 
 {% endblock %}

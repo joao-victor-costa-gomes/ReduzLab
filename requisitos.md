@@ -80,9 +80,9 @@
 
 ## OUTROS 
 
-- [ ] **Header** para navegação entre algoritmos de redução de dimensionalidade. Caso o usuário já tenha enviado um dataset e esteja na página de algum algoritmo, se ele navegar para outra página de algoritmo as informações do dataset enviado serão carregados novamente nessa página nova. `compoenete reutilizável`
+- [ ] **Header** para navegação entre algoritmos de redução de dimensionalidade. Caso o usuário já tenha enviado um dataset e esteja na página de algum algoritmo, se ele navegar para outra página de algoritmo as informações do dataset enviado serão carregados novamente nessa página nova. `componente reutilizável`
 
-- [ ] **Footer** com informações sobre o projeto e sobre o autor. `compoenete reutilizável`
+- [ ] **Footer** com informações sobre o projeto e sobre o autor. `componente reutilizável`
 
 - [ ] **Página "Sobre" ou "Ajuda"** explicando o que é redução de dimensionalidade e uma breve descrição de cada algoritmo implementado. 
 

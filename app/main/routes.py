@@ -77,7 +77,7 @@ def pca_page(df, table_html, validation_results):
     plot_url = None # graph plot
     metrics = None # algorithm processing metrics
     csv_url = None # for reduced data download link
-
+    scroll_to_results = False # Initialize our new flag
 
     # Handle the form submission
     if request.method == 'POST':
@@ -107,6 +107,7 @@ def pca_page(df, table_html, validation_results):
                     'Execution Time (s)': f"{results['execution_time']:.4f}",
                     'Explained Variance (%)': f"{results['explained_variance']:.2f}"
                 }
+                scroll_to_results = True
             except Exception as e:
                 param_error = f"An error occurred during processing: {e}"
 
@@ -121,6 +122,7 @@ def pca_page(df, table_html, validation_results):
                            plot_url=plot_url,
                            metrics=metrics,
                            csv_url=csv_url,
+                           scroll_to_results=scroll_to_results,
                            form_data=request.form)
 
 
