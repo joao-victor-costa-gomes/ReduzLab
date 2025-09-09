@@ -120,7 +120,8 @@ def pca_page(df, table_html, validation_results):
                            param_success=param_success,
                            plot_url=plot_url,
                            metrics=metrics,
-                           csv_url=csv_url)
+                           csv_url=csv_url,
+                           form_data=request.form)
 
 
 @bp.route('/tsne')
