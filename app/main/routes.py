@@ -74,8 +74,10 @@ def pca_page(df, table_html, validation_results):
     column_options = df.columns.tolist()
     param_error = None
     param_success = None
-    plot_url = None
-    metrics = None
+    plot_url = None # graph plot
+    metrics = None # algorithm processing metrics
+    csv_url = None # for reduced data download link
+
 
     # Handle the form submission
     if request.method == 'POST':
@@ -97,8 +99,10 @@ def pca_page(df, table_html, validation_results):
                     params=params
                 )
                 plot_filename = visualizer.save_plot()
+                csv_filename = visualizer.save_reduced_data()
                 # Prepare results for the template
                 plot_url = url_for('main.serve_result_file', filename=plot_filename)
+                csv_url = url_for('main.serve_result_file', filename=csv_filename)
                 metrics = {
                     'Execution Time (s)': f"{results['execution_time']:.4f}",
                     'Explained Variance (%)': f"{results['explained_variance']:.2f}"
@@ -115,7 +119,8 @@ def pca_page(df, table_html, validation_results):
                            param_error=param_error,
                            param_success=param_success,
                            plot_url=plot_url,
-                           metrics=metrics)
+                           metrics=metrics,
+                           csv_url=csv_url)
 
 
 @bp.route('/tsne')

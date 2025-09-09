@@ -58,23 +58,23 @@
 
 - [X] Campo para inserir título do gráfico. `parâmetro do gráfico`
 
-- [ ] Campo para inserir dimensões do gráfico. `parâmetro do gráfico`
+- [X] Campo para inserir dimensões do gráfico. `parâmetro do gráfico`
 
 - [X] Botão para rodar o algoritmo com os parâmetros e carregar gráfico resultante. 
 
 ### SEÇÃO DO GRÁFICO E RESULTADOS
 
-- [ ] Exibir o gráfico gerado abaixo da seção de parâmetros.
+- [X] Exibir o gráfico gerado abaixo da seção de parâmetros.
 
-- [ ] Lidar com erros de processamento/geração do gráfico.
+- [X] Lidar com erros de processamento/geração do gráfico.
 
-- [ ] Exibir tempo de execução.
+- [X] Exibir tempo de execução.
 
-- [ ] Exibir métricas específicas de cada algoritmo se houver (PCA tem variância explicada acumulada, t-SNE tem KL divergence, etc.).
+- [X] Exibir métricas específicas de cada algoritmo se houver (PCA tem variância explicada acumulada, t-SNE tem KL divergence, etc.).
 
-- [ ] Botão de download do gráfico.
+- [X] Botão de download do gráfico.
 
-- [ ] Botão para baixar o .csv com os dados reduzidos.
+- [X] Botão para baixar o .csv com os dados reduzidos.
 
 ---
 

@@ -72,3 +72,29 @@ class Visualizer:
             fig.write_image(full_path)
             
         return filename
+    
+    def save_reduced_data(self):
+        """
+        Saves the reduced data and target column to a CSV file.
+        Returns the filename.
+        """
+        # Get the column labels for the reduced data (e.g., ['PCA1', 'PCA2'])
+        axis_labels = self._get_axis_labels()
+        
+        # Create a DataFrame from the numpy array of reduced data
+        df_reduced = pd.DataFrame(self.reduced_data, columns=axis_labels)
+
+        # Combine the reduced data with the target column
+        # .reset_index(drop=True) is important to ensure correct alignment
+        df_final = pd.concat([df_reduced, self.target_series.reset_index(drop=True)], axis=1)
+
+        # Generate a unique filename for the CSV
+        results_folder = current_app.config['RESULTS_FOLDER']
+        unique_id = uuid.uuid4().hex
+        filename = f"ReducedData_{self.algorithm_name}_{unique_id}.csv"
+        full_path = os.path.join(results_folder, filename)
+
+        # Save to CSV
+        df_final.to_csv(full_path, index=False)
+
+        return filename

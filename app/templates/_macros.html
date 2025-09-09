@@ -1,0 +1,71 @@
+{% macro base_parameters_form(column_options) %}
+    {# This macro generates the entire form section for base parameters #}
+    
+    <h4>Algorithm Parameters</h4>
+
+    <div>
+        <label for="sample_rate">Sample Rate (%):</label>
+        <input type="number" id="sample_rate" name="sample_rate" min="1" max="100" value="100" required>
+    </div>
+    <br>
+    <div>
+        <label for="target_column">Target Column:</label>
+        <select id="target_column" name="target_column" required>
+            <option value="" disabled selected>Select a column</option>
+            {% for column in column_options %}
+                <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <br>
+    <div>
+        <label for="dimension">Output Dimension:</label>
+        <select id="dimension" name="dimension" required>
+            <option value="2" selected>2D</option>
+            <option value="3">3D</option>
+        </select>
+    </div>
+    <br>
+    <div>
+        <label for="scaler">Scaler:</label>
+        <select id="scaler" name="scaler" required>
+            <option value="none" selected>None</option>
+            <option value="standard">StandardScaler</option>
+            <option value="minmax">MinMaxScaler</option>
+        </select>
+    </div>
+    
+    <hr>
+
+    <h4>Graph Parameters</h4>
+
+    <div>
+        <label for="plot_type">Graph File Type:</label>
+        <select id="plot_type" name="plot_type" required>
+            <option value="png" selected>PNG (static image)</option>
+            <option value="html">HTML (interactive plot)</option>
+        </select>
+    </div>
+    <br>
+    <div>
+        <label for="plot_title">Graph Title:</label>
+        <input type="text" id="plot_title" name="plot_title" placeholder="e.g., PCA of Iris Dataset">
+    </div>
+    <br>
+    <div style="margin-top: 10px;">
+        <h4>Axis Range Control (optional)</h4>
+        <div>
+            <label for="x_min">X-Axis Range:</label>
+            <input type="number" step="any" id="x_min" name="x_min" placeholder="Min">
+            to
+            <input type="number" step="any" id="x_max" name="x_max" placeholder="Max">
+        </div>
+        <div style="margin-top: 5px;">
+            <label for="y_min">Y-Axis Range:</label>
+            <input type="number" step="any" id="y_min" name="y_min" placeholder="Min">
+            to
+            <input type="number" step="any" id="y_max" name="y_max" placeholder="Max">
+        </div>
+        <small style="display: block; color: #666;">(Leave blank for auto-ranging)</small>
+    </div>
+{% endmacro %}
