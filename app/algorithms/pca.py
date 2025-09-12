@@ -10,15 +10,29 @@ class PCA(ReducerBase):
         try:
             start_time = time.time()
 
-            # The dimension is taken from the validated params
-            pca_instance = SklearnPCA(n_components=self.params['dimension'])
+            # APPLY ADVANCED PARAMETERS
+            n_components = self.params['dimension']
+            whiten = self.params.get('whiten', False)
+            svd_solver = self.params.get('svd_solver', 'auto')
+            random_state = self.params.get('random_state')
+
+            # Pass all the parameters to the scikit-learn PCA object
+            pca_instance = SklearnPCA(
+                n_components=n_components,
+                whiten=whiten,
+                svd_solver=svd_solver,
+                random_state=random_state
+            )
             
             # Run the algorithm
             reduced_data = pca_instance.fit_transform(X)
             
             # --- Store results and metrics ---
             self.results['execution_time'] = time.time() - start_time
-            self.results['explained_variance'] = pca_instance.explained_variance_ratio_.sum() * 100
+            if isinstance(n_components, int) and n_components <= X.shape[1]:
+                 self.results['explained_variance'] = pca_instance.explained_variance_ratio_.sum() * 100
+            else:
+                 self.results['explained_variance'] = 'N/A for selected n_components'
             self.results['reduced_data'] = reduced_data
             
             return self.results, None # Return results, no error

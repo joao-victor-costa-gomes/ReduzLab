@@ -8,7 +8,7 @@ def _validate_sample_rate(form):
         sample_rate = float(form.get('sample_rate'))
         if not 1 <= sample_rate <= 100:
             return None, "Sample Rate must be between 1 and 100."
-        return sample_rate / 100.0, None # Convert to fraction for backend use
+        return sample_rate / 100.0, None 
     except (ValueError, TypeError):
         return None, "Sample Rate must be a valid number."
 
@@ -42,23 +42,22 @@ def _validate_plot_options(form):
     """Validates the plot-related parameters."""
     plot_params = {}
     plot_params['plot_type'] = form.get('plot_type', 'png')
-    plot_params['plot_title'] = form.get('plot_title', '') # Title is optional
+    plot_params['plot_title'] = form.get('plot_title', '') 
     
     if plot_params['plot_type'] not in ['png', 'html']:
         return None, "Invalid plot type selected."
-    
+
     axis_params = ['x_min', 'x_max', 'y_min', 'y_max']
     for param_name in axis_params:
         param_value = form.get(param_name)
-        if param_value: # Only validate if the user provided a value
+        if param_value:
             try:
-                # Convert to float to allow decimal values
                 plot_params[param_name] = float(param_value)
             except ValueError:
                 return None, f"Axis range value for '{param_name}' must be a valid number."
         else:
-            plot_params[param_name] = None # Set to None if empty
-        
+            plot_params[param_name] = None
+            
     return plot_params, None
 
 # ========== GENERAL VALIDATOR ==========

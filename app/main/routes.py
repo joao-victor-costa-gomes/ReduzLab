@@ -9,11 +9,13 @@ from app.utils.file_handler import allowed_file, save_uploaded_file
 from app.utils.data_preview import generate_preview
 from app.utils.data_validator import validate_dataframe
 from app.utils.decorators import require_dataset
-from app.utils.form_validator import validate_base_parameters
 from app.core.data_processor import process_data_for_reduction
 from app.core.visualizer import Visualizer
 # REDUCTION ALGORITHMS
 from app.algorithms.pca import PCA
+# VALIDATION
+from app.utils.algorith_parameters_validation.pca_parameter_validation import validate_pca_parameters
+from app.utils.algorithm_debug_functions.pca_debug import print_pca_parameters
 
 # ========== HOME PAGE ==========
 @bp.route('/', methods=['GET', 'POST'])
@@ -81,9 +83,12 @@ def pca_page(df, table_html, validation_results):
 
     # Handle the form submission
     if request.method == 'POST':
-        params, param_error = validate_base_parameters(request.form, df)
+        params, param_error = validate_pca_parameters(request.form, df)
 
         if not param_error:
+            # This check ensures the print only happens in development mode
+            if current_app.config.get('DEBUG'):
+                print_pca_parameters(params)
             try:
                 # Applying PCA algorithm
                 X, y = process_data_for_reduction(df, params)
