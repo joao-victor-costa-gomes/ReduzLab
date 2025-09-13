@@ -8,7 +8,7 @@ from app.core.data_processor import process_data_for_reduction
 from app.core.visualizer import Visualizer
 # ALGORITHM & VALIDATION
 from app.algorithms.tsne import TSNE
-from app.utils.form_validator import validate_base_parameters
+from app.utils.algorith_parameters_validation.tsne_parameter_validation import validate_tsne_parameters
 from app.utils.algorithm_debug_functions.tsne_debug import print_tsne_parameters
 
 @bp.route('/tsne', methods=['GET', 'POST'])
@@ -22,7 +22,7 @@ def tsne_page(df, table_html, validation_results):
     scroll_to_results = False
 
     if request.method == 'POST':
-        params, param_error = validate_base_parameters(request.form, df)
+        params, param_error = validate_tsne_parameters(request.form, df)
 
         if not param_error:
             if current_app.config.get('DEBUG'):
