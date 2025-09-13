@@ -57,10 +57,6 @@ def index_page():
                            table_html=table_html,
                            validation_results=validation_results)
 
-@bp.route('/tsne')
-def tsne_page():
-    return "T-SNE Algorithm Page - Work in Progress"
-
 @bp.route('/nca')
 def nca_page():
     return "NCA Algorithm Page - Work in Progress"
