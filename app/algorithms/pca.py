@@ -10,18 +10,12 @@ class PCA(ReducerBase):
         try:
             start_time = time.time()
 
-            # APPLY ADVANCED PARAMETERS
+            # Parameters
             n_components = self.params['dimension']
-            whiten = self.params.get('whiten', False)
-            svd_solver = self.params.get('svd_solver', 'auto')
-            random_state = self.params.get('random_state')
 
             # Pass all the parameters to the scikit-learn PCA object
             pca_instance = SklearnPCA(
                 n_components=n_components,
-                whiten=whiten,
-                svd_solver=svd_solver,
-                random_state=random_state
             )
             
             # Run the algorithm

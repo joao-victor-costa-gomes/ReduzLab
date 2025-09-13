@@ -10,8 +10,10 @@ class TSNE(ReducerBase):
         try:
             start_time = time.time()
 
+            # Parameters
             n_components = self.params['dimension']
 
+            # Pass all the parameters to the scikit-learn T-SNE object
             tsne_instance = SklearnTSNE(
                 n_components=n_components,
             )
