@@ -65,10 +65,6 @@ def nca_page():
 def lle_page():
     return "LLE Algorithm Page - Work in Progress"
 
-@bp.route('/lda')
-def lda_page():
-    return "LDA Algorithm Page - Work in Progress"
-
 @bp.route('/kpca')
 def kpca_page():
     return "KPCA Algorithm Page - Work in Progress"

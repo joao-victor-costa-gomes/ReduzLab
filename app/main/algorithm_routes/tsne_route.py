@@ -15,13 +15,17 @@ from app.utils.algorithm_debug_functions.tsne_debug import print_tsne_parameters
 @bp.route('/tsne', methods=['GET', 'POST'])
 @require_dataset
 def tsne_page(df, table_html, validation_results):
+    # Get column names from the DataFrame to populate the dropdowns
     column_options = df.columns.tolist()
-    param_error = None
+    # Post-processing data
     plot_url = None
     metrics = None
     csv_url = None
+    # Other variables
+    param_error = None
     scroll_to_results = False
 
+    # Handle the form submission
     if request.method == 'POST':
         params, param_error = validate_base_parameters(request.form, df)
 
@@ -30,13 +34,14 @@ def tsne_page(df, table_html, validation_results):
                 print_tsne_parameters(params)
 
             try:
-                X, y = process_data_for_reduction(df, params)
-                
+                # Applying TSNE algorithm
+                X, y = process_data_for_reduction(df, params)  
                 tsne_reducer = TSNE(params)
                 results, error = tsne_reducer.fit_transform(X)
                 if error:
                     raise Exception(error)
                 
+                # Generate and Save Visualization
                 visualizer = Visualizer(
                     algorithm_name="T-SNE", 
                     reduced_data=results['reduced_data'],
@@ -46,6 +51,7 @@ def tsne_page(df, table_html, validation_results):
                 plot_filename = visualizer.save_plot()
                 csv_filename = visualizer.save_reduced_data()
                 
+                # Prepare results for the template
                 plot_url = url_for('main.serve_result_file', filename=plot_filename)
                 csv_url = url_for('main.serve_result_file', filename=csv_filename)
                 metrics = {

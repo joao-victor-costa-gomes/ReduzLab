@@ -10,7 +10,6 @@ class PCA(ReducerBase):
         try:
             start_time = time.time()
 
-            # Parameters
             n_components = self.params['dimension']
 
             # Pass all the parameters to the scikit-learn PCA object
