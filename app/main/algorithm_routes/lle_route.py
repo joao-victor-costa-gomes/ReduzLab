@@ -7,14 +7,13 @@ from app.utils.decorators import require_dataset
 from app.core.data_processor import process_data_for_reduction
 from app.core.visualizer import Visualizer
 # ALGORITHM & VALIDATION
-from app.algorithms.tsne import TSNE
-# from app.utils.algorith_parameters_validation.tsne_parameter_validation import validate_tsne_parameters
+from app.algorithms.lle import LLE
 from app.utils.form_validator import validate_base_parameters
-from app.utils.algorithm_debug_functions.tsne_debug import print_tsne_parameters
+from app.utils.algorithm_debug_functions.lle_debug import print_lle_parameters
 
-@bp.route('/tsne', methods=['GET', 'POST'])
+@bp.route('/lle', methods=['GET', 'POST'])
 @require_dataset
-def tsne_page(df, table_html, validation_results):
+def lle_page(df, table_html, validation_results):
     # Get column names from the DataFrame to populate the dropdowns
     column_options = df.columns.tolist()
     # Post-processing data
@@ -31,19 +30,19 @@ def tsne_page(df, table_html, validation_results):
 
         if not param_error:
             if current_app.config.get('DEBUG'):
-                print_tsne_parameters(params)
+                print_lle_parameters(params)
 
+            # Applying TSNE algorithm
             try:
-                # Applying TSNE algorithm
-                X, y = process_data_for_reduction(df, params)  
-                tsne_reducer = TSNE(params)
-                results, error = tsne_reducer.fit_transform(X)
+                X, y = process_data_for_reduction(df, params)
+                lle_reducer = LLE(params)
+                results, error = lle_reducer.fit_transform(X)
                 if error:
                     raise Exception(error)
                 
                 # Generate and Save Visualization
                 visualizer = Visualizer(
-                    algorithm_name="T-SNE", 
+                    algorithm_name="LLE", 
                     reduced_data=results['reduced_data'],
                     target_series=y,
                     params=params
@@ -61,8 +60,8 @@ def tsne_page(df, table_html, validation_results):
             except Exception as e:
                 param_error = f"An error occurred during processing: {e}"
 
-    return render_template('algorithms_pages/tsne_page.html',
-                           algorithm_name="T-SNE",
+    return render_template('algorithms_pages/lle_page.html',
+                           algorithm_name="LLE",
                            table_html=table_html,
                            validation_results=validation_results,
                            column_options=column_options,

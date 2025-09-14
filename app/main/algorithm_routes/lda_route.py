@@ -1,5 +1,5 @@
 # LIBRARIES
-from flask import render_template, request, current_app, url_for, session
+from flask import render_template, request, current_app, url_for
 # BLUEPRINT
 from app.main import bp
 # LOCAL FUNCTIONS
@@ -28,8 +28,8 @@ def lda_page(df, table_html, validation_results):
     if request.method == 'POST':
         params, param_error = validate_base_parameters(request.form, df)
 
+        # Specific validation for LDA: Target column should not be continuous
         if not param_error:
-            # Specific validation for LDA: Target column should not be continuous
             target_col = params['target_column']
             if df[target_col].nunique() > 20: # Heuristic: more than 20 unique values might be continuous
                 param_error = f"LDA is a supervised algorithm for classification. The target column '{target_col}' has too many unique values and seems to be continuous. Please choose a categorical target."
@@ -65,7 +65,7 @@ def lda_page(df, table_html, validation_results):
             except Exception as e:
                 param_error = f"An error occurred during processing: {e}"
 
-    return render_template('algorithms_pages/lda_page.html', # We will create this next
+    return render_template('algorithms_pages/lda_page.html', 
                            algorithm_name="LDA",
                            table_html=table_html,
                            validation_results=validation_results,

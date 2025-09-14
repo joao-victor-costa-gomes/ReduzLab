@@ -1,5 +1,5 @@
 # LIBRARIES
-from flask import render_template, request, current_app, url_for, session
+from flask import render_template, request, current_app, url_for
 # BLUEPRINT
 from app.main import bp
 # LOCAL FUNCTIONS
