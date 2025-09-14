@@ -57,10 +57,6 @@ def index_page():
                            table_html=table_html,
                            validation_results=validation_results)
 
-@bp.route('/kpca')
-def kpca_page():
-    return "KPCA Algorithm Page - Work in Progress"
-
 # ========== OTHER ERROR HANDLERS ==========
 
 @bp.app_errorhandler(RequestEntityTooLarge)

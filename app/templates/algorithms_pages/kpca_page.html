@@ -1,0 +1,31 @@
+{% extends "algorithm_page.html" %}
+
+{% from '_base_parameters.html' import base_parameters_form %}
+
+{% block algorithm_content %}
+<section>
+    <h2>Configure KPCA Parameters</h2>
+
+    <form method="POST" onsubmit="showLoadingSpinner()">
+        {{ base_parameters_form(column_options, form_data) }}
+        <hr>
+        <button type="submit" id="run-button">Run KPCA</button>
+
+        {% if param_error %}
+            <p style="color: red;">{{ param_error }}</p>
+        {% endif %}
+    </form>
+
+    <div id="loading-spinner" class="spinner hidden"></div>
+    {% include '_results_section.html' %}
+</section>
+
+{% if scroll_to_results %}
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        scrollToElement('results-anchor');
+    });
+</script>
+{% endif %}
+
+{% endblock %}
