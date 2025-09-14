@@ -132,6 +132,7 @@ Esses métodos assumem que seus dados de alta dimensão na verdade residem em um
     * **Ideal para:** Entender a estrutura global de um manifold não-linear.
 
 ---
+
 ### 3. Métodos Supervisionados (Usam a Coluna Target)
 
 Estes métodos são fundamentalmente diferentes dos outros, pois eles usam as informações da sua **coluna target (`y`)** para encontrar a melhor projeção.
