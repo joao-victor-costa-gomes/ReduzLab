@@ -38,8 +38,10 @@
             {% if upload_error %}
                 <div class="alert alert-danger mt-3" role="alert">
                     {{ upload_error }}
+
                 </div>
             {% endif %}
+            
             {% if upload_success %}
                 <div class="alert alert-success mt-3" role="alert">
                     {{ upload_success }}
@@ -50,73 +52,106 @@
 
     <!-- PREVIEW DATASET SECTION -->
     {% if table_html %}
-    <hr>
+    
+        <div class="card mb-4">
 
-    <section>
-        <h2>2. Data Preview</h2>
-
-        <!-- preview error -->
-        {% if preview_error %}
-            <p style="color: red;">{{ preview_error }}</p>
-        {% endif %}
-        {% if preview_success %}
-            <p style="color: green;">{{ preview_success }}</p>
-        {% endif %}
-        
-        <!-- column data type alert -->
-        {% if validation_results and (validation_results.non_numeric_cols or validation_results.null_info) %}
-            <div class="validation-report" style="border: 1px solid orange; padding: 10px; margin-top: 15px;">
-                <h4>⚠️ Validation Report:</h4>
-                <p>Please review the following issues before proceeding. Algorithms may fail with non-numeric or missing data.</p>
-                
-                {% if validation_results.non_numeric_cols %}
-                    <p><strong>Non-Numeric Columns Found:</strong></p>
-                    <ul>
-                        {% for col in validation_results.non_numeric_cols %}
-                            <li>{{ col }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-
-                {% if validation_results.null_info %}
-                    <p><strong>Columns with Missing Values:</strong></p>
-                    <ul>
-                        {% for col, count in validation_results.null_info.items() %}
-                            <li>{{ col }} ({{ count }} missing)</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+            <div class="card-header">
+                <h2>2. Data Preview & Validation</h2>
             </div>
-        {% endif %}
-        
-        <!-- preview data -->
-        {{ table_html | safe }}
 
-    </section>
+            <div class="card-body">
+                
+                {% if preview_error %}
+                    <div class="alert alert-danger" role="alert">{{ preview_error }}</div>
+                {% endif %}
 
-    <hr>
+                {% if preview_success %}
+                    <div class="alert alert-success" role="alert">{{ preview_success }}</div>
+                {% endif %}
+                
+                <!-- column data type alert --> 
+                {% if validation_results and (validation_results.non_numeric_cols or validation_results.null_info) %}
+                    <div class="alert alert-warning" role="alert">
+                        <h4 class="alert-heading">⚠️ Validation Report</h4>
+                        <p>Please review the following issues before proceeding. Algorithms may fail with non-numeric or missing data.</p>
+                        <hr>
+                        {% if validation_results.non_numeric_cols %}
+                            <p class="mb-1"><strong>Non-Numeric Columns Found:</strong></p>
+                            <ul>
+                                {% for col in validation_results.non_numeric_cols %}
+                                    <li>{{ col }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if validation_results.null_info %}
+                            <p class="mb-1"><strong>Columns with Missing Values:</strong></p>
+                            <ul>
+                                {% for col, count in validation_results.null_info.items() %}
+                                    <li>{{ col }} ({{ count }} missing)</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                
+                <!-- preview data --> 
+                <div class="table-responsive">
+                    {{ table_html | safe }}
+                </div>
 
-    <!-- ALGORITHM SELECTION SECTION -->
-    <section>
-        <h2>3. Select a Reduction Algorithm</h2>
-        <div class="algorithm-buttons">
-            <ul>
-                <li><a href="{{ url_for('main.pca_page') }}">PCA</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html" target="_blank">(?)</a></li>
-
-                <li><a href="{{ url_for('main.tsne_page') }}">T-SNE</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html" target="_blank">(?)</a></li>
-
-                <li><a href="{{ url_for('main.nca_page') }}">NCA</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NeighborhoodComponentsAnalysis.html" target="_blank">(?)</a></li>
-
-                <li><a href="{{ url_for('main.lle_page') }}">LLE</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.LocallyLinearEmbedding.html" target="_blank">(?)</a></li>
-
-                <li><a href="{{ url_for('main.lda_page') }}">LDA</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html" target="_blank">(?)</a></li>
-
-                <li><a href="{{ url_for('main.kpca_page') }}">KPCA</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html" target="_blank">(?)</a></li>
-
-                <li><a href="{{ url_for('main.isomap_page') }}">Isomap</a> <a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html" target="_blank">(?)</a></li>
-            </ul>
+            </div>
         </div>
-    </section>
+
+        <div class="card mb-4">
+
+            <div class="card-header">
+                <h2>3. Select a Reduction Algorithm</h2>
+            </div>
+
+            <div class="card-body">
+
+                <div class="algorithm-buttons">
+                    <p class="card-text">Choose an algorithm below to proceed with the dimensionality reduction.</p>
+                    
+                    <div class="btn-group me-2 mb-2 border border-success rounded" role="group">
+                        <a href="{{ url_for('main.pca_page') }}" class="btn btn-success">PCA</a>
+                        <a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html" class="btn btn-light" target="_blank">?</a>
+                    </div>
+
+                    <div class="btn-group me-2 mb-2 border border-success rounded" role="group">
+                        <a href="{{ url_for('main.tsne_page') }}" class="btn btn-success">T-SNE</a>
+                        <a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html" class="btn btn-light" target="_blank">?</a>
+                    </div>
+                    
+                    <div class="btn-group me-2 mb-2 border border-success rounded" role="group">
+                        <a href="{{ url_for('main.nca_page') }}" class="btn btn-success">NCA</a>
+                        <a href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NeighborhoodComponentsAnalysis.html" class="btn btn-light" target="_blank">?</a>
+                    </div>
+
+                    <div class="btn-group me-2 mb-2 border border-success rounded" role="group">
+                        <a href="{{ url_for('main.lle_page') }}" class="btn btn-success">LLE</a>
+                        <a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.LocallyLinearEmbedding.html" class="btn btn-light" target="_blank">?</a>
+                    </div>
+
+                    <div class="btn-group me-2 mb-2 border border-success rounded" role="group">
+                        <a href="{{ url_for('main.lda_page') }}" class="btn btn-success">LDA</a>
+                        <a href="https://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html" class="btn btn-light" target="_blank">?</a>
+                    </div>
+
+                    <div class="btn-group me-2 mb-2 border border-success rounded" role="group">
+                        <a href="{{ url_for('main.kpca_page') }}" class="btn btn-success">KPCA</a>
+                        <a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.KernelPCA.html" class="btn btn-light" target="_blank">?</a>
+                    </div>
+
+                    <div class="btn-group me-2 mb-2 border border-success rounded" role="group">
+                        <a href="{{ url_for('main.isomap_page') }}" class="btn btn-success">Isomap</a>
+                        <a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.Isomap.html" class="btn btn-light" target="_blank">?</a>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
 
     {% endif %}
 
