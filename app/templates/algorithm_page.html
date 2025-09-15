@@ -1,54 +1,65 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{ algorithm_name }} Algorithm</h1>
+    <h1 class="mb-4">{{ algorithm_name }} Algorithm</h1>
 
-    <hr>
-
-    {% if table_html %}
-    <section>
-        <h2>Data Preview & Validation Report</h2>
-
-        <!-- preview error -->
-        {% if preview_error %}<p style="color: red;">{{ preview_error }}</p>{% endif %}
-        {% if preview_success %}<p style="color: green;">{{ preview_success }}</p>{% endif %}
-
-        <!-- column data type alert -->
-        {% if validation_results and (validation_results.non_numeric_cols or validation_results.null_info) %}
-            <div class="validation-report" style="border: 1px solid orange; padding: 10px; margin-top: 15px;">
-                <h4>⚠️ Validation Report:</h4>
-                <p>Please review the issues below. Algorithms may fail with non-numeric or missing data.</p>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Data Preview & Validation Report</h2>
+        </div>
+        <div class="card-body">
+            {% if table_html %}
                 
-                {% if validation_results.non_numeric_cols %}
-                    <p><strong>Non-Numeric Columns Found:</strong></p>
-                    <ul>
-                        {% for col in validation_results.non_numeric_cols %}
-                            <li>{{ col }}</li>
-                        {% endfor %}
-                    </ul>
+                <!-- preview feedback -->
+                {% if preview_error %}
+                    <div class="alert alert-danger" role="alert">{{ preview_error }}</div>
+                {% endif %}
+                {% if preview_success %}
+                    <div class="alert alert-success" role="alert">{{ preview_success }}</div>
                 {% endif %}
 
-                {% if validation_results.null_info %}
-                    <p><strong>Columns with Missing Values:</strong></p>
-                    <ul>
-                        {% for col, count in validation_results.null_info.items() %}
-                            <li>{{ col }} ({{ count }} missing)</li>
-                        {% endfor %}
-                    </ul>
+                <!-- column data type alert --> 
+                {% if validation_results and (validation_results.non_numeric_cols or validation_results.null_info) %}
+                    <div class="alert alert-warning" role="alert">
+                        <h4 class="alert-heading">⚠️ Validation Report</h4>
+                        <p>Please review the following issues before proceeding. Algorithms may fail with non-numeric or missing data.</p>
+                        <hr>
+                        {% if validation_results.non_numeric_cols %}
+                            <p class="mb-1"><strong>Non-Numeric Columns Found:</strong></p>
+                            <ul>
+                                {% for col in validation_results.non_numeric_cols %}
+                                    <li>{{ col }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if validation_results.null_info %}
+                            <p class="mb-1"><strong>Columns with Missing Values:</strong></p>
+                            <ul>
+                                {% for col, count in validation_results.null_info.items() %}
+                                    <li>{{ col }} ({{ count }} missing)</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
                 {% endif %}
-            </div>
-        {% endif %}
+                
+                <!-- preview data --> 
+                <div class="table-responsive">
+                    {{ table_html | safe }}
+                </div>
+            
+            {% else %}
 
-        <!-- preview data -->
-        {{ table_html | safe }}
-    </section>
-    <hr>
-    {% else %}
-        <!-- preview load error -->
-        <p style="color: red;">Could not load data preview. Please <a href="{{ url_for('main.index_page') }}">upload a file</a> first.</p>
-    {% endif %}
+                <!-- preview load error --> 
+                <div class="alert alert-danger" role="alert">
+                    Could not load data preview. Please <a href="{{ url_for('main.index_page') }}" class="alert-link">upload a file</a> first.
+                </div>
 
-    <!-- algorithm page content -->
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- algorithm page content --> 
     {% block algorithm_content %}
     {% endblock %}
 
