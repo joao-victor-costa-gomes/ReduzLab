@@ -1,71 +1,77 @@
 {% macro base_parameters_form(column_options, form_data) %}
     
-    <h4>Algorithm Parameters</h4>
+    <div>
+        <h4>Algorithm Parameters</h4>
+    </div>
 
-    <div>
-        <label for="sample_rate">Sample Rate (%):</label>
-        {# Usamos form_data.get() para definir o valor. O '100' é o padrão na primeira visita #}
-        <input type="number" id="sample_rate" name="sample_rate" min="1" max="100" value="{{ form_data.get('sample_rate', '100') }}" required>
-    </div>
-    <br>
-    <div>
-        <label for="target_column">Target Column:</label>
-        <select id="target_column" name="target_column" required>
-            <option value="" disabled {% if not form_data.get('target_column') %}selected{% endif %}>Select a column</option>
-            {% for column in column_options %}
-                {# Adicionamos um 'if' para marcar a opção como 'selected' se ela corresponder ao valor enviado #}
-                <option value="{{ column }}" {% if form_data.get('target_column') == column %}selected{% endif %}>{{ column }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <br>
-    <div>
-        <label for="dimension">Output Dimension:</label>
-        <select id="dimension" name="dimension" required>
-            <option value="2" {% if form_data.get('dimension', '2') == '2' %}selected{% endif %}>2D</option>
-            <option value="3" {% if form_data.get('dimension') == '3' %}selected{% endif %}>3D</option>
-        </select>
-    </div>
-    <br>
-    <div>
-        <label for="scaler">Scaler:</label>
-        <select id="scaler" name="scaler" required>
-            <option value="none" {% if form_data.get('scaler', 'none') == 'none' %}selected{% endif %}>None</option>
-            <option value="standard" {% if form_data.get('scaler') == 'standard' %}selected{% endif %}>StandardScaler</option>
-            <option value="minmax" {% if form_data.get('scaler') == 'minmax' %}selected{% endif %}>MinMaxScaler</option>
-        </select>
+    <div class="row g-3 mb-3">
+        <div class="col-md-6">
+            <label for="sample_rate" class="form-label">Sample Rate (%):</label>
+            <input type="number" id="sample_rate" name="sample_rate" class="form-control" min="1" max="100" value="{{ form_data.get('sample_rate', '100') }}" required>
+        </div>
+        <div class="col-md-6">
+            <label for="target_column" class="form-label">Target Column:</label>
+            <select id="target_column" name="target_column" class="form-select" required>
+                <option value="" disabled {% if not form_data.get('target_column') %}selected{% endif %}>Select a column</option>
+                {% for column in column_options %}
+                    <option value="{{ column }}" {% if form_data.get('target_column') == column %}selected{% endif %}>{{ column }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="dimension" class="form-label">Output Dimension:</label>
+            <select id="dimension" name="dimension" class="form-select" required>
+                <option value="2" {% if form_data.get('dimension', '2') == '2' %}selected{% endif %}>2D</option>
+                <option value="3" {% if form_data.get('dimension') == '3' %}selected{% endif %}>3D</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="scaler" class="form-label">Scaler:</label>
+            <select id="scaler" name="scaler" class="form-select" required>
+                <option value="none" {% if form_data.get('scaler', 'none') == 'none' %}selected{% endif %}>None</option>
+                <option value="standard" {% if form_data.get('scaler') == 'standard' %}selected{% endif %}>StandardScaler</option>
+                <option value="minmax" {% if form_data.get('scaler') == 'minmax' %}selected{% endif %}>MinMaxScaler</option>
+            </select>
+        </div>
     </div>
     
     <hr>
 
     <h4>Graph Parameters</h4>
-    <div>
-        <label for="plot_type">Graph File Type:</label>
-        <select id="plot_type" name="plot_type" required>
-            <option value="png" {% if form_data.get('plot_type', 'png') == 'png' %}selected{% endif %}>PNG (static image)</option>
-            <option value="html" {% if form_data.get('plot_type') == 'html' %}selected{% endif %}>HTML (interactive plot)</option>
-        </select>
-    </div>
-    <br>
-    <div>
-        <label for="plot_title">Graph Title:</label>
-        <input type="text" id="plot_title" name="plot_title" value="{{ form_data.get('plot_title', '') }}" placeholder="e.g., PCA of Iris Dataset">
-    </div>
-    <br>
-    <div style="margin-top: 10px;">
-        <h4>Axis Range Control (optional)</h4>
-        <div>
-            <label for="x_min">X-Axis Range:</label>
-            <input type="number" step="any" id="x_min" name="x_min" value="{{ form_data.get('x_min', '') }}" placeholder="Min">
-            to
-            <input type="number" step="any" id="x_max" name="x_max" value="{{ form_data.get('x_max', '') }}" placeholder="Max">
+    <div class="row g-3 mb-3">
+        <div class="col-md-6">
+            <label for="plot_type" class="form-label">Graph File Type:</label>
+            <select id="plot_type" name="plot_type" class="form-select" required>
+                <option value="png" {% if form_data.get('plot_type', 'png') == 'png' %}selected{% endif %}>PNG (static image)</option>
+                <option value="html" {% if form_data.get('plot_type') == 'html' %}selected{% endif %}>HTML (interactive plot)</option>
+            </select>
         </div>
-        <div style="margin-top: 5px;">
-            <label for="y_min">Y-Axis Range:</label>
-            <input type="number" step="any" id="y_min" name="y_min" value="{{ form_data.get('y_min', '') }}" placeholder="Min">
-            to
-            <input type="number" step="any" id="y_max" name="y_max" value="{{ form_data.get('y_max', '') }}" placeholder="Max">
+        <div class="col-md-6">
+            <label for="plot_title" class="form-label">Graph Title (optional):</label>
+            <input type="text" id="plot_title" name="plot_title" class="form-control" value="{{ form_data.get('plot_title', '') }}" placeholder="e.g., PCA of Iris Dataset">
         </div>
-        <small style="display: block; color: #666;">(Leave blank for auto-ranging)</small>
+    </div>
+
+    <div class="row g-3 border rounded p-3">
+        <h5 class="col-12">Axis Range Control <small class="text-muted">(optional)</small></h5>
+        <div class="col-md-6">
+            <label for="x_min" class="form-label">X-Axis Range:</label>
+            <div class="input-group">
+                <input type="number" step="any" id="x_min" name="x_min" class="form-control" value="{{ form_data.get('x_min', '') }}" placeholder="Min">
+                <span class="input-group-text">to</span>
+                <input type="number" step="any" id="x_max" name="x_max" class="form-control" value="{{ form_data.get('x_max', '') }}" placeholder="Max">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="y_min" class="form-label">Y-Axis Range:</label>
+            <div class="input-group">
+                <input type="number" step="any" id="y_min" name="y_min" class="form-control" value="{{ form_data.get('y_min', '') }}" placeholder="Min">
+                <span class="input-group-text">to</span>
+                <input type="number" step="any" id="y_max" name="y_max" class="form-control" value="{{ form_data.get('y_max', '') }}" placeholder="Max">
+            </div>
+        </div>
+        <div class="col-12">
+            <small class="form-text text-muted">Leave blank for auto-ranging.</small>
+        </div>
     </div>
 {% endmacro %}
