@@ -4,26 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReduzLab - Dimensionality Reduction</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/loading_spinner.css') }}">
-</head>
-<body>
+    
+    <!-- Bootstrap css link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/loading_spinner.css') }}"> 
 
-    <header style="background-color: #058743; color: white; text-align: center; padding: 20px 0;">
-        <h1 style="margin: 0;"><a href="{{ url_for('main.index_page') }}" style="color: white; text-decoration: none;">ReduzLab</a></h1>
-        <p style="margin: 5px 0 0 0;">A Web Interface for Dimensionality Reduction Algorithms</p>
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+    <header class="text-white text-center py-4" style="background-color: #058743;">
+        <h1 class="mb-1"><a href="{{ url_for('main.index_page') }}" class="text-white text-decoration-none">ReduzLab</a></h1>
+        <p class="mb-0">A Web Interface for Dimensionality Reduction Algorithms</p>
     </header>
 
-    <main style="padding: 20px;">
+    <main class="container my-4 flex-grow-1">
         {% block content %}{% endblock %}
     </main>
 
-    <footer style="background-color: #004721; color: white; text-align: center; padding: 15px 0;">
-        <p style="margin: 0;">&copy; 2025 - ReduzLab Project</p>
+    <footer class="text-white text-center py-3" style="background-color: #004721;">
+        <div class="container">
+            <p class="mb-1">&copy; 2025 - ReduzLab Project</p>
+            
+            <p class="mb-1">
+                Developed by: 
+                <a href="https://github.com/joao-victor-costa-gomes" class="text-white fw-bold" target="_blank">João Victor</a>
+            </p>
+            
+            <p class="mb-0">
+                Check the original repository at this 
+                <a href="https://github.com/joao-victor-costa-gomes/ReduzLab" class="text-white fw-bold" target="_blank">link</a>
+            </p>
+        </div>
     </footer>
 
+    <!-- Bootstrap js link -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
     <script src="{{ url_for('static', filename='js/loading_spinner.js') }}"></script>
     <script src="{{ url_for('static', filename='js/scrolling_to_results.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/advanced_parameters.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/advanced_parameters.js') }}"></script> 
+    
 </body>
 </html>
