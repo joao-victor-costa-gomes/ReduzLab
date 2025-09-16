@@ -11,10 +11,14 @@ class LDA(ReducerBase):
         try:
             start_time = time.time()
 
-            n_components = self.params['dimension']
+            lda_params = {
+                'n_components': self.params.get('dimension'),
+                'solver': self.params.get('solver', 'svd'),
+                'shrinkage': self.params.get('shrinkage')
+            }
 
             # Pass all the parameters to the scikit-learn LDA object
-            lda_instance = SklearnLDA(n_components=n_components)
+            lda_instance = SklearnLDA(**lda_params)
             
             # Run the algorithm
             # Passing both X and the target 'y'

@@ -8,7 +8,7 @@ from app.core.data_processor import process_data_for_reduction
 from app.core.visualizer import Visualizer
 # ALGORITHM & VALIDATION
 from app.algorithms.lda import LDA
-from app.utils.form_validator import validate_base_parameters
+from app.utils.algorith_parameters_validation.lda_parameter_validation import validate_lda_parameters
 from app.utils.algorithm_debug_functions.lda_debug import print_lda_parameters
 
 @bp.route('/lda', methods=['GET', 'POST'])
@@ -26,7 +26,7 @@ def lda_page(df, table_html, validation_results):
 
     # Handle the form submission
     if request.method == 'POST':
-        params, param_error = validate_base_parameters(request.form, df)
+        params, param_error = validate_lda_parameters(request.form, df)
 
         # Specific validation for LDA: Target column should not be continuous
         if not param_error:

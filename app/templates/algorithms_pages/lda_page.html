@@ -15,6 +15,36 @@
                 
                 <hr>
 
+                <!-- ADVANCED PARAMETERS (START) -->
+                <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAdvancedParams()">
+                    Advanced Parameters &raquo;
+                </button>
+
+                <div id="advanced-params" class="hidden mt-3 border rounded p-3">
+                    <h5 class="mb-3">Advanced LDA Parameters</h5>
+                    
+                    <div class="row g-3">
+                        <!-- solver -->
+                        <div class="col-md-6">
+                            <label for="solver" class="form-label">Solver:</label>
+                            <select id="solver" name="solver" class="form-select" onchange="handleLdaSolverChange()">
+                                <option value="svd" {% if form_data.get('solver', 'svd') == 'svd' %}selected{% endif %}>SVD</option>
+                                <option value="lsqr" {% if form_data.get('solver') == 'lsqr' %}selected{% endif %}>LSQR</option>
+                                <option value="eigen" {% if form_data.get('solver') == 'eigen' %}selected{% endif %}>Eigen</option>
+                            </select>
+                        </div>
+                        <!-- shrinkage -->
+                        <div class="col-md-6">
+                            <label for="shrinkage" class="form-label">Shrinkage:</label>
+                            <input type="text" class="form-control" id="shrinkage" name="shrinkage" value="{{ form_data.get('shrinkage', '') }}" placeholder="None, 'auto', or a float 0-1">
+                            <small class="form-text text-muted">Only for 'lsqr' and 'eigen' solvers.</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr>
+                <!-- ADVANCED PARAMETERS (END) -->
+
                 <button type="submit" id="run-button" class="btn btn-primary">Run LDA</button>
 
                 {% if param_error %}
