@@ -15,6 +15,44 @@
                 
                 <hr>
 
+                <!-- ADVANCED PARAMETERS (START) -->
+                <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAdvancedParams()">
+                    Advanced Parameters &raquo;
+                </button>
+
+                <div id="advanced-params" class="hidden mt-3 border rounded p-3">
+                    <h5 class="mb-3">Advanced PCA Parameters</h5>
+                    
+                    <!-- whiten -->
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="whiten" name="whiten" {% if form_data.get('whiten') %}checked{% endif %}>
+                        <label class="form-check-label" for="whiten">
+                            Enable Whitening
+                        </label>
+                    </div>
+                    
+                    <!-- svd_solver -->
+                    <div class="mb-3">
+                        <label for="svd_solver" class="form-label">SVD Solver:</label>
+                        <select id="svd_solver" name="svd_solver" class="form-select">
+                            <option value="auto" {% if form_data.get('svd_solver', 'auto') == 'auto' %}selected{% endif %}>Auto</option>
+                            <option value="full" {% if form_data.get('svd_solver') == 'full' %}selected{% endif %}>Full</option>
+                            <option value="randomized" {% if form_data.get('svd_solver') == 'randomized' %}selected{% endif %}>Randomized</option>
+                            <option value="arpack" {% if form_data.get('svd_solver') == 'arpack' %}selected{% endif %}>Arpack</option>
+                            <option value="covariance_eigh" {% if form_data.get('svd_solver') == 'covariance_eigh' %}selected{% endif %}>Covariance Eigh</option>
+                        </select>
+                    </div>
+                    
+                    <!-- random_state -->
+                    <div>
+                        <label for="random_state" class="form-label">Random State (for reproducibility):</label>
+                        <input type="number" id="random_state" name="random_state" class="form-control" value="{{ form_data.get('random_state', '') }}" placeholder="e.g., 42">
+                    </div>
+                </div>
+
+                <hr>
+                <!-- ADVANCED PARAMETERS (END) -->
+
                 <button type="submit" id="run-button" class="btn btn-primary">Run PCA</button>
 
                 {% if param_error %}

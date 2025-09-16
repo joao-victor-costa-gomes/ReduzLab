@@ -7,16 +7,18 @@ def validate_pca_parameters(form, df):
         return None, error
 
     # validate the PCA-specific advanced parameters
+    
+    # 'whiten' is a checkbox. The key 'whiten' will be in the form if it was checked.
     params['whiten'] = 'whiten' in form
-
+    # 'svd_solver'
     svd_solver = form.get('svd_solver', 'auto')
     allowed_solvers = ['auto', 'full', 'covariance_eigh', 'arpack', 'randomized']
     if svd_solver not in allowed_solvers:
         return None, "Invalid SVD solver selected."
     params['svd_solver'] = svd_solver
-
+    # 'random_state' is optional
     random_state_str = form.get('random_state')
-    if random_state_str: 
+    if random_state_str: # If the user provided a value
         try:
             params['random_state'] = int(random_state_str)
         except (ValueError, TypeError):
