@@ -15,6 +15,49 @@
                 
                 <hr>
 
+                <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAdvancedParams()">
+                    Advanced Parameters &raquo;
+                </button>
+
+                <!-- ADVANCED PARAMETERS (START) -->
+                <div id="advanced-params" class="hidden mt-3 border rounded p-3">
+                    <h5 class="mb-3">Advanced NCA Parameters</h5>
+                    
+                    <div class="row g-3">
+                        <!-- init -->
+                        <div class="col-md-6">
+                            <label for="init" class="form-label">Initialization Method:</label>
+                            <select id="init" name="init" class="form-select">
+                                <option value="auto" {% if form_data.get('init', 'auto') == 'auto' %}selected{% endif %}>Auto</option>
+                                <option value="pca" {% if form_data.get('init') == 'pca' %}selected{% endif %}>PCA</option>
+                                <option value="lda" {% if form_data.get('init') == 'lda' %}selected{% endif %}>LDA</option>
+                                <option value="identity" {% if form_data.get('init') == 'identity' %}selected{% endif %}>Identity</option>
+                                <option value="random" {% if form_data.get('init') == 'random' %}selected{% endif %}>Random</option>
+                            </select>
+                        </div>
+                        <!-- max_iter -->
+                        <div class="col-md-6">
+                            <label for="max_iter" class="form-label">Max Iterations:</label>
+                            <input type="number" class="form-control" id="max_iter" name="max_iter" value="{{ form_data.get('max_iter', '50') }}">
+                        </div>
+                        <!-- tol -->
+                        <div class="col-md-6">
+                            <label for="tol" class="form-label">Tolerance (optional):</label>
+                            <input type="text" class="form-control" id="tol" name="tol" value="{{ form_data.get('tol', '1e-5') }}">
+                        </div>
+                        <!-- random_state -->
+                        <div class="col-md-6">
+                            <label for="random_state" class="form-label">Random State (optional):</label>
+                            <input type="number" class="form-control" id="random_state" name="random_state" value="{{ form_data.get('random_state', '') }}" placeholder="e.g., 42">
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <!-- ADVANCED PARAMETERS (END) -->
+
+                
+
                 <button type="submit" id="run-button" class="btn btn-primary">Run NCA</button>
 
                 {% if param_error %}

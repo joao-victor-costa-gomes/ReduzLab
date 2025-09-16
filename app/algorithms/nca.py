@@ -11,12 +11,16 @@ class NCA(ReducerBase):
         try:
             start_time = time.time()
 
-            n_components = self.params['dimension']
+            nca_params = {
+                'n_components': self.params.get('dimension'),
+                'init': self.params.get('init', 'auto'),
+                'max_iter': self.params.get('max_iter', 50),
+                'tol': self.params.get('tol', 1e-5),
+                'random_state': self.params.get('random_state')
+            }
 
             # Pass all the parameters to the scikit-learn NCA object
-            nca_instance = SklearnNCA(
-                n_components=n_components
-            )
+            nca_instance = SklearnNCA(**nca_params)
             
             # Run the algorithm 
             # NCA requires both X and the target 'y'

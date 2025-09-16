@@ -8,7 +8,7 @@ from app.core.data_processor import process_data_for_reduction
 from app.core.visualizer import Visualizer
 # ALGORITHM & VALIDATION
 from app.algorithms.nca import NCA
-from app.utils.form_validator import validate_base_parameters
+from app.utils.algorith_parameters_validation.nca_parameter_validation import validate_nca_parameters
 from app.utils.algorithm_debug_functions.nca_debug import print_nca_parameters
 
 @bp.route('/nca', methods=['GET', 'POST'])
@@ -26,7 +26,7 @@ def nca_page(df, table_html, validation_results):
 
     # Handle the form submission
     if request.method == 'POST':
-        params, param_error = validate_base_parameters(request.form, df)
+        params, param_error = validate_nca_parameters(request.form, df)
 
         # Specific validation for NCA: Target column should not be continuous
         if not param_error:
