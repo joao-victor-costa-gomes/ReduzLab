@@ -15,6 +15,76 @@
                 
                 <hr>
 
+                <!-- ADVANCED PARAMETERS (START) -->
+                <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAdvancedParams()">
+                    Advanced Parameters &raquo;
+                </button>
+
+                <div id="advanced-params" class="hidden mt-3 border rounded p-3">
+                    <h5 class="mb-3">Advanced T-SNE Parameters</h5>
+                    
+                    <div class="row g-3">
+                        <!-- perplexity -->
+                        <div class="col-md-6">
+                            <label for="perplexity" class="form-label">Perplexity:</label>
+                            <input type="number" step="any" class="form-control" id="perplexity" name="perplexity" value="{{ form_data.get('perplexity', '30.0') }}">
+                        </div>
+                        <!-- learning_rate -->
+                        <div class="col-md-6">
+                            <label for="learning_rate" class="form-label">Learning Rate:</label>
+                            <input type="text" class="form-control" id="learning_rate" name="learning_rate" value="{{ form_data.get('learning_rate', 'auto') }}">
+                        </div>
+                        <!-- max_iter -->
+                        <div class="col-md-6">
+                            <label for="max_iter" class="form-label">Max Iterations:</label>
+                            <input type="number" class="form-control" id="max_iter" name="max_iter" value="{{ form_data.get('max_iter', '1000') }}">
+                        </div>
+                        <!-- early_exaggeration -->
+                        <div class="col-md-6">
+                            <label for="early_exaggeration" class="form-label">Early Exaggeration:</label>
+                            <input type="number" step="any" class="form-control" id="early_exaggeration" name="early_exaggeration" value="{{ form_data.get('early_exaggeration', '12.0') }}">
+                        </div>
+                        <!-- init -->
+                        <div class="col-md-6">
+                            <label for="init" class="form-label">Initialization Method:</label>
+                            <select id="init" name="init" class="form-select">
+                                <option value="pca" {% if form_data.get('init', 'pca') == 'pca' %}selected{% endif %}>PCA</option>
+                                <option value="random" {% if form_data.get('init') == 'random' %}selected{% endif %}>Random</option>
+                            </select>
+                        </div>
+                        <!-- method -->
+                        <div class="col-md-6">
+                            <label for="method" class="form-label">Method:</label>
+                            <select id="method" name="method" class="form-select">
+                                <option value="barnes_hut" {% if form_data.get('method', 'barnes_hut') == 'barnes_hut' %}selected{% endif %}>Barnes-Hut (Fast)</option>
+                                <option value="exact" {% if form_data.get('method') == 'exact' %}selected{% endif %}>Exact (Slow)</option>
+                            </select>
+                        </div>
+                        <!-- metric -->
+                        <div class="col-md-12">
+                            <label for="metric" class="form-label">Distance Metric:</label>
+                            <select id="metric" name="metric" class="form-select">
+                                <option value="euclidean" {% if form_data.get('metric', 'euclidean') == 'euclidean' %}selected{% endif %}>Euclidean</option>
+                                <option value="cosine" {% if form_data.get('metric') == 'cosine' %}selected{% endif %}>Cosine</option>
+                                <option value="manhattan" {% if form_data.get('metric') == 'manhattan' %}selected{% endif %}>Manhattan</option>
+                                <option value="chebyshev" {% if form_data.get('metric') == 'chebyshev' %}selected{% endif %}>Chebyshev</option>
+                            </select>
+                        </div>
+                        <!-- random_state -->
+                        <div class="col-md-6">
+                            <label for="random_state" class="form-label">Random State (optional):</label>
+                            <input type="number" class="form-control" id="random_state" name="random_state" value="{{ form_data.get('random_state', '') }}">
+                        </div>
+                        <!-- n_jobs -->
+                        <div class="col-md-6">
+                            <label for="n_jobs" class="form-label">Parallel Jobs (n_jobs, optional):</label>
+                            <input type="number" class="form-control" id="n_jobs" name="n_jobs" value="{{ form_data.get('n_jobs', '') }}" placeholder="e.g., -1 for all cores">
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ADVANCED PARAMETERS (END) -->
+
                 <button type="submit" id="run-button" class="btn btn-primary">Run T-SNE</button>
 
                 {% if param_error %}
