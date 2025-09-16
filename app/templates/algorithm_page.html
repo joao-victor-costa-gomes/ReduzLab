@@ -1,6 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Switch Algorithm</h5>
+            <p class="card-text text-muted">Quickly switch to another algorithm using the same uploaded dataset.</p>
+            <ul class="nav nav-pills nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link {% if algorithm_name == 'PCA' %}active{% endif %}" href="{{ url_for('main.pca_page') }}">PCA</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if algorithm_name == 'T-SNE' %}active{% endif %}" href="{{ url_for('main.tsne_page') }}">T-SNE</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if algorithm_name == 'NCA' %}active{% endif %}" href="{{ url_for('main.nca_page') }}">NCA</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if algorithm_name == 'LLE' %}active{% endif %}" href="{{ url_for('main.lle_page') }}">LLE</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if algorithm_name == 'LDA' %}active{% endif %}" href="{{ url_for('main.lda_page') }}">LDA</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if algorithm_name == 'KPCA' %}active{% endif %}" href="{{ url_for('main.kpca_page') }}">KPCA</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if algorithm_name == 'Isomap' %}active{% endif %}" href="{{ url_for('main.isomap_page') }}">Isomap</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <h1 class="mb-4">{{ algorithm_name }} Algorithm</h1>
 
     <div class="card mb-4">
