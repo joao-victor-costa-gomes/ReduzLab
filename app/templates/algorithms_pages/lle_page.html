@@ -15,6 +15,70 @@
                 
                 <hr>
 
+                <!-- ADVANCED PARAMETERS (START) -->
+                <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAdvancedParams()">
+                    Advanced Parameters &raquo;
+                </button>
+
+                <div id="advanced-params" class="hidden mt-3 border rounded p-3">
+                    <h5 class="mb-3">Advanced LLE Parameters</h5>
+                    
+                    <div class="row g-3">
+                        <!-- n_neighbors -->
+                        <div class="col-md-6">
+                            <label for="n_neighbors" class="form-label">Number of Neighbors:</label>
+                            <input type="number" class="form-control" id="n_neighbors" name="n_neighbors" value="{{ form_data.get('n_neighbors', '10') }}">
+                        </div>
+                        <!-- reg -->
+                        <div class="col-md-6">
+                            <label for="reg" class="form-label">Regularization (reg):</label>
+                            <input type="text" class="form-control" id="reg" name="reg" value="{{ form_data.get('reg', '1e-3') }}">
+                        </div>
+                        <!-- method -->
+                        <div class="col-md-12">
+                            <label for="method" class="form-label">Method:</label>
+                            <select id="method" name="method" class="form-select">
+                                <option value="standard" {% if form_data.get('method', 'standard') == 'standard' %}selected{% endif %}>Standard</option>
+                                <option value="hessian" {% if form_data.get('method') == 'hessian' %}selected{% endif %}>Hessian (HLLE)</option>
+                                <option value="modified" {% if form_data.get('method') == 'modified' %}selected{% endif %}>Modified (MLLE)</option>
+                                <option value="ltsa" {% if form_data.get('method') == 'ltsa' %}selected{% endif %}>Local Tangent Space Alignment (LTSA)</option>
+                            </select>
+                        </div>
+                        <!-- eigen_solver -->
+                        <div class="col-md-6">
+                            <label for="eigen_solver" class="form-label">Eigen Solver:</label>
+                            <select id="eigen_solver" name="eigen_solver" class="form-select">
+                                <option value="auto" {% if form_data.get('eigen_solver', 'auto') == 'auto' %}selected{% endif %}>Auto</option>
+                                <option value="arpack" {% if form_data.get('eigen_solver') == 'arpack' %}selected{% endif %}>Arpack</option>
+                                <option value="dense" {% if form_data.get('eigen_solver') == 'dense' %}selected{% endif %}>Dense</option>
+                            </select>
+                        </div>
+                        <!-- neighbors_algorithm -->
+                        <div class="col-md-6">
+                            <label for="neighbors_algorithm" class="form-label">Neighbors Algorithm:</label>
+                            <select id="neighbors_algorithm" name="neighbors_algorithm" class="form-select">
+                                <option value="auto" {% if form_data.get('neighbors_algorithm', 'auto') == 'auto' %}selected{% endif %}>Auto</option>
+                                <option value="brute" {% if form_data.get('neighbors_algorithm') == 'brute' %}selected{% endif %}>Brute</option>
+                                <option value="kd_tree" {% if form_data.get('neighbors_algorithm') == 'kd_tree' %}selected{% endif %}>KD Tree</option>
+                                <option value="ball_tree" {% if form_data.get('neighbors_algorithm') == 'ball_tree' %}selected{% endif %}>Ball Tree</option>
+                            </select>
+                        </div>
+                        <!-- random_state -->
+                        <div class="col-md-6">
+                            <label for="random_state" class="form-label">Random State (optional):</label>
+                            <input type="number" class="form-control" id="random_state" name="random_state" value="{{ form_data.get('random_state', '') }}" placeholder="e.g., 42">
+                        </div>
+                        <!-- n_jobs -->
+                        <div class="col-md-6">
+                            <label for="n_jobs" class="form-label">Parallel Jobs (n_jobs, optional):</label>
+                            <input type="number" class="form-control" id="n_jobs" name="n_jobs" value="{{ form_data.get('n_jobs', '') }}" placeholder="e.g., -1 for all cores">
+                        </div>
+                    </div>
+                </div>
+                
+                <hr>
+                <!-- ADVANCED PARAMETERS (END) -->
+
                 <button type="submit" id="run-button" class="btn btn-primary">Run LLE</button>
 
                 {% if param_error %}

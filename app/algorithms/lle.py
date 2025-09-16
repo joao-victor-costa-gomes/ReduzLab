@@ -11,12 +11,19 @@ class LLE(ReducerBase):
         try:
             start_time = time.time()
 
-            n_components = self.params['dimension']
+            lle_params = {
+                'n_components': self.params.get('dimension'),
+                'n_neighbors': self.params.get('n_neighbors', 10),
+                'reg': self.params.get('reg', 1e-3),
+                'method': self.params.get('method', 'standard'),
+                'eigen_solver': self.params.get('eigen_solver', 'auto'),
+                'neighbors_algorithm': self.params.get('neighbors_algorithm', 'auto'),
+                'random_state': self.params.get('random_state'),
+                'n_jobs': self.params.get('n_jobs')
+            }
 
             # Pass all the parameters to the scikit-learn LLE object
-            lle_instance = SklearnLLE(
-                n_components=n_components,
-            )
+            lle_instance = SklearnLLE(**lle_params)
             
             # Run the algorithm
             reduced_data = lle_instance.fit_transform(X)
