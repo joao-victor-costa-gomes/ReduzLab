@@ -3,33 +3,39 @@
 {% from '_base_parameters.html' import base_parameters_form %}
 
 {% block algorithm_content %}
-<section>
-    <h2>Configure PCA Parameters</h2>
 
-    <form method="POST" onsubmit="showLoadingSpinner()">
-        {{ base_parameters_form(column_options, form_data) }}
-        
-        <hr>
+    <div class="card">
+        <div class="card-header">
+            <h2>Configure PCA Parameters</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST" onsubmit="showLoadingSpinner()">
+                
+                {{ base_parameters_form(column_options, form_data) }}
+                
+                <hr>
 
-        <button type="submit" id="run-button">Run PCA</button>
+                <button type="submit" id="run-button" class="btn btn-primary">Run PCA</button>
 
-        {% if param_error %}
-            <p style="color: red;">{{ param_error }}</p>
-        {% endif %}
-    </form>
+                {% if param_error %}
+                    <div class="alert alert-danger mt-3" role="alert">
+                        {{ param_error }}
+                    </div>
+                {% endif %}
+            </form>
 
-    <div id="loading-spinner" class="spinner hidden"></div>
+            <div id="loading-spinner" class="spinner hidden"></div>
+        </div>
+    </div>
 
     {% include '_results_section.html' %}
 
-</section>
-
-{% if scroll_to_results %}
-<script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        scrollToElement('results-anchor');
-    });
-</script>
-{% endif %}
+    {% if scroll_to_results %}
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            scrollToElement('results-anchor');
+        });
+    </script>
+    {% endif %}
 
 {% endblock %}

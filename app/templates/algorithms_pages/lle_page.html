@@ -3,35 +3,39 @@
 {% from '_base_parameters.html' import base_parameters_form %}
 
 {% block algorithm_content %}
-<section>
-    <h2>Configure LLE Parameters</h2>
 
-    <form method="POST" onsubmit="showLoadingSpinner()">
+    <div class="card">
+        <div class="card-header">
+            <h2>Configure LLE Parameters</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST" onsubmit="showLoadingSpinner()">
+                
+                {{ base_parameters_form(column_options, form_data) }}
+                
+                <hr>
 
-        {{ base_parameters_form(column_options, form_data) }}
+                <button type="submit" id="run-button" class="btn btn-primary">Run LLE</button>
 
-        <hr>
+                {% if param_error %}
+                    <div class="alert alert-danger mt-3" role="alert">
+                        {{ param_error }}
+                    </div>
+                {% endif %}
+            </form>
 
-        <button type="submit" id="run-button">Run LLE</button>
+            <div id="loading-spinner" class="spinner hidden"></div>
+        </div>
+    </div>
 
-        {% if param_error %}
-            <p style="color: red;">{{ param_error }}</p>
-        {% endif %}
-
-    </form>
-
-    <div id="loading-spinner" class="spinner hidden"></div>
-    
     {% include '_results_section.html' %}
 
-</section>
-
-{% if scroll_to_results %}
-<script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        scrollToElement('results-anchor');
-    });
-</script>
-{% endif %}
+    {% if scroll_to_results %}
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            scrollToElement('results-anchor');
+        });
+    </script>
+    {% endif %}
 
 {% endblock %}
