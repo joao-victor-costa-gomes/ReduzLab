@@ -13,9 +13,20 @@
 </head>
 <body class="d-flex flex-column min-vh-100 bg-light">
 
-    <header class="text-white text-center py-4" style="background-color: #058743;">
-        <h1 class="mb-1"><a href="{{ url_for('main.index_page') }}" class="text-white text-decoration-none">ReduzLab</a></h1>
-        <p class="mb-0">A Web Interface for Dimensionality Reduction Algorithms</p>
+    <header>
+        <nav class="navbar navbar-expand-lg text-white" style="background-color: #058743;">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" href="{{ url_for('main.index_page') }}">
+                    <h1 class="mb-0 h3">ReduzLab</h1>
+                </a>
+                
+                <div class="ms-auto">
+                    <a href="{{ url_for('main.history_page') }}" class="btn btn-outline-light">
+                        History
+                    </a>
+                </div>
+            </div>
+        </nav>
     </header>
 
     <main class="container my-4 flex-grow-1">

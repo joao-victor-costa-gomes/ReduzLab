@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="mb-4">File History</h1>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Uploaded Datasets</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% if uploaded_files %}
+                {% for filename in uploaded_files %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="text-truncate me-3">{{ filename }}</span>
+                        <a href="{{ url_for('main.serve_upload_file', filename=filename) }}" class="btn btn-sm btn-outline-secondary flex-shrink-0" download>Download</a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item">No uploaded files found.</li>
+            {% endif %}
+        </ul>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Generated Plots</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% if plot_files %}
+                {% for filename in plot_files %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="text-truncate me-3">{{ filename }}</span>
+                        <a href="{{ url_for('main.serve_result_file', filename=filename) }}" class="btn btn-sm btn-outline-secondary flex-shrink-0" target="_blank">View</a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item">No plots found.</li>
+            {% endif %}
+        </ul>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Reduced Data (CSV)</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% if data_files %}
+                {% for filename in data_files %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="text-truncate me-3">{{ filename }}</span>
+                        <a href="{{ url_for('main.serve_result_file', filename=filename) }}" class="btn btn-sm btn-outline-secondary flex-shrink-0" download>Download</a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item">No reduced data files found.</li>
+            {% endif %}
+        </ul>
+    </div>
+
+{% endblock %}

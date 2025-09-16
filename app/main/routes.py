@@ -57,6 +57,28 @@ def index_page():
                            table_html=table_html,
                            validation_results=validation_results)
 
+@bp.route('/history')
+def history_page():
+    # Get folder paths from configuration
+    uploads_dir = current_app.config['UPLOAD_FOLDER']
+    results_dir = current_app.config['RESULTS_FOLDER']
+    # Ensure directories exist before attempting to list files
+    if not os.path.exists(uploads_dir):
+        os.makedirs(uploads_dir)
+    if not os.path.exists(results_dir):
+        os.makedirs(results_dir)
+    # List all files in directories
+    uploaded_files = sorted(os.listdir(uploads_dir), reverse=True)
+    result_files_all = sorted(os.listdir(results_dir), reverse=True)
+    # Separates result files into graphs and data
+    plot_files = [f for f in result_files_all if f.endswith(('.png', '.html'))]
+    data_files = [f for f in result_files_all if f.endswith('.csv')]
+
+    return render_template('history.html',
+                           uploaded_files=uploaded_files,
+                           plot_files=plot_files,
+                           data_files=data_files)
+
 # ========== OTHER ERROR HANDLERS ==========
 
 @bp.app_errorhandler(RequestEntityTooLarge)
@@ -73,17 +95,18 @@ def serve_result_file(filename):
     """
     # Get the configured directory path
     results_dir = current_app.config['RESULTS_FOLDER']
-    
     # --- DEBUGGING PRINTS ---
     print(f"\n--- DEBUG: Attempting to serve file ---")
     print(f"Directory Path: {results_dir}")
     print(f"Requested Filename: {filename}")
-    
     # Check if the file actually exists at that path
     file_path = os.path.join(results_dir, filename)
     print(f"Full Path on Server: {file_path}")
     print(f"Does the file exist? {os.path.exists(file_path)}")
     # --- END DEBUGGING ---
-
     # send_from_directory will raise a 404 if the file is not found
     return send_from_directory(results_dir, filename)
+
+@bp.route('/uploads/<path:filename>')
+def serve_upload_file(filename):
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
