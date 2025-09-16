@@ -57,4 +57,36 @@
         </ul>
     </div>
 
+    <hr>
+
+    <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+            Delete All Files from Memory
+        </button>
+    </div>
+
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete all uploaded and generated files? 
+                    <br>
+                    <strong>This action cannot be undone.</strong>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ url_for('main.history_page_delete') }}" method="POST">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Yes, Delete All Files</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 {% endblock %}

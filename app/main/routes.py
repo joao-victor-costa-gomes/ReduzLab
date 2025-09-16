@@ -9,6 +9,7 @@ from app.utils.data_preview import generate_preview
 from app.utils.data_validator import validate_dataframe
 
 # ========== HOME PAGE ==========
+
 @bp.route('/', methods=['GET', 'POST'])
 def index_page():
     # variables for feedback messages
@@ -57,6 +58,7 @@ def index_page():
                            table_html=table_html,
                            validation_results=validation_results)
 
+
 @bp.route('/history')
 def history_page():
     # Get folder paths from configuration
@@ -78,6 +80,40 @@ def history_page():
                            uploaded_files=uploaded_files,
                            plot_files=plot_files,
                            data_files=data_files)
+
+
+@bp.route('/history/delete', methods=['POST'])
+def history_page_delete():
+    """
+    Deletes all files from the uploads and results directories.
+    """
+    uploads_dir = current_app.config['UPLOAD_FOLDER']
+    results_dir = current_app.config['RESULTS_FOLDER']
+    deleted_count = 0
+    error_count = 0
+    # Auxiliary function to delete files in a folder
+    def clear_directory(directory_path):
+        nonlocal deleted_count, error_count
+        for filename in os.listdir(directory_path):
+            # Don't delete .gitkeep
+            if filename == '.gitkeep':
+                continue
+            file_path = os.path.join(directory_path, filename)
+            try:
+                if os.path.isfile(file_path):
+                    os.remove(file_path)
+                    deleted_count += 1
+            except Exception as e:
+                print(f"Error deleting file {file_path}: {e}")
+                error_count += 1
+    # Clean the two folders
+    clear_directory(uploads_dir)
+    clear_directory(results_dir)
+    if error_count > 0:
+        flash(f'Could not delete all files. {deleted_count} files deleted, {error_count} failed.', 'danger')
+    else:
+        flash(f'Successfully deleted {deleted_count} files from memory.', 'success')
+    return redirect(url_for('main.history_page'))
 
 # ========== OTHER ERROR HANDLERS ==========
 
