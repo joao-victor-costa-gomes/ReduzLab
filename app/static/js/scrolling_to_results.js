@@ -5,3 +5,4 @@ function scrollToElement(elementId) {
         targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
+

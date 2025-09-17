@@ -9,7 +9,7 @@
             <h2>Configure KPCA Parameters</h2>
         </div>
         <div class="card-body">
-            <form method="POST" onsubmit="showLoadingSpinner()">
+            <form method="POST" onsubmit="showLoadingSpinner()" id="params-form-anchor">
                 
                 {{ base_parameters_form(column_options, form_data) }}
                 
@@ -101,6 +101,14 @@
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             scrollToElement('results-anchor');
+        });
+    </script>
+    {% endif %}
+
+    {% if scroll_to_params %}
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            scrollToElement('params-form-anchor');
         });
     </script>
     {% endif %}

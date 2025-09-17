@@ -20,9 +20,13 @@ def isomap_page(df, table_html, validation_results):
     metrics = None
     csv_url = None
     scroll_to_results = False
+    scroll_to_params = False
 
     if request.method == 'POST':
         params, param_error = validate_isomap_parameters(request.form, df)
+
+        if param_error:
+            scroll_to_params = True
 
         if not param_error:
             if current_app.config.get('DEBUG'):
@@ -53,6 +57,9 @@ def isomap_page(df, table_html, validation_results):
             except Exception as e:
                 param_error = f"An error occurred during processing: {e}"
 
+        if param_error:
+            scroll_to_params = True
+
     return render_template('algorithms_pages/isomap_page.html',
                            algorithm_name="Isomap",
                            table_html=table_html,
@@ -63,4 +70,5 @@ def isomap_page(df, table_html, validation_results):
                            metrics=metrics,
                            csv_url=csv_url,
                            scroll_to_results=scroll_to_results,
+                           scroll_to_params=scroll_to_params,
                            form_data=request.form)

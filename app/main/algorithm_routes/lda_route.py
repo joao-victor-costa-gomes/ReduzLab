@@ -23,6 +23,7 @@ def lda_page(df, table_html, validation_results):
     # Other variables
     param_error = None
     scroll_to_results = False
+    scroll_to_params = False
 
     # Handle the form submission
     if request.method == 'POST':
@@ -65,6 +66,9 @@ def lda_page(df, table_html, validation_results):
             except Exception as e:
                 param_error = f"An error occurred during processing: {e}"
 
+        if param_error:
+            scroll_to_params = True
+
     return render_template('algorithms_pages/lda_page.html', 
                            algorithm_name="LDA",
                            table_html=table_html,
@@ -75,4 +79,5 @@ def lda_page(df, table_html, validation_results):
                            metrics=metrics,
                            csv_url=csv_url,
                            scroll_to_results=scroll_to_results,
+                           scroll_to_params=scroll_to_params,
                            form_data=request.form)
