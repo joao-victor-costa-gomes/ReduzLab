@@ -8,7 +8,7 @@ from app.core.data_processor import process_data_for_reduction
 from app.core.visualizer import Visualizer
 # ALGORITHM & VALIDATION
 from app.algorithms.isomap import Isomap
-from app.utils.form_validator import validate_base_parameters
+from app.utils.algorith_parameters_validation.isomap_parameter_validation import validate_isomap_parameters
 from app.utils.algorithm_debug_functions.isomap_debug import print_isomap_parameters
 
 @bp.route('/isomap', methods=['GET', 'POST'])
@@ -22,7 +22,7 @@ def isomap_page(df, table_html, validation_results):
     scroll_to_results = False
 
     if request.method == 'POST':
-        params, param_error = validate_base_parameters(request.form, df)
+        params, param_error = validate_isomap_parameters(request.form, df)
 
         if not param_error:
             if current_app.config.get('DEBUG'):
