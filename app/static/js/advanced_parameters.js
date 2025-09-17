@@ -24,5 +24,39 @@ function handleLdaSolverChange() {
     }
 }
 
+function handleKpcaKernelChange() {
+    const kernelSelect = document.getElementById('kernel');
+    if (!kernelSelect) return;
+
+    const selectedKernel = kernelSelect.value;
+    
+    // Get the containers for the conditional parameters
+    const gammaDiv = document.getElementById('kpca_gamma_div');
+    const degreeDiv = document.getElementById('kpca_degree_div');
+    const coef0Div = document.getElementById('kpca_coef0_div');
+
+    // Show/hide Gamma field
+    if (['rbf', 'poly', 'sigmoid'].includes(selectedKernel)) {
+        gammaDiv.classList.remove('hidden');
+    } else {
+        gammaDiv.classList.add('hidden');
+    }
+
+    // Show/hide Degree field
+    if (selectedKernel === 'poly') {
+        degreeDiv.classList.remove('hidden');
+    } else {
+        degreeDiv.classList.add('hidden');
+    }
+
+    // Show/hide Coef0 field
+    if (['poly', 'sigmoid'].includes(selectedKernel)) {
+        coef0Div.classList.remove('hidden');
+    } else {
+        coef0Div.classList.add('hidden');
+    }
+}
+
 // Run the handler once on page load to set the initial state
 document.addEventListener('DOMContentLoaded', handleLdaSolverChange);
+document.addEventListener('DOMContentLoaded', handleKpcaKernelChange);

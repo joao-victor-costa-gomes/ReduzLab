@@ -7,15 +7,21 @@ class KPCA(ReducerBase):
         try:
             start_time = time.time()
 
-            n_components = self.params['dimension']
+            kpca_params = {
+                'n_components': self.params.get('dimension'),
+                'kernel': self.params.get('kernel', 'linear'),
+                'gamma': self.params.get('gamma'),
+                'degree': self.params.get('degree', 3),
+                'coef0': self.params.get('coef0', 1),
+                'eigen_solver': self.params.get('eigen_solver', 'auto'),
+                'random_state': self.params.get('random_state'),
+                'n_jobs': self.params.get('n_jobs')
+            }
             
             # The 'kernel' parameter is the core of KPCA. 
             kernel = 'linear'
 
-            kpca_instance = SklearnKPCA(
-                n_components=n_components,
-                kernel=kernel
-            )
+            kpca_instance = SklearnKPCA(**kpca_params)
             
             reduced_data = kpca_instance.fit_transform(X)
             
