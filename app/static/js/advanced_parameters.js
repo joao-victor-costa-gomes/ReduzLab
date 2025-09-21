@@ -1,7 +1,9 @@
 function toggleAdvancedParams() {
     const advancedParamsDiv = document.getElementById('advanced-params');
-    if (advancedParamsDiv) {
+    const stateInput = document.getElementById('advanced-params-state');
+    if (advancedParamsDiv && stateInput) {
         advancedParamsDiv.classList.toggle('hidden');
+        stateInput.value = !advancedParamsDiv.classList.contains('hidden');
     }
 }
 

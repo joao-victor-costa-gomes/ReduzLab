@@ -24,9 +24,11 @@ def nca_page(df, table_html, validation_results):
     param_error = None
     scroll_to_results = False
     scroll_to_params = False
+    advanced_params_open = False
 
     # Handle the form submission
     if request.method == 'POST':
+        advanced_params_open = request.form.get('advanced_params_open') == 'true'
         params, param_error = validate_nca_parameters(request.form, df)
 
         # Specific validation for NCA: Target column should not be continuous
@@ -78,4 +80,5 @@ def nca_page(df, table_html, validation_results):
                            csv_url=csv_url,
                            scroll_to_results=scroll_to_results,
                            scroll_to_params=scroll_to_params,
+                           advanced_params_open=advanced_params_open,
                            form_data=request.form)
