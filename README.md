@@ -1,5 +1,10 @@
 ### Rodando com ambiente virtual 
 
+Clone o repositório na sua máquina e entre nele:
+```
+git clone https://github.com/joao-victor-costa-gomes/ReduzLab.git
+```
+
 Na raiz do projeto, crie um ambiente virtual e baixe os requisitos com os comandos abaixo:
 
 ```bash
