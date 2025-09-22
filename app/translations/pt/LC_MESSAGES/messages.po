@@ -20,39 +20,39 @@ msgstr ""
 
 #: app/main/routes.py:28
 msgid "No file part in request. Please try again."
-msgstr ""
+msgstr "Nenhuma parte de arquivo na requisição. Por favor, tente novamente."
 
 #: app/main/routes.py:33
 msgid "No file selected. Please choose a file to upload."
-msgstr ""
+msgstr "Nenhum arquivo selecionado. Por favor, escolha um arquivo para enviar."
 
 #: app/main/routes.py:37
 #, python-format
 msgid "File \"%(filename)s\" uploaded successfully!"
-msgstr ""
+msgstr "Arquivo \"%(filename)s\" enviado com sucesso!"
 
 #: app/main/routes.py:43
 msgid "Data preview generated successfully!"
-msgstr ""
+msgstr "Pré-visualização dos dados gerada com sucesso!"
 
 #: app/main/routes.py:52
 msgid "Invalid file type. Please upload a .csv or .xlsx file."
-msgstr ""
+msgstr "Tipo de arquivo inválido. Por favor, envie um arquivo .csv ou .xlsx."
 
 #: app/main/routes.py:115
 #, python-format
 msgid "Could not delete all files. %(deleted)s files deleted, %(failed)s failed."
-msgstr ""
+msgstr "Não foi possível deletar todos os arquivos. %(deleted)s arquivos deletados, %(failed)s falharam."
 
 #: app/main/routes.py:117
 #, python-format
 msgid "Successfully deleted %(count)s files from memory."
-msgstr ""
+msgstr "%(count)s arquivos deletados da memória com sucesso."
 
 #: app/main/routes.py:125
 #, python-format
 msgid "File is too large. The maximum allowed size is %(size)s MB."
-msgstr ""
+msgstr "O arquivo é muito grande. O tamanho máximo permitido é de %(size)s MB."
 
 #: app/main/algorithm_routes/isomap_route.py:58
 #: app/main/algorithm_routes/kpca_route.py:58
@@ -62,7 +62,7 @@ msgstr ""
 #: app/main/algorithm_routes/pca_route.py:61
 #: app/main/algorithm_routes/tsne_route.py:62
 msgid "Execution Time (s)"
-msgstr ""
+msgstr "Tempo de Execução (s)"
 
 #: app/main/algorithm_routes/isomap_route.py:62
 #: app/main/algorithm_routes/kpca_route.py:62
@@ -73,7 +73,7 @@ msgstr ""
 #: app/main/algorithm_routes/tsne_route.py:66
 #, python-format
 msgid "An error occurred during processing: %(error)s"
-msgstr ""
+msgstr "Ocorreu um erro durante o processamento: %(error)s"
 
 #: app/main/algorithm_routes/lda_route.py:40
 #, python-format
@@ -82,6 +82,9 @@ msgid ""
 "'%(target_col)s' has too many unique values and seems to be continuous. "
 "Please choose a categorical target."
 msgstr ""
+"O LDA é um algoritmo supervisionado para classificação. A coluna alvo "
+"'%(target_col)s' possui valores únicos demais e parece ser contínua. Por "
+"favor, escolha um alvo categórico."
 
 #: app/main/algorithm_routes/nca_route.py:40
 #, python-format
@@ -90,284 +93,289 @@ msgid ""
 "'%(target_col)s' has too many unique values and seems to be continuous. "
 "Please choose a categorical target."
 msgstr ""
+"O NCA é um algoritmo supervisionado para classificação. A coluna alvo "
+"'%(target_col)s' possui valores únicos demais e parece ser contínua. Por "
+"favor, escolha um alvo categórico."
 
 #: app/main/algorithm_routes/pca_route.py:62
 #, python-format
 msgid "Explained Variance (%%)"
-msgstr ""
+msgstr "Variância Explicada (%%)"
 
 #: app/templates/_base_parameters.html:4
 msgid "Algorithm Parameters"
-msgstr ""
+msgstr "Parâmetros do Algoritmo"
 
 #: app/templates/_base_parameters.html:9
 #, python-format
 msgid "Sample Rate (%%):"
-msgstr ""
+msgstr "Taxa de Amostragem (%%):"
 
 #: app/templates/_base_parameters.html:13
 msgid "Target Column:"
-msgstr ""
+msgstr "Coluna Alvo:"
 
 #: app/templates/_base_parameters.html:15
 msgid "Select a column"
-msgstr ""
+msgstr "Selecione uma coluna"
 
 #: app/templates/_base_parameters.html:22
 msgid "Output Dimension:"
-msgstr ""
+msgstr "Dimensão de Saída:"
 
 #: app/templates/_base_parameters.html:29
 msgid "Scaler:"
-msgstr ""
+msgstr "Escalonador:"
 
 #: app/templates/_base_parameters.html:31
 msgid "None"
-msgstr ""
+msgstr "Nenhum"
 
 #: app/templates/_base_parameters.html:40
 msgid "Graph Parameters"
-msgstr ""
+msgstr "Parâmetros do Gráfico"
 
 #: app/templates/_base_parameters.html:43
 msgid "Graph File Type:"
-msgstr ""
+msgstr "Tipo de Arquivo do Gráfico:"
 
 #: app/templates/_base_parameters.html:45
 msgid "PNG (static image)"
-msgstr ""
+msgstr "PNG (imagem estática)"
 
 #: app/templates/_base_parameters.html:46
 msgid "HTML (interactive plot)"
-msgstr ""
+msgstr "HTML (gráfico interativo)"
 
 #: app/templates/_base_parameters.html:50
 msgid "Graph Title (optional):"
-msgstr ""
+msgstr "Título do Gráfico (opcional):"
 
 #: app/templates/_base_parameters.html:51
 msgid "e.g., PCA of Iris Dataset"
-msgstr ""
+msgstr "ex.: PCA do Dataset Iris"
 
 #: app/templates/_base_parameters.html:57
 msgid "X-Axis Range:"
-msgstr ""
+msgstr "Intervalo do Eixo X:"
 
 #: app/templates/_base_parameters.html:59
 #: app/templates/_base_parameters.html:67
 msgid "Min"
-msgstr ""
+msgstr "Mín"
 
 #: app/templates/_base_parameters.html:60
 #: app/templates/_base_parameters.html:68
 msgid "to"
-msgstr ""
+msgstr "até"
 
 #: app/templates/_base_parameters.html:61
 #: app/templates/_base_parameters.html:69
 msgid "Max"
-msgstr ""
+msgstr "Máx"
 
 #: app/templates/_base_parameters.html:65
 msgid "Y-Axis Range:"
-msgstr ""
+msgstr "Intervalo do Eixo Y:"
 
 #: app/templates/_base_parameters.html:73
 msgid "Leave blank for auto-ranging."
-msgstr ""
+msgstr "Deixe em branco para ajuste automático."
 
 #: app/templates/_results_section.html:4
 msgid "Results"
-msgstr ""
+msgstr "Resultados"
 
 #: app/templates/_results_section.html:9
 msgid "Metrics"
-msgstr ""
+msgstr "Métricas"
 
 #: app/templates/_results_section.html:20
 msgid "Plot"
-msgstr ""
+msgstr "Gráfico"
 
 #: app/templates/_results_section.html:24
 #: app/templates/_results_section.html:27
 #, python-format
 msgid "%(name)s Plot"
-msgstr ""
+msgstr "Gráfico %(name)s"
 
 #: app/templates/_results_section.html:33
 msgid "Download Plot"
-msgstr ""
+msgstr "Baixar Gráfico"
 
 #: app/templates/_results_section.html:37
 msgid "Download Reduced Data (CSV)"
-msgstr ""
+msgstr "Baixar Dados Reduzidos (CSV)"
 
 #: app/templates/algorithm_page.html:7
 msgid "Switch Algorithm"
-msgstr ""
+msgstr "Trocar Algoritmo"
 
 #: app/templates/algorithm_page.html:8
 msgid "Quickly switch to another algorithm using the same uploaded dataset."
-msgstr ""
+msgstr "Troque rapidamente para outro algoritmo usando o mesmo dataset enviado."
 
 #: app/templates/algorithm_page.html:35
 #, python-format
 msgid "%(name)s Algorithm"
-msgstr ""
+msgstr "Algoritmo %(name)s"
 
 #: app/templates/algorithm_page.html:39
 msgid "Data Preview & Validation Report"
-msgstr ""
+msgstr "Pré-visualização e Relatório de Validação dos Dados"
 
 #: app/templates/algorithm_page.html:55 app/templates/index.html:75
 msgid "Validation Report"
-msgstr ""
+msgstr "Relatório de Validação"
 
 #: app/templates/algorithm_page.html:56 app/templates/index.html:76
 msgid ""
 "Please review the following issues before proceeding. Algorithms may fail"
 " with non-numeric or missing data."
 msgstr ""
+"Por favor, revise os problemas a seguir antes de prosseguir. Os algoritmos "
+"podem falhar com dados não-numéricos ou ausentes."
 
 #: app/templates/algorithm_page.html:59 app/templates/index.html:79
 msgid "Non-Numeric Columns Found:"
-msgstr ""
+msgstr "Colunas Não-Numéricas Encontradas:"
 
 #: app/templates/algorithm_page.html:67 app/templates/index.html:87
 msgid "Columns with Missing Values:"
-msgstr ""
+msgstr "Colunas com Valores Ausentes:"
 
 #: app/templates/algorithm_page.html:70 app/templates/index.html:90
 msgid "missing"
-msgstr ""
+msgstr "ausente(s)"
 
 #: app/templates/algorithm_page.html:86
 msgid "Could not load data preview. Please"
-msgstr ""
+msgstr "Não foi possível carregar a pré-visualização dos dados. Por favor"
 
 #: app/templates/algorithm_page.html:86
 msgid "upload a file"
-msgstr ""
+msgstr "envie um arquivo"
 
 #: app/templates/algorithm_page.html:86
 msgid "first."
-msgstr ""
+msgstr "primeiro."
 
 #: app/templates/base.html:6
 msgid "ReduzLab - Dimensionality Reduction"
-msgstr ""
+msgstr "ReduzLab - Redução de Dimensionalidade"
 
 #: app/templates/base.html:22
 msgid "ReduzLab"
-msgstr ""
+msgstr "ReduzLab"
 
 #: app/templates/base.html:27
 msgid "History"
-msgstr ""
+msgstr "Histórico"
 
 #: app/templates/base.html:40
 msgid "ReduzLab Project"
-msgstr ""
+msgstr "Projeto ReduzLab"
 
 #: app/templates/base.html:43
 msgid "Developed by:"
-msgstr ""
+msgstr "Desenvolvido por:"
 
 #: app/templates/base.html:48
 msgid "Check the project repository at this"
-msgstr ""
+msgstr "Confira o repositório do projeto neste"
 
 #: app/templates/history.html:4
 msgid "File History"
-msgstr ""
+msgstr "Histórico de Arquivos"
 
 #: app/templates/history.html:8
 msgid "Uploaded Datasets"
-msgstr ""
+msgstr "Datasets Enviados"
 
 #: app/templates/history.html:15
 msgid "Download"
-msgstr ""
+msgstr "Baixar"
 
 #: app/templates/history.html:19
 msgid "No uploaded files found."
-msgstr ""
+msgstr "Nenhum arquivo enviado encontrado."
 
 #: app/templates/history.html:26
 msgid "Generated Plots"
-msgstr ""
+msgstr "Gráficos Gerados"
 
 #: app/templates/history.html:33
 msgid "View"
-msgstr ""
+msgstr "Visualizar"
 
 #: app/templates/history.html:37
 msgid "No plots found."
-msgstr ""
+msgstr "Nenhum gráfico encontrado."
 
 #: app/templates/history.html:44
 msgid "Reduced Data (CSV)"
-msgstr ""
+msgstr "Dados Reduzidos (CSV)"
 
 #: app/templates/history.html:55
 msgid "No reduced data files found."
-msgstr ""
+msgstr "Nenhum arquivo de dados reduzidos encontrado."
 
 #: app/templates/history.html:64
 msgid "Delete All Files from Memory"
-msgstr ""
+msgstr "Deletar Todos os Arquivos da Memória"
 
 #: app/templates/history.html:72
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Confirmar Exclusão"
 
 #: app/templates/history.html:76
 msgid "Are you sure you want to delete all uploaded and generated files?"
-msgstr ""
+msgstr "Você tem certeza que deseja deletar todos os arquivos enviados e gerados?"
 
 #: app/templates/history.html:78
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Esta ação não pode ser desfeita."
 
 #: app/templates/history.html:82
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: app/templates/history.html:83
 msgid "Yes, Delete All Files"
-msgstr ""
+msgstr "Sim, Deletar Todos os Arquivos"
 
 #: app/templates/index.html:20
 msgid "1. Upload your Dataset"
-msgstr ""
+msgstr "1. Envie seu Dataset"
 
 #: app/templates/index.html:25
 msgid "Select a CSV or XLSX file from your computer to get started."
-msgstr ""
+msgstr "Selecione um arquivo CSV ou XLSX do seu computador para começar."
 
 #: app/templates/index.html:29
 msgid "Dataset File:"
-msgstr ""
+msgstr "Arquivo do Dataset:"
 
 #: app/templates/index.html:34
 msgid "Upload File"
-msgstr ""
+msgstr "Enviar Arquivo"
 
 #: app/templates/index.html:59
 msgid "2. Data Preview & Validation"
-msgstr ""
+msgstr "2. Pré-visualização e Validação dos Dados"
 
 #: app/templates/index.html:108
 msgid "3. Select a Reduction Algorithm"
-msgstr ""
+msgstr "3. Selecione um Algoritmo de Redução"
 
 #: app/templates/index.html:114
 msgid "Choose an algorithm below to proceed with the dimensionality reduction."
-msgstr ""
+msgstr "Escolha um algoritmo abaixo para prosseguir com a redução de dimensionalidade."
 
 #: app/templates/algorithms_pages/isomap_page.html:9
 msgid "Configure Isomap Parameters"
-msgstr ""
+msgstr "Configurar Parâmetros do Isomap"
 
 #: app/templates/algorithms_pages/isomap_page.html:22
 #: app/templates/algorithms_pages/kpca_page.html:22
@@ -377,338 +385,338 @@ msgstr ""
 #: app/templates/algorithms_pages/pca_page.html:22
 #: app/templates/algorithms_pages/tsne_page.html:22
 msgid "Advanced Parameters"
-msgstr ""
+msgstr "Parâmetros Avançados"
 
 #: app/templates/algorithms_pages/isomap_page.html:26
 msgid "Advanced Isomap Parameters"
-msgstr ""
+msgstr "Parâmetros Avançados do Isomap"
 
 #: app/templates/algorithms_pages/isomap_page.html:31
 #: app/templates/algorithms_pages/lle_page.html:31
 msgid "Number of Neighbors:"
-msgstr ""
+msgstr "Número de Vizinhos:"
 
 #: app/templates/algorithms_pages/isomap_page.html:36
 #: app/templates/algorithms_pages/tsne_page.html:67
 msgid "Distance Metric:"
-msgstr ""
+msgstr "Métrica de Distância:"
 
 #: app/templates/algorithms_pages/isomap_page.html:45
 #: app/templates/algorithms_pages/kpca_page.html:61
 #: app/templates/algorithms_pages/lle_page.html:51
 msgid "Eigen Solver:"
-msgstr ""
+msgstr "Solver de Autovetores:"
 
 #: app/templates/algorithms_pages/isomap_page.html:54
 msgid "Path Method:"
-msgstr ""
+msgstr "Método de Caminho:"
 
 #: app/templates/algorithms_pages/isomap_page.html:63
 #: app/templates/algorithms_pages/lle_page.html:60
 msgid "Neighbors Algorithm:"
-msgstr ""
+msgstr "Algoritmo de Vizinhos:"
 
 #: app/templates/algorithms_pages/isomap_page.html:73
 #: app/templates/algorithms_pages/kpca_page.html:78
 #: app/templates/algorithms_pages/lle_page.html:75
 #: app/templates/algorithms_pages/tsne_page.html:82
 msgid "Parallel Jobs (n_jobs, optional):"
-msgstr ""
+msgstr "Processos Paralelos (n_jobs, opcional):"
 
 #: app/templates/algorithms_pages/isomap_page.html:74
 #: app/templates/algorithms_pages/kpca_page.html:79
 #: app/templates/algorithms_pages/lle_page.html:76
 #: app/templates/algorithms_pages/tsne_page.html:83
 msgid "e.g., -1 for all cores"
-msgstr ""
+msgstr "ex.: -1 para todos os núcleos"
 
 #: app/templates/algorithms_pages/isomap_page.html:82
 msgid "Run Isomap"
-msgstr ""
+msgstr "Executar Isomap"
 
 #: app/templates/algorithms_pages/kpca_page.html:9
 msgid "Configure KPCA Parameters"
-msgstr ""
+msgstr "Configurar Parâmetros do KPCA"
 
 #: app/templates/algorithms_pages/kpca_page.html:26
 msgid "Advanced KPCA Parameters"
-msgstr ""
+msgstr "Parâmetros Avançados do KPCA"
 
 #: app/templates/algorithms_pages/kpca_page.html:31
 msgid "Kernel:"
-msgstr ""
+msgstr "Kernel:"
 
 #: app/templates/algorithms_pages/kpca_page.html:43
 msgid "Degree (for Poly kernel):"
-msgstr ""
+msgstr "Grau (para o kernel Poly):"
 
 #: app/templates/algorithms_pages/kpca_page.html:49
 msgid "Gamma (for RBF, Poly, Sigmoid):"
-msgstr ""
+msgstr "Gama (para RBF, Poly, Sigmoid):"
 
 #: app/templates/algorithms_pages/kpca_page.html:50
 msgid "Default: 1/n_features"
-msgstr ""
+msgstr "Padrão: 1/n_features"
 
 #: app/templates/algorithms_pages/kpca_page.html:55
 msgid "Coef0 (for Poly, Sigmoid):"
-msgstr ""
+msgstr "Coef0 (para Poly, Sigmoid):"
 
 #: app/templates/algorithms_pages/kpca_page.html:72
 #: app/templates/algorithms_pages/lle_page.html:70
 #: app/templates/algorithms_pages/nca_page.html:52
 #: app/templates/algorithms_pages/tsne_page.html:77
 msgid "Random State (optional):"
-msgstr ""
+msgstr "Estado Aleatório (opcional):"
 
 #: app/templates/algorithms_pages/kpca_page.html:73
 msgid "For arpack/randomized solvers"
-msgstr ""
+msgstr "Para solvers arpack/randomized"
 
 #: app/templates/algorithms_pages/kpca_page.html:87
 msgid "Run KPCA"
-msgstr ""
+msgstr "Executar KPCA"
 
 #: app/templates/algorithms_pages/lda_page.html:9
 msgid "Configure LDA Parameters"
-msgstr ""
+msgstr "Configurar Parâmetros do LDA"
 
 #: app/templates/algorithms_pages/lda_page.html:26
 msgid "Advanced LDA Parameters"
-msgstr ""
+msgstr "Parâmetros Avançados do LDA"
 
 #: app/templates/algorithms_pages/lda_page.html:31
 msgid "Solver:"
-msgstr ""
+msgstr "Solver:"
 
 #: app/templates/algorithms_pages/lda_page.html:40
 msgid "Shrinkage:"
-msgstr ""
+msgstr "Shrinkage:"
 
 #: app/templates/algorithms_pages/lda_page.html:41
 msgid "None, auto, or a float 0-1"
-msgstr ""
+msgstr "Nenhum, 'auto', ou um float 0-1"
 
 #: app/templates/algorithms_pages/lda_page.html:42
 msgid "Only for 'lsqr' and 'eigen' solvers."
-msgstr ""
+msgstr "Apenas para os solvers 'lsqr' e 'eigen'."
 
 #: app/templates/algorithms_pages/lda_page.html:50
 msgid "Run LDA"
-msgstr ""
+msgstr "Executar LDA"
 
 #: app/templates/algorithms_pages/lle_page.html:9
 msgid "Configure LLE Parameters"
-msgstr ""
+msgstr "Configurar Parâmetros do LLE"
 
 #: app/templates/algorithms_pages/lle_page.html:26
 msgid "Advanced LLE Parameters"
-msgstr ""
+msgstr "Parâmetros Avançados do LLE"
 
 #: app/templates/algorithms_pages/lle_page.html:36
 msgid "Regularization (reg):"
-msgstr ""
+msgstr "Regularização (reg):"
 
 #: app/templates/algorithms_pages/lle_page.html:41
 #: app/templates/algorithms_pages/tsne_page.html:59
 msgid "Method:"
-msgstr ""
+msgstr "Método:"
 
 #: app/templates/algorithms_pages/lle_page.html:71
 #: app/templates/algorithms_pages/nca_page.html:53
 #: app/templates/algorithms_pages/pca_page.html:51
 msgid "e.g., 42"
-msgstr ""
+msgstr "ex.: 42"
 
 #: app/templates/algorithms_pages/lle_page.html:84
 msgid "Run LLE"
-msgstr ""
+msgstr "Executar LLE"
 
 #: app/templates/algorithms_pages/nca_page.html:9
 msgid "Configure NCA Parameters"
-msgstr ""
+msgstr "Configurar Parâmetros do NCA"
 
 #: app/templates/algorithms_pages/nca_page.html:26
 msgid "Advanced NCA Parameters"
-msgstr ""
+msgstr "Parâmetros Avançados do NCA"
 
 #: app/templates/algorithms_pages/nca_page.html:31
 #: app/templates/algorithms_pages/tsne_page.html:51
 msgid "Initialization Method:"
-msgstr ""
+msgstr "Método de Inicialização:"
 
 #: app/templates/algorithms_pages/nca_page.html:42
 #: app/templates/algorithms_pages/tsne_page.html:41
 msgid "Max Iterations:"
-msgstr ""
+msgstr "Máximo de Iterações:"
 
 #: app/templates/algorithms_pages/nca_page.html:47
 msgid "Tolerance (optional):"
-msgstr ""
+msgstr "Tolerância (opcional):"
 
 #: app/templates/algorithms_pages/nca_page.html:63
 msgid "Run NCA"
-msgstr ""
+msgstr "Executar NCA"
 
 #: app/templates/algorithms_pages/pca_page.html:9
 msgid "Configure PCA Parameters"
-msgstr ""
+msgstr "Configurar Parâmetros do PCA"
 
 #: app/templates/algorithms_pages/pca_page.html:26
 msgid "Advanced PCA Parameters"
-msgstr ""
+msgstr "Parâmetros Avançados do PCA"
 
 #: app/templates/algorithms_pages/pca_page.html:32
 msgid "Enable Whitening"
-msgstr ""
+msgstr "Habilitar Whitening"
 
 #: app/templates/algorithms_pages/pca_page.html:38
 msgid "SVD Solver:"
-msgstr ""
+msgstr "SVD Solver:"
 
 #: app/templates/algorithms_pages/pca_page.html:50
 msgid "Random State (for reproducibility):"
-msgstr ""
+msgstr "Estado Aleatório (para reprodutibilidade):"
 
 #: app/templates/algorithms_pages/pca_page.html:60
 msgid "Run PCA"
-msgstr ""
+msgstr "Executar PCA"
 
 #: app/templates/algorithms_pages/tsne_page.html:9
 msgid "Configure T-SNE Parameters"
-msgstr ""
+msgstr "Configurar Parâmetros do T-SNE"
 
 #: app/templates/algorithms_pages/tsne_page.html:26
 msgid "Advanced T-SNE Parameters"
-msgstr ""
+msgstr "Parâmetros Avançados do T-SNE"
 
 #: app/templates/algorithms_pages/tsne_page.html:31
 msgid "Perplexity:"
-msgstr ""
+msgstr "Perplexidade:"
 
 #: app/templates/algorithms_pages/tsne_page.html:36
 msgid "Learning Rate:"
-msgstr ""
+msgstr "Taxa de Aprendizado:"
 
 #: app/templates/algorithms_pages/tsne_page.html:37
 msgid "e.g., 200.0 or 'auto'"
-msgstr ""
+msgstr "ex.: 200.0 ou 'auto'"
 
 #: app/templates/algorithms_pages/tsne_page.html:46
 msgid "Early Exaggeration:"
-msgstr ""
+msgstr "Exagero Inicial:"
 
 #: app/templates/algorithms_pages/tsne_page.html:61
 msgid "Barnes-Hut (Fast)"
-msgstr ""
+msgstr "Barnes-Hut (Rápido)"
 
 #: app/templates/algorithms_pages/tsne_page.html:62
 msgid "Exact (Slow)"
-msgstr ""
+msgstr "Exato (Lento)"
 
 #: app/templates/algorithms_pages/tsne_page.html:94
 msgid "Run T-SNE"
-msgstr ""
+msgstr "Executar T-SNE"
 
 #: app/templates/errors/404.html:4
 msgid "Page Not Found"
-msgstr ""
+msgstr "Página Não Encontrada"
 
 #: app/templates/errors/404.html:5
 msgid "Sorry, we couldn't find the page you were looking for."
-msgstr ""
+msgstr "Desculpe, não conseguimos encontrar a página que você estava procurando."
 
 #: app/templates/errors/404.html:6 app/templates/errors/500.html:6
 msgid "Back to Home"
-msgstr ""
+msgstr "Voltar para a Página Inicial"
 
 #: app/templates/errors/500.html:4
 msgid "An Unexpected Error Occurred"
-msgstr ""
+msgstr "Ocorreu um Erro Inesperado"
 
 #: app/templates/errors/500.html:5
 msgid "We're sorry, something went wrong on our end. Contact the administrators."
-msgstr ""
+msgstr "Lamentamos, algo deu errado do nosso lado. Contate os administradores."
 
 #: app/utils/data_preview.py:19
 #, python-format
 msgid "Error reading or processing file: %(error)s"
-msgstr ""
+msgstr "Erro ao ler ou processar o arquivo: %(error)s"
 
 #: app/utils/decorators.py:22
 msgid "Please upload a dataset first to continue."
-msgstr ""
+msgstr "Por favor, envie um dataset primeiro para continuar."
 
 #: app/utils/decorators.py:29
 msgid "The uploaded file could not be found. Please upload it again."
-msgstr ""
+msgstr "O arquivo enviado não foi encontrado. Por favor, envie-o novamente."
 
 #: app/utils/decorators.py:37
 #, python-format
 msgid "An error occurred while reading your file: %(error)s"
-msgstr ""
+msgstr "Ocorreu um erro ao ler o seu arquivo: %(error)s"
 
 #: app/utils/form_validator.py:11
 msgid "Sample Rate must be between 1 and 100."
-msgstr ""
+msgstr "A Taxa de Amostragem deve ser entre 1 e 100."
 
 #: app/utils/form_validator.py:14
 msgid "Sample Rate must be a valid number."
-msgstr ""
+msgstr "A Taxa de Amostragem deve ser um número válido."
 
 #: app/utils/form_validator.py:20
 msgid "You must select a Target Column."
-msgstr ""
+msgstr "Você deve selecionar uma Coluna Alvo."
 
 #: app/utils/form_validator.py:22
 #, python-format
 msgid "Error: Column \"%(column)s\" not found in the dataset."
-msgstr ""
+msgstr "Erro: A coluna \"%(column)s\" não foi encontrada no dataset."
 
 #: app/utils/form_validator.py:30
 msgid "Dimension must be 2D or 3D."
-msgstr ""
+msgstr "A dimensão deve ser 2D ou 3D."
 
 #: app/utils/form_validator.py:33
 msgid "Dimension must be a valid number (2 or 3)."
-msgstr ""
+msgstr "A dimensão deve ser um número válido (2 ou 3)."
 
 #: app/utils/form_validator.py:39
 msgid "Invalid scaler selected."
-msgstr ""
+msgstr "Escalonador inválido selecionado."
 
 #: app/utils/form_validator.py:49
 msgid "Invalid plot type selected."
-msgstr ""
+msgstr "Tipo de gráfico inválido selecionado."
 
 #: app/utils/form_validator.py:58
 #, python-format
 msgid "Axis range value for \"%(param)s\" must be a valid number."
-msgstr ""
+msgstr "O valor do intervalo do eixo para \"%(param)s\" deve ser um número válido."
 
 #: app/utils/algorith_parameters_validation/isomap_parameter_validation.py:13
 #: app/utils/algorith_parameters_validation/lle_parameter_validation.py:13
 msgid "Number of Neighbors must be a positive number."
-msgstr ""
+msgstr "O Número de Vizinhos deve ser um número positivo."
 
 #: app/utils/algorith_parameters_validation/isomap_parameter_validation.py:18
 msgid "Invalid Metric selected."
-msgstr ""
+msgstr "Métrica inválida selecionada."
 
 #: app/utils/algorith_parameters_validation/isomap_parameter_validation.py:22
 #: app/utils/algorith_parameters_validation/kpca_parameter_validation.py:30
 #: app/utils/algorith_parameters_validation/lle_parameter_validation.py:25
 msgid "Invalid Eigen Solver selected."
-msgstr ""
+msgstr "Solver de Autovetores inválido selecionado."
 
 #: app/utils/algorith_parameters_validation/isomap_parameter_validation.py:26
 msgid "Invalid Path Method selected."
-msgstr ""
+msgstr "Método de Caminho inválido selecionado."
 
 #: app/utils/algorith_parameters_validation/isomap_parameter_validation.py:30
 #: app/utils/algorith_parameters_validation/lle_parameter_validation.py:30
 msgid "Invalid Neighbors Algorithm selected."
-msgstr ""
+msgstr "Algoritmo de Vizinhos inválido selecionado."
 
 #: app/utils/algorith_parameters_validation/isomap_parameter_validation.py:37
 #: app/utils/algorith_parameters_validation/kpca_parameter_validation.py:41
@@ -717,66 +725,65 @@ msgstr ""
 #: app/utils/algorith_parameters_validation/tsne_parameter_validation.py:45
 #, python-format
 msgid "Invalid value in advanced parameters: %(error)s"
-msgstr ""
+msgstr "Valor inválido nos parâmetros avançados: %(error)s"
 
 #: app/utils/algorith_parameters_validation/kpca_parameter_validation.py:14
 msgid "Invalid Kernel selected."
-msgstr ""
+msgstr "Kernel inválido selecionado."
 
 #: app/utils/algorith_parameters_validation/lda_parameter_validation.py:18
 msgid "Shrinkage cannot be used with the 'svd' solver."
-msgstr ""
+msgstr "Shrinkage não pode ser usado com o solver 'svd'."
 
 #: app/utils/algorith_parameters_validation/lda_parameter_validation.py:28
 msgid "Shrinkage value must be between 0 and 1."
-msgstr ""
+msgstr "O valor de Shrinkage deve ser entre 0 e 1."
 
 #: app/utils/algorith_parameters_validation/lda_parameter_validation.py:31
 msgid "Shrinkage must be 'auto' or a valid number."
-msgstr ""
+msgstr "Shrinkage deve ser 'auto' ou um número válido."
 
 #: app/utils/algorith_parameters_validation/lle_parameter_validation.py:21
 msgid "Invalid Method selected."
-msgstr ""
+msgstr "Método inválido selecionado."
 
 #: app/utils/algorith_parameters_validation/nca_parameter_validation.py:16
 msgid "Invalid Initialization Method selected."
-msgstr ""
+msgstr "Método de Inicialização inválido selecionado."
 
 #: app/utils/algorith_parameters_validation/nca_parameter_validation.py:22
 msgid "Max Iterations must be a positive number."
-msgstr ""
+msgstr "O Máximo de Iterações deve ser um número positivo."
 
 #: app/utils/algorith_parameters_validation/nca_parameter_validation.py:27
 msgid "Tolerance cannot be negative."
-msgstr ""
+msgstr "A Tolerância não pode ser negativa."
 
 #: app/utils/algorith_parameters_validation/pca_parameter_validation.py:18
 msgid "Invalid SVD solver selected."
-msgstr ""
+msgstr "SVD solver inválido selecionado."
 
 #: app/utils/algorith_parameters_validation/pca_parameter_validation.py:26
 msgid "Random State must be a valid integer."
-msgstr ""
+msgstr "O Estado Aleatório deve ser um número inteiro válido."
 
 #: app/utils/algorith_parameters_validation/tsne_parameter_validation.py:13
 #, python-format
 msgid "Perplexity must be between 1 and the number of samples (%(count)s)."
-msgstr ""
+msgstr "A Perplexidade deve ser entre 1 e o número de amostras (%(count)s)."
 
 #: app/utils/algorith_parameters_validation/tsne_parameter_validation.py:20
 msgid "Max Iterations must be at least 250."
-msgstr ""
+msgstr "O Máximo de Iterações deve ser no mínimo 250."
 
 #: app/utils/algorith_parameters_validation/tsne_parameter_validation.py:27
 msgid "Invalid Init Method."
-msgstr ""
+msgstr "Método de Inicialização inválido."
 
 #: app/utils/algorith_parameters_validation/tsne_parameter_validation.py:31
 msgid "Invalid Method."
-msgstr ""
+msgstr "Método inválido."
 
 #: app/utils/algorith_parameters_validation/tsne_parameter_validation.py:35
 msgid "Invalid Metric."
-msgstr ""
-
+msgstr "Métrica inválida."

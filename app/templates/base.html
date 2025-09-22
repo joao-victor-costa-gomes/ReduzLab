@@ -22,9 +22,19 @@
                     <h1 class="mb-0 h3">{{ _('ReduzLab') }}</h1>
                 </a>
                 
-                <div class="ms-auto">
-                    <a href="{{ url_for('main.history_page') }}" class="btn btn-outline-light">
+                <div class="ms-auto d-flex align-items-center">
+                    
+                    <a href="{{ url_for('main.history_page') }}" class="btn btn-outline-light me-3">
                         {{ _('History') }}
+                    </a>
+
+                    <div class="vr text-white me-3"></div>
+
+                    <a href="{{ url_for('main.set_language', lang='en') }}" class="me-2" title="{{ _('Switch to English') }}">
+                        <img src="{{ url_for('static', filename='images/usa-flag.svg') }}" alt="English" width="30">
+                    </a>
+                    <a href="{{ url_for('main.set_language', lang='pt') }}" title="{{ _('Mudar para Português') }}">
+                        <img src="{{ url_for('static', filename='images/brazil-flag.svg') }}" alt="Português" width="30">
                     </a>
                 </div>
             </div>

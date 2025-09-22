@@ -117,6 +117,16 @@ def history_page_delete():
         flash(_('Successfully deleted %(count)s files from memory.', count=deleted_count), 'success')
     return redirect(url_for('main.history_page'))
 
+
+@bp.route('/language/<lang>')
+def set_language(lang=None):
+    if lang in current_app.config['LANGUAGES']:
+        session['language'] = lang
+        flash(_('Language changed successfully.')) 
+
+    # Redireciona o usuário de volta para a página em que ele estava
+    return redirect(request.referrer or url_for('main.index_page'))
+
 # ========== OTHER ERROR HANDLERS ==========
 
 @bp.app_errorhandler(RequestEntityTooLarge)
