@@ -6,7 +6,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h2>C{{ _('Configure LDA Parameters') }}</h2>
+            <h2>{{ _('Configure LDA Parameters') }}</h2>
         </div>
         <div class="card-body">
             <form method="POST" onsubmit="showLoadingSpinner()" id="params-form-anchor">
@@ -38,7 +38,7 @@
                         <!-- shrinkage -->
                         <div class="col-md-6">
                             <label for="shrinkage" class="form-label">{{ _('Shrinkage:') }}</label>
-                            <input type="text" class="form-control" id="shrinkage" name="shrinkage" value="{{ form_data.get('shrinkage', '') }}" placeholder="{{ _('None, 'auto', or a float 0-1') }}">
+                            <input type="text" class="form-control" id="shrinkage" name="shrinkage" value="{{ form_data.get('shrinkage', '') }}" placeholder="{{ _('None, auto, or a float 0-1') }}">
                             <small class="form-text text-muted">{{ _("Only for 'lsqr' and 'eigen' solvers.") }}</small>
                         </div>
                     </div>
