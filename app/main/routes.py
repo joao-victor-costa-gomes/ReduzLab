@@ -8,6 +8,8 @@ from app.utils.file_handler import allowed_file, save_uploaded_file
 from app.utils.data_preview import generate_preview
 from app.utils.data_validator import validate_dataframe
 
+from flask_babel import gettext as _
+
 # ========== HOME PAGE ==========
 
 @bp.route('/', methods=['GET', 'POST'])
@@ -23,22 +25,22 @@ def index_page():
     if request.method == 'POST':
         # Check if the file part is in the request. 
         if 'file' not in request.files:
-            upload_error = "No file part in request. Please try again."
+            upload_error = _("No file part in request. Please try again.")
         else:
             file = request.files['file']
             # Check if a file was selected by the user
             if file.filename == '':
-                upload_error = "No file selected. Please choose a file to upload."
+                upload_error = _("No file selected. Please choose a file to upload.")
             # Check if the file has an allowed extension and process it
             elif file and allowed_file(file.filename):
                 unique_filename = save_uploaded_file(file)
-                upload_success = f"File '{file.filename}' uploaded successfully!"
+                upload_success = _('File "%(filename)s" uploaded successfully!', filename=file.filename)
                 # Use the unique name to build the full path for previewing
                 upload_path = os.path.join(current_app.config['UPLOAD_FOLDER'], unique_filename)
                 # Use the utility function to generate the preview
                 df, table_html, preview_error = generate_preview(upload_path)
                 if not preview_error:
-                    preview_success = "Data preview generated successfully!"
+                    preview_success = _("Data preview generated successfully!")
                     session['uploaded_filename'] = unique_filename
                     # Reading again to detect not numeric (excluding boolean types) columns
                     validation_results = validate_dataframe(df)
@@ -47,7 +49,7 @@ def index_page():
                     upload_success = None
             # Handle the case of a non-allowed file extension
             else:
-                upload_error = "Invalid file type. Please upload a .csv or .xlsx file."
+                upload_error = _("Invalid file type. Please upload a .csv or .xlsx file.")
         
     # The template is now rendered in all cases, passing the message variables.
     return render_template('index.html', 
@@ -110,16 +112,17 @@ def history_page_delete():
     clear_directory(uploads_dir)
     clear_directory(results_dir)
     if error_count > 0:
-        flash(f'Could not delete all files. {deleted_count} files deleted, {error_count} failed.', 'danger')
+        flash(_('Could not delete all files. %(deleted)s files deleted, %(failed)s failed.', deleted=deleted_count, failed=error_count), 'danger')
     else:
-        flash(f'Successfully deleted {deleted_count} files from memory.', 'success')
+        flash(_('Successfully deleted %(count)s files from memory.', count=deleted_count), 'success')
     return redirect(url_for('main.history_page'))
 
 # ========== OTHER ERROR HANDLERS ==========
 
 @bp.app_errorhandler(RequestEntityTooLarge)
 def handle_file_too_large(e):
-    flash(f"File is too large. The maximum allowed size is {current_app.config['MAX_CONTENT_LENGTH'] / 1024 / 1024:.0f} MB.")
+    max_size = f"{current_app.config['MAX_CONTENT_LENGTH'] / 1024 / 1024:.0f}"
+    flash(_('File is too large. The maximum allowed size is %(size)s MB.', size=max_size))
     return redirect(url_for('main.index_page'))
 
 # ========== FILE SERVING ROUTE ==========

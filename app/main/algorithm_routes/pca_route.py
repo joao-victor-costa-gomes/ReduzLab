@@ -11,6 +11,8 @@ from app.algorithms.pca import PCA
 from app.utils.algorith_parameters_validation.pca_parameter_validation import validate_pca_parameters
 from app.utils.algorithm_debug_functions.pca_debug import print_pca_parameters
 
+from flask_babel import gettext as _
+
 @bp.route('/pca', methods=['GET', 'POST'])
 @require_dataset
 def pca_page(df, table_html, validation_results):
@@ -56,12 +58,12 @@ def pca_page(df, table_html, validation_results):
                 plot_url = url_for('main.serve_result_file', filename=plot_filename)
                 csv_url = url_for('main.serve_result_file', filename=csv_filename)
                 metrics = {
-                    'Execution Time (s)': f"{results['execution_time']:.4f}",
-                    'Explained Variance (%)': f"{results['explained_variance']:.2f}"
+                    _('Execution Time (s)'): f"{results['execution_time']:.4f}",
+                    _('Explained Variance (%%)'): f"{results['explained_variance']:.2f}"
                 }
                 scroll_to_results = True
             except Exception as e:
-                param_error = f"An error occurred during processing: {e}"
+                param_error = _('An error occurred during processing: %(error)s', error=e)
 
         if param_error:
             scroll_to_params = True

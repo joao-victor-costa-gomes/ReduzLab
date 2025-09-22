@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>An Unexpected Error Occurred</h1>
-    <p>We're sorry, something went wrong on our end. Contact the administrators.</p>
-    <p><a href="{{ url_for('main.index_page') }}">Back to Home</a></p>
+    <h1>{{ _('An Unexpected Error Occurred') }}</h1>
+    <p>{{ _("We're sorry, something went wrong on our end. Contact the administrators.") }}</p>
+    <p><a href="{{ url_for('main.index_page') }}">{{ _('Back to Home') }}</a></p>
 {% endblock %}

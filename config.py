@@ -10,3 +10,4 @@ class Config:
     UPLOAD_FOLDER = os.path.join(basedir, 'uploads')
     RESULTS_FOLDER = os.path.join(basedir, 'results')
     MAX_CONTENT_LENGTH = int(os.environ.get('MAX_CONTENT_LENGTH'))
+    LANGUAGES = ['en', 'pt']

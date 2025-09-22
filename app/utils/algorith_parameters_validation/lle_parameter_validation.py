@@ -1,4 +1,5 @@
 from ..form_validator import validate_base_parameters
+from flask_babel import gettext as _
 
 def validate_lle_parameters(form, df):
     params, error = validate_base_parameters(form, df)
@@ -9,7 +10,7 @@ def validate_lle_parameters(form, df):
         # Number of Neighbors
         params['n_neighbors'] = int(form.get('n_neighbors', 10))
         if params['n_neighbors'] <= 0:
-            return None, "Number of Neighbors must be a positive number."
+            return None, _("Number of Neighbors must be a positive number.")
 
         # Regularization
         params['reg'] = float(form.get('reg', 1e-3))
@@ -17,16 +18,16 @@ def validate_lle_parameters(form, df):
         # Dropdowns
         params['method'] = form.get('method', 'standard')
         if params['method'] not in ['standard', 'hessian', 'modified', 'ltsa']:
-            return None, "Invalid Method selected."
+            return None, _("Invalid Method selected.")
             
         params['eigen_solver'] = form.get('eigen_solver', 'auto')
         if params['eigen_solver'] not in ['auto', 'arpack', 'dense']:
-            return None, "Invalid Eigen Solver selected."
+            return None, _("Invalid Eigen Solver selected.")
 
         params['neighbors_algorithm'] = form.get('neighbors_algorithm', 'auto')
         allowed_algos = ['auto', 'brute', 'kd_tree', 'ball_tree']
         if params['neighbors_algorithm'] not in allowed_algos:
-            return None, "Invalid Neighbors Algorithm selected."
+            return None, _("Invalid Neighbors Algorithm selected.")
 
         # Optional Integers
         rs_str = form.get('random_state')
@@ -36,6 +37,6 @@ def validate_lle_parameters(form, df):
         params['n_jobs'] = int(n_jobs_str) if n_jobs_str else None
 
     except (ValueError, TypeError) as e:
-        return None, f"Invalid value in advanced parameters: {e}"
+        return None, _('Invalid value in advanced parameters: %(error)s', error=e)
 
     return params, None

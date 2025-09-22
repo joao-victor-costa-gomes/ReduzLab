@@ -1,4 +1,5 @@
 from ..form_validator import validate_base_parameters
+from flask_babel import gettext as _
 
 def validate_kpca_parameters(form, df):
     params, error = validate_base_parameters(form, df)
@@ -10,7 +11,7 @@ def validate_kpca_parameters(form, df):
         kernel = form.get('kernel', 'linear')
         allowed_kernels = ['linear', 'poly', 'rbf', 'sigmoid', 'cosine']
         if kernel not in allowed_kernels:
-            return None, "Invalid Kernel selected."
+            return None, _("Invalid Kernel selected.")
         params['kernel'] = kernel
 
         # Kernel-specific params
@@ -26,7 +27,7 @@ def validate_kpca_parameters(form, df):
         # Solver
         eigen_solver = form.get('eigen_solver', 'auto')
         if eigen_solver not in ['auto', 'dense', 'arpack', 'randomized']:
-            return None, "Invalid Eigen Solver selected."
+            return None, _("Invalid Eigen Solver selected.")
         params['eigen_solver'] = eigen_solver
 
         # Optional Integers
@@ -37,6 +38,6 @@ def validate_kpca_parameters(form, df):
         params['n_jobs'] = int(n_jobs_str) if n_jobs_str else None
 
     except (ValueError, TypeError) as e:
-        return None, f"Invalid value in advanced parameters: {e}"
+        return None, _('Invalid value in advanced parameters: %(error)s', error=e)
 
     return params, None

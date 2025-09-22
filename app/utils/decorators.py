@@ -4,6 +4,8 @@ from flask import session, flash, redirect, url_for, current_app
 from .data_preview import generate_preview
 from .data_validator import validate_dataframe
 
+from flask_babel import gettext as _
+
 def require_dataset(f):
     """
     A decorator that checks if a valid dataset filename is in the session.
@@ -17,14 +19,14 @@ def require_dataset(f):
 
         # Check if a filename exists in the session
         if not filename:
-            flash("Please upload a dataset first to continue.")
+            flash(_("Please upload a dataset first to continue."))
             return redirect(url_for('main.index_page'))
 
         file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
 
         # Check if the file physically exists on the server
         if not os.path.exists(file_path):
-            flash("The uploaded file could not be found. Please upload it again.")
+            flash(_("The uploaded file could not be found. Please upload it again."))
             session.pop('uploaded_filename', None) # Clean up the stale session variable
             return redirect(url_for('main.index_page'))
 
@@ -32,7 +34,7 @@ def require_dataset(f):
         df, table_html, preview_error = generate_preview(file_path)
 
         if preview_error:
-            flash(f"An error occurred while reading your file: {preview_error}")
+            flash(_('An error occurred while reading your file: %(error)s', error=preview_error))
             return redirect(url_for('main.index_page'))
         
         # If all checks pass, run the validation

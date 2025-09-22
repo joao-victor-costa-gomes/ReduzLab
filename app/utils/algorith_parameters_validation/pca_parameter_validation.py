@@ -1,4 +1,5 @@
 from ..form_validator import validate_base_parameters
+from flask_babel import gettext as _
 
 def validate_pca_parameters(form, df):
     # validate all the base parameters
@@ -14,7 +15,7 @@ def validate_pca_parameters(form, df):
     svd_solver = form.get('svd_solver', 'auto')
     allowed_solvers = ['auto', 'full', 'covariance_eigh', 'arpack', 'randomized']
     if svd_solver not in allowed_solvers:
-        return None, "Invalid SVD solver selected."
+        return None, _("Invalid SVD solver selected.")
     params['svd_solver'] = svd_solver
     # 'random_state' is optional
     random_state_str = form.get('random_state')
@@ -22,7 +23,7 @@ def validate_pca_parameters(form, df):
         try:
             params['random_state'] = int(random_state_str)
         except (ValueError, TypeError):
-            return None, "Random State must be a valid integer."
+            return None, _("Random State must be a valid integer.")
     else:
         params['random_state'] = None
 

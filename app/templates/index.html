@@ -17,21 +17,21 @@
     <div class="card mb-4">
 
         <div class="card-header">
-            <h2>1. Upload your Dataset</h2>
+            <h2>{{ _('1. Upload your Dataset') }}</h2>
         </div>
 
         <div class="card-body">
 
-            <p class="card-text">Select a CSV or XLSX file from your computer to get started.</p>
+            <p class="card-text">{{ _('Select a CSV or XLSX file from your computer to get started.') }}</p>
 
             <form method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label for="file" class="form-label">Dataset File:</label>
+                    <label for="file" class="form-label">{{ _('Dataset File:') }}</label>
                     <input class="form-control" type="file" id="file" name="file" accept=".csv,.xlsx" required>
                 </div>
 
                 <button type="submit" class="btn btn-primary">
-                    Upload File
+                    {{ _('Upload File') }}
                 </button>
             </form>
 
@@ -56,7 +56,7 @@
         <div class="card mb-4">
 
             <div class="card-header">
-                <h2>2. Data Preview & Validation</h2>
+                <h2>{{ _('2. Data Preview & Validation') }}</h2>
             </div>
 
             <div class="card-body">
@@ -72,11 +72,11 @@
                 <!-- column data type alert --> 
                 {% if validation_results and (validation_results.non_numeric_cols or validation_results.null_info) %}
                     <div class="alert alert-warning" role="alert">
-                        <h4 class="alert-heading">⚠️ Validation Report</h4>
-                        <p>Please review the following issues before proceeding. Algorithms may fail with non-numeric or missing data.</p>
+                        <h4 class="alert-heading">⚠️ {{ _('Validation Report') }}</h4>
+                        <p>{{ _('Please review the following issues before proceeding. Algorithms may fail with non-numeric or missing data.') }}</p>
                         <hr>
                         {% if validation_results.non_numeric_cols %}
-                            <p class="mb-1"><strong>Non-Numeric Columns Found:</strong></p>
+                            <p class="mb-1"><strong>{{ _('Non-Numeric Columns Found:') }}</strong></p>
                             <ul>
                                 {% for col in validation_results.non_numeric_cols %}
                                     <li>{{ col }}</li>
@@ -84,10 +84,10 @@
                             </ul>
                         {% endif %}
                         {% if validation_results.null_info %}
-                            <p class="mb-1"><strong>Columns with Missing Values:</strong></p>
+                            <p class="mb-1"><strong>{{ _('Columns with Missing Values:') }}</strong></p>
                             <ul>
                                 {% for col, count in validation_results.null_info.items() %}
-                                    <li>{{ col }} ({{ count }} missing)</li>
+                                    <li>{{ col }} ({{ count }} {{ _('missing') }})</li>
                                 {% endfor %}
                             </ul>
                         {% endif %}
@@ -105,13 +105,13 @@
         <div class="card mb-4">
 
             <div class="card-header">
-                <h2>3. Select a Reduction Algorithm</h2>
+                <h2>{{ _('3. Select a Reduction Algorithm') }}</h2>
             </div>
 
             <div class="card-body">
 
                 <div class="algorithm-buttons">
-                    <p class="card-text">Choose an algorithm below to proceed with the dimensionality reduction.</p>
+                    <p class="card-text">{{ _('Choose an algorithm below to proceed with the dimensionality reduction.') }}</p>
                     
                     <div class="btn-group me-2 mb-2 border border-success rounded" role="group">
                         <a href="{{ url_for('main.pca_page') }}" class="btn btn-success">PCA</a>

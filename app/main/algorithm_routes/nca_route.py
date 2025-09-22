@@ -11,6 +11,8 @@ from app.algorithms.nca import NCA
 from app.utils.algorith_parameters_validation.nca_parameter_validation import validate_nca_parameters
 from app.utils.algorithm_debug_functions.nca_debug import print_nca_parameters
 
+from flask_babel import gettext as _
+
 @bp.route('/nca', methods=['GET', 'POST'])
 @require_dataset
 def nca_page(df, table_html, validation_results):
@@ -35,7 +37,7 @@ def nca_page(df, table_html, validation_results):
         if not param_error:
             target_col = params['target_column']
             if df[target_col].nunique() > 20: # Heuristic: more than 20 unique values might be continuous
-                param_error = f"NCA is a supervised algorithm for classification. The target column '{target_col}' has too many unique values and seems to be continuous. Please choose a categorical target."
+                param_error = _("NCA is a supervised algorithm for classification. The target column '%(target_col)s' has too many unique values and seems to be continuous. Please choose a categorical target.", target_col=target_col)
 
         if not param_error:
             if current_app.config.get('DEBUG'):
@@ -60,11 +62,11 @@ def nca_page(df, table_html, validation_results):
                 plot_url = url_for('main.serve_result_file', filename=plot_filename)
                 csv_url = url_for('main.serve_result_file', filename=csv_filename)
                 metrics = {
-                    'Execution Time (s)': f"{results['execution_time']:.4f}",
+                    _('Execution Time (s)'): f"{results['execution_time']:.4f}",
                 }
                 scroll_to_results = True
             except Exception as e:
-                param_error = f"An error occurred during processing: {e}"
+                param_error = _('An error occurred during processing: %(error)s', error=e)
 
         if param_error:
             scroll_to_params = True

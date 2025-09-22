@@ -11,6 +11,8 @@ from app.algorithms.isomap import Isomap
 from app.utils.algorith_parameters_validation.isomap_parameter_validation import validate_isomap_parameters
 from app.utils.algorithm_debug_functions.isomap_debug import print_isomap_parameters
 
+from flask_babel import gettext as _
+
 @bp.route('/isomap', methods=['GET', 'POST'])
 @require_dataset
 def isomap_page(df, table_html, validation_results):
@@ -53,11 +55,11 @@ def isomap_page(df, table_html, validation_results):
                 plot_url = url_for('main.serve_result_file', filename=plot_filename)
                 csv_url = url_for('main.serve_result_file', filename=csv_filename)
                 metrics = {
-                    'Execution Time (s)': f"{results['execution_time']:.4f}",
+                    _('Execution Time (s)'): f"{results['execution_time']:.4f}",
                 }
                 scroll_to_results = True
             except Exception as e:
-                param_error = f"An error occurred during processing: {e}"
+                param_error = _('An error occurred during processing: %(error)s', error=e)
 
         if param_error:
             scroll_to_params = True

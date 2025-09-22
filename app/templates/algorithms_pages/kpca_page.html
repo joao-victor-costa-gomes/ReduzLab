@@ -6,7 +6,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h2>Configure KPCA Parameters</h2>
+            <h2>{{ _('Configure KPCA Parameters') }}</h2>
         </div>
         <div class="card-body">
             <form method="POST" onsubmit="showLoadingSpinner()" id="params-form-anchor">
@@ -19,16 +19,16 @@
 
                 <!-- ADVANCED PARAMETERS (START) -->
                 <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAdvancedParams()">
-                    Advanced Parameters &raquo;
+                    {{ _('Advanced Parameters') }} &raquo;
                 </button>
 
                 <div id="advanced-params" class="mt-3 border rounded p-3 bg-light {% if not advanced_params_open %}hidden{% endif %}">
-                    <h5 class="mb-3">Advanced KPCA Parameters</h5>
+                    <h5 class="mb-3">{{ _('Advanced KPCA Parameters') }}</h5>
                     
                     <div class="row g-3">
                         <!-- kernel -->
                         <div class="col-md-6">
-                            <label for="kernel" class="form-label">Kernel:</label>
+                            <label for="kernel" class="form-label">{{ _('Kernel:') }}</label>
                             <select id="kernel" name="kernel" class="form-select" onchange="handleKpcaKernelChange()">
                                 <option value="linear" {% if form_data.get('kernel', 'linear') == 'linear' %}selected{% endif %}>Linear</option>
                                 <option value="poly" {% if form_data.get('kernel') == 'poly' %}selected{% endif %}>Poly</option>
@@ -40,25 +40,25 @@
 
                         <!-- degree -->
                         <div class="col-md-6 hidden" id="kpca_degree_div">
-                            <label for="degree" class="form-label">Degree (for Poly kernel):</label>
+                            <label for="degree" class="form-label">{{ _('Degree (for Poly kernel):') }}</label>
                             <input type="number" class="form-control" id="degree" name="degree" value="{{ form_data.get('degree', '3') }}">
                         </div>
 
                         <!-- gamma -->
                         <div class="col-md-6 hidden" id="kpca_gamma_div">
-                            <label for="gamma" class="form-label">Gamma (for RBF, Poly, Sigmoid):</label>
-                            <input type="text" class="form-control" id="gamma" name="gamma" value="{{ form_data.get('gamma', '') }}" placeholder="Default: 1/n_features">
+                            <label for="gamma" class="form-label">{{ _('Gamma (for RBF, Poly, Sigmoid):') }}</label>
+                            <input type="text" class="form-control" id="gamma" name="gamma" value="{{ form_data.get('gamma', '') }}" placeholder="{{ _('Default: 1/n_features') }}">
                         </div>
 
                         <!-- coef0 -->
                         <div class="col-md-6 hidden" id="kpca_coef0_div">
-                            <label for="coef0" class="form-label">Coef0 (for Poly, Sigmoid):</label>
+                            <label for="coef0" class="form-label">{{ _('Coef0 (for Poly, Sigmoid):') }}</label>
                             <input type="number" step="any" class="form-control" id="coef0" name="coef0" value="{{ form_data.get('coef0', '1') }}">
                         </div>
 
                         <!-- eigen_solver -->
                         <div class="col-md-6">
-                            <label for="eigen_solver" class="form-label">Eigen Solver:</label>
+                            <label for="eigen_solver" class="form-label">{{ _('Eigen Solver:') }}</label>
                             <select id="eigen_solver" name="eigen_solver" class="form-select">
                                 <option value="auto" {% if form_data.get('eigen_solver', 'auto') == 'auto' %}selected{% endif %}>Auto</option>
                                 <option value="dense" {% if form_data.get('eigen_solver') == 'dense' %}selected{% endif %}>Dense</option>
@@ -69,14 +69,14 @@
                         
                         <!-- random_state -->
                         <div class="col-md-6">
-                            <label for="random_state" class="form-label">Random State (optional):</label>
-                            <input type="number" class="form-control" id="random_state" name="random_state" value="{{ form_data.get('random_state', '') }}" placeholder="For arpack/randomized solvers">
+                            <label for="random_state" class="form-label">{{ _('Random State (optional):') }}</label>
+                            <input type="number" class="form-control" id="random_state" name="random_state" value="{{ form_data.get('random_state', '') }}" placeholder="{{ _('For arpack/randomized solvers') }}">
                         </div>
 
                         <!-- n_jobs -->
                         <div class="col-md-6">
-                            <label for="n_jobs" class="form-label">Parallel Jobs (n_jobs, optional):</label>
-                            <input type="number" class="form-control" id="n_jobs" name="n_jobs" value="{{ form_data.get('n_jobs', '') }}" placeholder="e.g., -1 for all cores">
+                            <label for="n_jobs" class="form-label">{{ _('Parallel Jobs (n_jobs, optional):') }}</label>
+                            <input type="number" class="form-control" id="n_jobs" name="n_jobs" value="{{ form_data.get('n_jobs', '') }}" placeholder="{{ _('e.g., -1 for all cores') }}">
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                 <hr>
                 <!-- ADVANCED PARAMETERS (END) -->
 
-                <button type="submit" id="run-button" class="btn btn-primary">Run KPCA</button>
+                <button type="submit" id="run-button" class="btn btn-primary">{{ _('Run KPCA') }}</button>
 
                 {% if param_error %}
                     <div class="alert alert-danger mt-3" role="alert">
