@@ -1,0 +1,17 @@
+reduzlab_venv/
+venv/
+.venv/
+test_datasets/
+
+__pycache__/
+*.pyc
+
+.env.example
+requisitos.md
+
+.vscode/
+.idea/
+
+
+.git
+.gitignore

@@ -4,8 +4,8 @@
 
     <div class="card mb-4">
         <div class="card-body">
-            <h5 class="card-title">Switch Algorithm</h5>
-            <p class="card-text text-muted">Quickly switch to another algorithm using the same uploaded dataset.</p>
+            <h5 class="card-title">{{ _('Switch Algorithm') }}</h5>
+            <p class="card-text text-muted">{{ _('Quickly switch to another algorithm using the same uploaded dataset.') }}</p>
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item">
                     <a class="nav-link {% if algorithm_name == 'PCA' %}active{% endif %}" href="{{ url_for('main.pca_page') }}">PCA</a>
@@ -32,11 +32,11 @@
         </div>
     </div>
 
-    <h1 class="mb-4">{{ algorithm_name }} Algorithm</h1>
+    <h1 class="mb-4">{{ _('%(name)s Algorithm', name=algorithm_name) }}</h1>
 
     <div class="card mb-4">
         <div class="card-header">
-            <h2>Data Preview & Validation Report</h2>
+            <h2>{{ _('Data Preview & Validation Report') }}</h2>
         </div>
         <div class="card-body">
             {% if table_html %}
@@ -52,11 +52,11 @@
                 <!-- column data type alert --> 
                 {% if validation_results and (validation_results.non_numeric_cols or validation_results.null_info) %}
                     <div class="alert alert-warning" role="alert">
-                        <h4 class="alert-heading">⚠️ Validation Report</h4>
-                        <p>Please review the following issues before proceeding. Algorithms may fail with non-numeric or missing data.</p>
+                        <h4 class="alert-heading">⚠️ {{ _('Validation Report') }}</h4>
+                        <p>{{ _('Please review the following issues before proceeding. Algorithms may fail with non-numeric or missing data.') }}</p>
                         <hr>
                         {% if validation_results.non_numeric_cols %}
-                            <p class="mb-1"><strong>Non-Numeric Columns Found:</strong></p>
+                            <p class="mb-1"><strong>{{ _('Non-Numeric Columns Found:') }}</strong></p>
                             <ul>
                                 {% for col in validation_results.non_numeric_cols %}
                                     <li>{{ col }}</li>
@@ -64,10 +64,10 @@
                             </ul>
                         {% endif %}
                         {% if validation_results.null_info %}
-                            <p class="mb-1"><strong>Columns with Missing Values:</strong></p>
+                            <p class="mb-1"><strong>{{ _('Columns with Missing Values:') }}</strong></p>
                             <ul>
                                 {% for col, count in validation_results.null_info.items() %}
-                                    <li>{{ col }} ({{ count }} missing)</li>
+                                    <li>{{ col }} ({{ count }} {{ _('missing') }})</li>
                                 {% endfor %}
                             </ul>
                         {% endif %}
@@ -83,7 +83,7 @@
 
                 <!-- preview load error --> 
                 <div class="alert alert-danger" role="alert">
-                    Could not load data preview. Please <a href="{{ url_for('main.index_page') }}" class="alert-link">upload a file</a> first.
+                    {{ _('Could not load data preview. Please') }} <a href="{{ url_for('main.index_page') }}" class="alert-link">{{ _('upload a file') }}</a> {{ _('first.') }}
                 </div>
 
             {% endif %}

@@ -1,4 +1,5 @@
 import pandas as pd
+from flask_babel import gettext as _
 
 def generate_preview(file_path):
     """
@@ -15,6 +16,6 @@ def generate_preview(file_path):
         # Return the full DataFrame, the HTML table, and no error
         return df, table_html, None
     except Exception as e:
-        error_message = f"Error reading or processing file: {e}"
+        error_message = _("Error reading or processing file: %(error)s", error=e)
         # Return None for the DataFrame and table, and the error message
         return None, None, error_message

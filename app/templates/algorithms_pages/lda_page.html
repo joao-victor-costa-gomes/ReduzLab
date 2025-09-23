@@ -6,7 +6,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h2>Configure LDA Parameters</h2>
+            <h2>{{ _('Configure LDA Parameters') }}</h2>
         </div>
         <div class="card-body">
             <form method="POST" onsubmit="showLoadingSpinner()" id="params-form-anchor">
@@ -19,27 +19,26 @@
 
                 <!-- ADVANCED PARAMETERS (START) -->
                 <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAdvancedParams()">
-                    Advanced Parameters &raquo;
+                    {{ _('Advanced Parameters') }} &raquo;
                 </button>
 
                 <div id="advanced-params" class="mt-3 border rounded p-3 bg-light {% if not advanced_params_open %}hidden{% endif %}">
-                    <h5 class="mb-3">Advanced LDA Parameters</h5>
+                    <h5 class="mb-3">{{ _('Advanced LDA Parameters') }}</h5>
                     
                     <div class="row g-3">
                         <!-- solver -->
                         <div class="col-md-6">
-                            <label for="solver" class="form-label">Solver:</label>
+                            <label for="solver" class="form-label">{{ _('Solver:') }}</label>
                             <select id="solver" name="solver" class="form-select" onchange="handleLdaSolverChange()">
                                 <option value="svd" {% if form_data.get('solver', 'svd') == 'svd' %}selected{% endif %}>SVD</option>
-                                <option value="lsqr" {% if form_data.get('solver') == 'lsqr' %}selected{% endif %}>LSQR</option>
                                 <option value="eigen" {% if form_data.get('solver') == 'eigen' %}selected{% endif %}>Eigen</option>
                             </select>
                         </div>
                         <!-- shrinkage -->
                         <div class="col-md-6">
-                            <label for="shrinkage" class="form-label">Shrinkage:</label>
-                            <input type="text" class="form-control" id="shrinkage" name="shrinkage" value="{{ form_data.get('shrinkage', '') }}" placeholder="None, 'auto', or a float 0-1">
-                            <small class="form-text text-muted">Only for 'lsqr' and 'eigen' solvers.</small>
+                            <label for="shrinkage" class="form-label">{{ _('Shrinkage:') }}</label>
+                            <input type="text" class="form-control" id="shrinkage" name="shrinkage" value="{{ form_data.get('shrinkage', '') }}" placeholder="{{ _('None, auto, or a float 0-1') }}">
+                            <small class="form-text text-muted">{{ _("Only for 'lsqr' and 'eigen' solvers.") }}</small>
                         </div>
                     </div>
                 </div>
@@ -47,7 +46,7 @@
                 <hr>
                 <!-- ADVANCED PARAMETERS (END) -->
 
-                <button type="submit" id="run-button" class="btn btn-primary">Run LDA</button>
+                <button type="submit" id="run-button" class="btn btn-primary">{{ _('Run LDA') }}</button>
 
                 {% if param_error %}
                     <div class="alert alert-danger mt-3" role="alert">

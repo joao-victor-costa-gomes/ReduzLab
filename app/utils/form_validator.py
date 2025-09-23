@@ -1,4 +1,5 @@
 import pandas as pd
+from flask_babel import gettext as _
 
 # ========== SINGLE PARAMETER VALIDATORS ==========
 
@@ -7,18 +8,18 @@ def _validate_sample_rate(form):
     try:
         sample_rate = float(form.get('sample_rate'))
         if not 1 <= sample_rate <= 100:
-            return None, "Sample Rate must be between 1 and 100."
+            return None, _("Sample Rate must be between 1 and 100.")
         return sample_rate / 100.0, None 
     except (ValueError, TypeError):
-        return None, "Sample Rate must be a valid number."
+        return None, _("Sample Rate must be a valid number.")
 
 def _validate_target_column(form, df):
     """Validates the target column parameter."""
     target_column = form.get('target_column')
     if not target_column:
-        return None, "You must select a Target Column."
+        return None, _("You must select a Target Column.")
     if target_column not in df.columns:
-        return None, f"Error: Column '{target_column}' not found in the dataset."
+        return None, _('Error: Column "%(column)s" not found in the dataset.', column=target_column)
     return target_column, None
 
 def _validate_dimension(form):
@@ -26,16 +27,16 @@ def _validate_dimension(form):
     try:
         dimension = int(form.get('dimension'))
         if dimension not in [2, 3]:
-            return None, "Dimension must be 2D or 3D."
+            return None, _("Dimension must be 2D or 3D.")
         return dimension, None
     except (ValueError, TypeError):
-        return None, "Dimension must be a valid number (2 or 3)."
+        return None, _("Dimension must be a valid number (2 or 3).")
 
 def _validate_scaler(form):
     """Validates the scaler parameter."""
     scaler = form.get('scaler', 'none')
     if scaler not in ['none', 'standard', 'minmax']:
-        return None, "Invalid scaler selected."
+        return None, _("Invalid scaler selected.")
     return scaler, None
 
 def _validate_plot_options(form):
@@ -45,7 +46,7 @@ def _validate_plot_options(form):
     plot_params['plot_title'] = form.get('plot_title', '') 
     
     if plot_params['plot_type'] not in ['png', 'html']:
-        return None, "Invalid plot type selected."
+        return None, _("Invalid plot type selected.")
 
     axis_params = ['x_min', 'x_max', 'y_min', 'y_max']
     for param_name in axis_params:
@@ -54,7 +55,7 @@ def _validate_plot_options(form):
             try:
                 plot_params[param_name] = float(param_value)
             except ValueError:
-                return None, f"Axis range value for '{param_name}' must be a valid number."
+                return None, _('Axis range value for "%(param)s" must be a valid number.', param=param_name)
         else:
             plot_params[param_name] = None
             

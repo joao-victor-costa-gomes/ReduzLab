@@ -1,12 +1,12 @@
 {% if plot_url %}
 <div class="card mt-4" id="results-anchor">
     <div class="card-header">
-        <h2>Results</h2>
+        <h2>{{ _('Results') }}</h2>
     </div>
     <div class="card-body">
         
         {% if metrics %}
-            <h4 class="card-title">Metrics</h4>
+            <h4 class="card-title">{{ _('Metrics') }}</h4>
             <ul class="list-group list-group-flush mb-4">
                 {% for key, value in metrics.items() %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -17,24 +17,24 @@
             </ul>
         {% endif %}
 
-        <h4 class="card-title">Plot</h4>
+        <h4 class="card-title">{{ _('Plot') }}</h4>
         <div class="text-center border rounded p-2 mb-3">
             {% if 'html' in plot_url %}
                 <div class="ratio ratio-16x9">
-                    <iframe src="{{ plot_url }}" title="{{ algorithm_name }} Plot" allowfullscreen></iframe>
+                    <iframe src="{{ plot_url }}" title="{{ _('%(name)s Plot', name=algorithm_name) }}" allowfullscreen></iframe>
                 </div>
             {% else %}
-                <img src="{{ plot_url }}" alt="{{ algorithm_name }} Plot" class="img-fluid">
+                <img src="{{ plot_url }}" alt="{{ _('%(name)s Plot', name=algorithm_name) }}" class="img-fluid">
             {% endif %}
         </div>
         
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <a href="{{ plot_url }}" class="btn btn-secondary btn-sm" download>
-                Download Plot
+                {{ _('Download Plot') }}
             </a>
             {% if csv_url %}
                 <a href="{{ csv_url }}" class="btn btn-outline-secondary btn-sm" download>
-                    Download Reduced Data (CSV)
+                    {{ _('Download Reduced Data (CSV)') }}
                 </a>
             {% endif %}
         </div>
