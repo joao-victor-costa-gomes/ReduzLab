@@ -8,7 +8,7 @@ def validate_lda_parameters(form, df):
 
     # Validate Solver
     solver = form.get('solver', 'svd')
-    if solver not in ['svd', 'lsqr', 'eigen']:
+    if solver not in ['svd', 'eigen']:
         return None, "Invalid solver selected."
     params['solver'] = solver
 

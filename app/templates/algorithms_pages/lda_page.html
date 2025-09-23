@@ -31,7 +31,6 @@
                             <label for="solver" class="form-label">{{ _('Solver:') }}</label>
                             <select id="solver" name="solver" class="form-select" onchange="handleLdaSolverChange()">
                                 <option value="svd" {% if form_data.get('solver', 'svd') == 'svd' %}selected{% endif %}>SVD</option>
-                                <option value="lsqr" {% if form_data.get('solver') == 'lsqr' %}selected{% endif %}>LSQR</option>
                                 <option value="eigen" {% if form_data.get('solver') == 'eigen' %}selected{% endif %}>Eigen</option>
                             </select>
                         </div>
