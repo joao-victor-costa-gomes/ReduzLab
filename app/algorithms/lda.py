@@ -30,7 +30,7 @@ class LDA(ReducerBase):
             # --- Store results and metrics ---
             self.results['execution_time'] = time.time() - start_time
 
-            # NOVA MÉTRICA PARA O ARTIGO: Variância Explicada
+            # NOVA MÉTRICA PARA O ARTIGO: Variância Explicada 
             # O LDA só calcula isso quando usa os solvers 'svd' ou 'eigen'
             if lda_params['solver'] in ['svd', 'eigen']:
                 self.results['explained_variance'] = lda_instance.explained_variance_ratio_.sum() * 100
