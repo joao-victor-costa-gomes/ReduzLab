@@ -11,7 +11,7 @@ class TSNE(ReducerBase):
             start_time = time.time()
             
             tsne_params = {
-                'n_components': self.params.get('dimension'),
+                'n_components': self.params.get('dimension', 2),
                 'perplexity': self.params.get('perplexity', 30.0),
                 'learning_rate': self.params.get('learning_rate', 'auto'),
                 'max_iter': self.params.get('max_iter', 1000),
@@ -31,6 +31,9 @@ class TSNE(ReducerBase):
             # --- Store results and metrics ---
             self.results['execution_time'] = time.time() - start_time
             self.results['reduced_data'] = reduced_data
+            # NOVA MÉTRICA PARA O ARTIGO: Divergência KL
+            # Indica o custo final da otimização do t-SNE
+            self.results['kl_divergence'] = tsne_instance.kl_divergence_
             
             return self.results, None # Return results, no error
             

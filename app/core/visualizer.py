@@ -19,7 +19,9 @@ class Visualizer:
         # Create a DataFrame for plotting
         axis_labels = self._get_axis_labels()
         df_plot = pd.DataFrame(self.reduced_data, columns=axis_labels)
-        df_plot[self.params['target_column']] = self.target_series.values
+        # CORREÇÃO: Forçando para string para garantir cores distintas
+        # df_plot[self.params['target_column']] = self.target_series.values
+        df_plot[self.params['target_column']] = self.target_series.astype(str).values
 
         # Create the Plotly figure
         if self.params['dimension'] == 2:

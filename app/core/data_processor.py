@@ -22,10 +22,12 @@ def process_data_for_reduction(df, params):
     if params['scaler'] == 'standard':
         scaler = StandardScaler()
         X_scaled = scaler.fit_transform(X)
-        X = pd.DataFrame(X_scaled, columns=X.columns)
+        # CORREÇÃO: Passando o index original de volta
+        X = pd.DataFrame(X_scaled, columns=X.columns, index=X.index)
     elif params['scaler'] == 'minmax':
         scaler = MinMaxScaler()
         X_scaled = scaler.fit_transform(X)
-        X = pd.DataFrame(X_scaled, columns=X.columns)
+        # CORREÇÃO: Passando o index original de volta
+        X = pd.DataFrame(X_scaled, columns=X.columns, index=X.index)
 
     return X, target_series

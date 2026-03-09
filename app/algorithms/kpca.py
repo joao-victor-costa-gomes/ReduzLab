@@ -8,7 +8,7 @@ class KPCA(ReducerBase):
             start_time = time.time()
 
             kpca_params = {
-                'n_components': self.params.get('dimension'),
+                'n_components': self.params.get('dimension', 2),
                 'kernel': self.params.get('kernel', 'linear'),
                 'gamma': self.params.get('gamma'),
                 'degree': self.params.get('degree', 3),
@@ -17,15 +17,20 @@ class KPCA(ReducerBase):
                 'random_state': self.params.get('random_state'),
                 'n_jobs': self.params.get('n_jobs')
             }
-            
-            # The 'kernel' parameter is the core of KPCA. 
-            kernel = 'linear'
 
             kpca_instance = SklearnKPCA(**kpca_params)
             
             reduced_data = kpca_instance.fit_transform(X)
             
             self.results['execution_time'] = time.time() - start_time
+
+            # NOVA MÉTRICA PARA O ARTIGO: Soma dos Autovalores (Eigenvalues)
+            # Retorna a soma se o atributo existir (depende do solver utilizado)
+            if hasattr(kpca_instance, 'eigenvalues_') and kpca_instance.eigenvalues_ is not None:
+                self.results['eigenvalues_sum'] = float(kpca_instance.eigenvalues_.sum())
+            else:
+                self.results['eigenvalues_sum'] = 'N/A'
+
             self.results['reduced_data'] = reduced_data
             
             return self.results, None

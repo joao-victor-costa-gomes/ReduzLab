@@ -12,7 +12,7 @@ class Isomap(ReducerBase):
             start_time = time.time()
 
             isomap_params = {
-                'n_components': self.params.get('dimension'),
+                'n_components': self.params.get('dimension', 2),
                 'n_neighbors': self.params.get('n_neighbors', 10),
                 'metric': self.params.get('metric', 'minkowski'),
                 'eigen_solver': self.params.get('eigen_solver', 'auto'),
@@ -30,6 +30,8 @@ class Isomap(ReducerBase):
             # --- Store results and metrics ---
             self.results['execution_time'] = time.time() - start_time
             self.results['reduced_data'] = reduced_data
+            # NOVA MÉTRICA PARA O ARTIGO: Salva o quão bem o Isomap preservou as distâncias
+            self.results['reconstruction_error'] = isomap_instance.reconstruction_error()
             
             return self.results, None # Return results, no error
             

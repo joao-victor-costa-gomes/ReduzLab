@@ -31,6 +31,9 @@ class LLE(ReducerBase):
             # --- Store results and metrics ---
             self.results['execution_time'] = time.time() - start_time
             self.results['reduced_data'] = reduced_data
+            # NOVA MÉTRICA PARA O ARTIGO: Erro de reconstrução do LLE
+            # Indica o quão bem o algoritmo preservou as distâncias locais
+            self.results['reconstruction_error'] = lle_instance.reconstruction_error_
             
             return self.results, None # Return results, no error
             

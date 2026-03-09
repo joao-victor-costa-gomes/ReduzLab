@@ -10,7 +10,7 @@ class PCA(ReducerBase):
         try:
             start_time = time.time()
 
-            n_components = self.params['dimension']
+            n_components = self.params.get('dimension', 2)
             whiten = self.params.get('whiten', False)
             svd_solver = self.params.get('svd_solver', 'auto')
             random_state = self.params.get('random_state')

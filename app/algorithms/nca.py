@@ -9,10 +9,13 @@ class NCA(ReducerBase):
         NCA is supervised and requires the target variable 'y'.
         """
         try:
+            # TRAVA DE SEGURANÇA: Retorna um erro claro se o front-end não enviar o Target
+            if y is None:
+                return None, "Erro: NCA é um algoritmo supervisionado e requer uma coluna Target (y) para funcionar."
             start_time = time.time()
 
             nca_params = {
-                'n_components': self.params.get('dimension'),
+                'n_components': self.params.get('dimension', 2),
                 'init': self.params.get('init', 'auto'),
                 'max_iter': self.params.get('max_iter', 50),
                 'tol': self.params.get('tol', 1e-5),
