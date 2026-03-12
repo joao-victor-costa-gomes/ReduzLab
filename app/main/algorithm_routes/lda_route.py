@@ -16,27 +16,22 @@ from flask_babel import gettext as _
 @bp.route('/lda', methods=['GET', 'POST'])
 @require_dataset
 def lda_page(df, table_html, validation_results):
-    # Get column names from the DataFrame to populate the dropdowns
     column_options = df.columns.tolist()
-    # Post-processing data
     plot_url = None
     metrics = None
     csv_url = None
-    # Other variables
     param_error = None
     scroll_to_results = False
     scroll_to_params = False
     advanced_params_open = False
 
-    # Handle the form submission
     if request.method == 'POST':
         advanced_params_open = request.form.get('advanced_params_open') == 'true'
         params, param_error = validate_lda_parameters(request.form, df)
 
-        # Specific validation for LDA: Target column should not be continuous
         if not param_error:
             target_col = params['target_column']
-            if df[target_col].nunique() > 20: # Heuristic: more than 20 unique values might be continuous
+            if df[target_col].nunique() > 20: 
                 param_error = _("LDA is a supervised algorithm for classification. The target column '%(target_col)s' has too many unique values and seems to be continuous. Please choose a categorical target.", target_col=target_col)
 
         if not param_error:
@@ -45,9 +40,7 @@ def lda_page(df, table_html, validation_results):
             try:
                 X, y = process_data_for_reduction(df, params)
                 
-                # Use the LDA class
                 lda_reducer = LDA(params)
-                # Pass both X and y to the fit_transform method
                 results, error = lda_reducer.fit_transform(X, y)
                 if error:
                     raise Exception(error)
@@ -63,9 +56,21 @@ def lda_page(df, table_html, validation_results):
                 
                 plot_url = url_for('main.serve_result_file', filename=plot_filename)
                 csv_url = url_for('main.serve_result_file', filename=csv_filename)
+                
+                # ATUALIZAÇÃO AQUI: Enviando as novas métricas para a tela do ReduzLab
                 metrics = {
                     _('Execution Time (s)'): f"{results['execution_time']:.4f}",
                 }
+                
+                if 'explained_variance' in results and results['explained_variance'] != 'N/A':
+                    metrics[_('Explained Variance (%)')] = f"{results['explained_variance']:.2f}%"
+                    
+                if 'lda1_top' in results:
+                    metrics[_('Top Impact on X-Axis (LDA1)')] = results['lda1_top']
+                    
+                if 'lda2_top' in results:
+                    metrics[_('Top Impact on Y-Axis (LDA2)')] = results['lda2_top']
+
                 scroll_to_results = True
             except Exception as e:
                 param_error = _('An error occurred during processing: %(error)s', error=e)

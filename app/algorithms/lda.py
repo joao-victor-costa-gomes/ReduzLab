@@ -1,4 +1,5 @@
 import time
+import numpy as np
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as SklearnLDA
 from .reducer_base import ReducerBase
 
@@ -12,6 +13,7 @@ class LDA(ReducerBase):
             # TRAVA DE SEGURANÇA 1: Requer coluna Target
             if y is None:
                 return None, "Erro: LDA é um algoritmo supervisionado e requer uma coluna Target (y) para funcionar."
+            
             start_time = time.time()
 
             lda_params = {
@@ -24,26 +26,41 @@ class LDA(ReducerBase):
             lda_instance = SklearnLDA(**lda_params)
             
             # Run the algorithm
-            # Passing both X and the target 'y'
             reduced_data = lda_instance.fit_transform(X, y)
             
             # --- Store results and metrics ---
             self.results['execution_time'] = time.time() - start_time
 
-            # NOVA MÉTRICA PARA O ARTIGO: Variância Explicada 
-            # O LDA só calcula isso quando usa os solvers 'svd' ou 'eigen'
+            # Variância Explicada e Extração de Pesos (Loadings)
             if lda_params['solver'] in ['svd', 'eigen']:
                 self.results['explained_variance'] = lda_instance.explained_variance_ratio_.sum() * 100
+                
+                # EXTRAÇÃO PARA O ARTIGO: Quais variáveis pesam mais em cada eixo?
+                if hasattr(lda_instance, 'scalings_'):
+                    scalings = lda_instance.scalings_
+                    features = X.columns
+                    
+                    # Top 3 variáveis que mais puxam os pontos no eixo LDA1 (Horizontal)
+                    if scalings.shape[1] >= 1:
+                        # Pegamos o valor absoluto para ver o impacto (positivo ou negativo)
+                        lda1_weights = np.abs(scalings[:, 0])
+                        top_lda1_idx = lda1_weights.argsort()[-3:][::-1]
+                        self.results['lda1_top'] = ", ".join([f"{features[i]} ({scalings[i, 0]:.2f})" for i in top_lda1_idx])
+                    
+                    # Top 3 variáveis que mais puxam os pontos no eixo LDA2 (Vertical)
+                    if scalings.shape[1] >= 2:
+                        lda2_weights = np.abs(scalings[:, 1])
+                        top_lda2_idx = lda2_weights.argsort()[-3:][::-1]
+                        self.results['lda2_top'] = ", ".join([f"{features[i]} ({scalings[i, 1]:.2f})" for i in top_lda2_idx])
             else:
                 self.results['explained_variance'] = 'N/A'
 
             self.results['reduced_data'] = reduced_data
             
-            return self.results, None # Return results, no error
+            return self.results, None 
             
         except Exception as e:
-            # TRAVA DE SEGURANÇA 2: Tratamento amigável para o limite matemático do LDA
             if "n_components cannot be larger than min(n_features, n_classes - 1)" in str(e):
                 dim = self.params.get('dimension', 2)
                 return None, f"Erro do LDA: Impossível gerar gráfico em {dim}D. O LDA exige que o número de dimensões seja menor que a quantidade de categorias únicas no seu Target."
-            return None, str(e) # Return no results, an error message
+            return None, str(e)
