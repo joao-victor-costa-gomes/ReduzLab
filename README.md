@@ -12,7 +12,7 @@
 
 ReduzLab é uma aplicação web interativa construída com Flask para aplicar, visualizar e comparar diferentes algoritmos de redução de dimensionalidade da biblioteca Scikit-learn. A ferramenta permite que usuários façam upload de seus próprios datasets, ajustem parâmetros base e avançados dos algoritmos e visualizem os resultados em 2D ou 3D.
 
-![Tela Inicial](readme_imgs/home_pt.jpg)
+![Tela Inicial](readme_imgs/home_page_pt.jpg)
 ![Tela Algoritmo](readme_imgs/page_pt.jpg)
 ![Gráfico Gerado](readme_imgs/plot_pt.jpg)
 
@@ -144,7 +144,7 @@ Existem duas maneiras de executar a aplicação: localmente com um ambiente virt
 
 ReduzLab is an interactive web application built with Flask to apply, visualize, and compare various dimensionality reduction algorithms from the Scikit-learn library. The tool allows users to upload their own datasets, adjust base and advanced algorithm parameters, and visualize the results in 2D or 3D.
 
-![Initial Screen](readme_imgs/home_en.jpg)
+![Initial Screen](readme_imgs/home_page_en.jpg)
 ![Algorithm Screen](readme_imgs/page_en.jpg)
 ![Generated Plot](readme_imgs/plot_en.jpg)
 
