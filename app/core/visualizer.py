@@ -23,20 +23,33 @@ class Visualizer:
         # df_plot[self.params['target_column']] = self.target_series.values
         df_plot[self.params['target_column']] = self.target_series.astype(str).values
 
+        # --- NEW CODE: Create a consistent color map ---
+        # 1. Get unique target values and sort them alphabetically
+        unique_targets = sorted(df_plot[self.params['target_column']].unique())
+        # 2. Choose a Plotly color palette (px.colors.qualitative.Plotly is the default)
+        color_palette = px.colors.qualitative.Plotly
+        # 3. Create a dictionary mapping each target to a specific color
+        color_map = {
+            target: color_palette[i % len(color_palette)] 
+            for i, target in enumerate(unique_targets)
+        }
+
         # Create the Plotly figure
         if self.params['dimension'] == 2:
             fig = px.scatter(df_plot, 
                              x=axis_labels[0], 
                              y=axis_labels[1], 
                              color=self.params['target_column'], 
-                             title=self.params['plot_title'],) 
+                             title=self.params['plot_title'],
+                             color_discrete_map=color_map) 
         else: # 3D
             fig = px.scatter_3d(df_plot, 
                                 x=axis_labels[0], 
                                 y=axis_labels[1], 
                                 z=axis_labels[2],
                                 color=self.params['target_column'], 
-                                title=self.params['plot_title'],) 
+                                title=self.params['plot_title'],
+                                color_discrete_map=color_map) 
             
         x_min = self.params.get('x_min')
         x_max = self.params.get('x_max')
