@@ -269,4 +269,6 @@ There are two ways to run the application: locally with a Python virtual environ
     docker-compose down
     ```
 
+.
+
 ---
