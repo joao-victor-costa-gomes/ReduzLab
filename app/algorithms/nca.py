@@ -1,6 +1,7 @@
 import time
 from sklearn.neighbors import NeighborhoodComponentsAnalysis as SklearnNCA
 from .reducer_base import ReducerBase
+from sklearn.metrics import silhouette_score, davies_bouldin_score
 
 class NCA(ReducerBase):
     def fit_transform(self, X, y=None):
@@ -28,6 +29,14 @@ class NCA(ReducerBase):
             # Run the algorithm 
             # NCA requires both X and the target 'y'
             reduced_data = nca_instance.fit_transform(X, y)
+
+            # --- NOVO CÁLCULO DE MÉTRICAS DE CLUSTERIZAÇÃO ---
+            if y is not None and len(set(y)) > 1:
+                self.results['silhouette_score'] = silhouette_score(reduced_data, y)
+                self.results['davies_bouldin'] = davies_bouldin_score(reduced_data, y)
+            else:
+                self.results['silhouette_score'] = 'N/A'
+                self.results['davies_bouldin'] = 'N/A'
             
             # --- Store results and metrics ---
             self.results['execution_time'] = time.time() - start_time

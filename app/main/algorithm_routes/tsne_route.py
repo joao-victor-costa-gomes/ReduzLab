@@ -41,7 +41,7 @@ def tsne_page(df, table_html, validation_results):
                 # Applying TSNE algorithm
                 X, y = process_data_for_reduction(df, params)  
                 tsne_reducer = TSNE(params)
-                results, error = tsne_reducer.fit_transform(X)
+                results, error = tsne_reducer.fit_transform(X, y)
                 if error:
                     raise Exception(error)
                 
@@ -58,9 +58,19 @@ def tsne_page(df, table_html, validation_results):
                 # Prepare results for the template
                 plot_url = url_for('main.serve_result_file', filename=plot_filename)
                 csv_url = url_for('main.serve_result_file', filename=csv_filename)
+
+                sil_score = results.get('silhouette_score', 'N/A')
+                sil_score_str = f"{sil_score:.4f}" if isinstance(sil_score, (int, float)) else sil_score
+
+                db_score = results.get('davies_bouldin', 'N/A')
+                db_score_str = f"{db_score:.4f}" if isinstance(db_score, (int, float)) else db_score
+
                 metrics = {
                     _('Execution Time (s)'): f"{results['execution_time']:.4f}",
+                    _('Silhouette Score'): sil_score_str,
+                    _('Davies-Bouldin Index'): db_score_str
                 }
+                
                 scroll_to_results = True
             except Exception as e:
                 param_error = _('An error occurred during processing: %(error)s', error=e)

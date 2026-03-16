@@ -40,7 +40,7 @@ def pca_page(df, table_html, validation_results):
                 # Applying PCA algorithm
                 X, y = process_data_for_reduction(df, params)
                 pca_reducer = PCA(params)
-                results, error = pca_reducer.fit_transform(X)
+                results, error = pca_reducer.fit_transform(X, y)
                 if error:
                     raise Exception(error)
                 
@@ -57,9 +57,21 @@ def pca_page(df, table_html, validation_results):
                 # Prepare results for the template
                 plot_url = url_for('main.serve_result_file', filename=plot_filename)
                 csv_url = url_for('main.serve_result_file', filename=csv_filename)
+
+                explained_var = results.get('explained_variance', 'N/A')
+                explained_var_str = f"{explained_var:.2f}" if isinstance(explained_var, (int, float)) else explained_var
+
+                sil_score = results.get('silhouette_score', 'N/A')
+                sil_score_str = f"{sil_score:.4f}" if isinstance(sil_score, (int, float)) else sil_score
+
+                db_score = results.get('davies_bouldin', 'N/A')
+                db_score_str = f"{db_score:.4f}" if isinstance(db_score, (int, float)) else db_score
+
                 metrics = {
                     _('Execution Time (s)'): f"{results['execution_time']:.4f}",
-                    _('Explained Variance (%%)'): f"{results['explained_variance']:.2f}"
+                    _('Explained Variance (%%)'): explained_var_str,
+                    _('Silhouette Score'): sil_score_str,
+                    _('Davies-Bouldin Index'): db_score_str
                 }
                 scroll_to_results = True
             except Exception as e:

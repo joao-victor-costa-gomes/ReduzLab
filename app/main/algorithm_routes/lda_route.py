@@ -56,10 +56,18 @@ def lda_page(df, table_html, validation_results):
                 
                 plot_url = url_for('main.serve_result_file', filename=plot_filename)
                 csv_url = url_for('main.serve_result_file', filename=csv_filename)
+
+                sil_score = results.get('silhouette_score', 'N/A')
+                sil_score_str = f"{sil_score:.4f}" if isinstance(sil_score, (int, float)) else sil_score
+
+                db_score = results.get('davies_bouldin', 'N/A')
+                db_score_str = f"{db_score:.4f}" if isinstance(db_score, (int, float)) else db_score
                 
                 # ATUALIZAÇÃO AQUI: Enviando as novas métricas para a tela do ReduzLab
                 metrics = {
                     _('Execution Time (s)'): f"{results['execution_time']:.4f}",
+                    _('Silhouette Score'): sil_score_str,
+                    _('Davies-Bouldin Index'): db_score_str
                 }
                 
                 if 'explained_variance' in results and results['explained_variance'] != 'N/A':

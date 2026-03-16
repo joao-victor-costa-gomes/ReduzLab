@@ -1,5 +1,6 @@
 import time
 from sklearn.decomposition import PCA as SklearnPCA
+from sklearn.metrics import silhouette_score, davies_bouldin_score
 from .reducer_base import ReducerBase
 
 class PCA(ReducerBase):
@@ -32,7 +33,16 @@ class PCA(ReducerBase):
                  self.results['explained_variance'] = pca_instance.explained_variance_ratio_.sum() * 100
             else:
                  self.results['explained_variance'] = 'N/A'
+            
             self.results['reduced_data'] = reduced_data
+
+            # --- NOVO CÁLCULO DE MÉTRICAS DE CLUSTERIZAÇÃO ---
+            if y is not None and len(set(y)) > 1:
+                self.results['silhouette_score'] = silhouette_score(reduced_data, y)
+                self.results['davies_bouldin'] = davies_bouldin_score(reduced_data, y)
+            else:
+                self.results['silhouette_score'] = 'N/A'
+                self.results['davies_bouldin'] = 'N/A'
             
             return self.results, None # Return results, no error
             

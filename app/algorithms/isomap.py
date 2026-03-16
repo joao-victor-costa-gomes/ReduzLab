@@ -1,6 +1,7 @@
 import time
 from sklearn.manifold import Isomap as SklearnIsomap
 from .reducer_base import ReducerBase
+from sklearn.metrics import silhouette_score, davies_bouldin_score
 
 class Isomap(ReducerBase):
     def fit_transform(self, X, y=None):
@@ -30,8 +31,16 @@ class Isomap(ReducerBase):
             # --- Store results and metrics ---
             self.results['execution_time'] = time.time() - start_time
             self.results['reduced_data'] = reduced_data
-            # NOVA MÉTRICA PARA O ARTIGO: Salva o quão bem o Isomap preservou as distâncias
-            self.results['reconstruction_error'] = isomap_instance.reconstruction_error()
+
+            # --- NOVO CÁLCULO DE MÉTRICAS DE CLUSTERIZAÇÃO ---
+            if y is not None and len(set(y)) > 1:
+                self.results['silhouette_score'] = silhouette_score(reduced_data, y)
+                self.results['davies_bouldin'] = davies_bouldin_score(reduced_data, y)
+            else:
+                self.results['silhouette_score'] = 'N/A'
+                self.results['davies_bouldin'] = 'N/A'
+
+
             
             return self.results, None # Return results, no error
             
